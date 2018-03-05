@@ -3,7 +3,9 @@ create by YOU
 */
 <template>
   <el-container class="app-shell">
-    <el-header style="background: rgb(84, 92, 100);">Header</el-header>
+    <el-header style="background: rgb(84, 92, 100);,padding-top:5px">
+    <s-header></s-header>
+    </el-header>
     <el-container>
       <el-aside class="shell-aside" width="200px">
         <slot name="aside"></slot>
@@ -12,12 +14,21 @@ create by YOU
         <slot name="main"></slot>
       </el-main>
     </el-container>
-    <el-footer>Footer</el-footer>
+    <el-footer>
+      <s-footer></s-footer>
+    </el-footer>
   </el-container>
 </template>
 
 <script type="text/babel">
-  export default {};
+  import SHeader from './shell/header.vue'
+  import SFooter from './shell/footer.vue'
+  export default {
+    components: {
+     SHeader,
+     SFooter
+    }
+  };
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
