@@ -3,7 +3,7 @@ create by YOU
 */
 <template>
   <div>
-    <el-form class="topForm" label-position="top" label-width="80px" :model="form">
+    <el-form class="topForm" label-position="top" :model="form">
       <el-form-item label="周报名称">
         <el-input v-model="form.name"></el-input>
       </el-form-item>

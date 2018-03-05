@@ -29,7 +29,6 @@ create by YOU
       </div>
     </el-card>
     <el-dialog
-      title="提示"
       :visible.sync="editDialog"
       width="500px">
       <report-current-week-form></report-current-week-form>
