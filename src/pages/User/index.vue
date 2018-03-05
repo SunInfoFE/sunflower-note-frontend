@@ -9,7 +9,7 @@
         class="el-menu-vertical-demo">
         <el-submenu index="reportManage">
           <template slot="title">
-            <i class="el-icon-location"></i>
+            <i class="el-icon-document"></i>
             <span>周报管理</span>
           </template>
           <el-menu-item :index="indexes[0]">本周周报</el-menu-item>
@@ -18,7 +18,7 @@
         </el-submenu>
         <el-submenu index="me">
           <template slot="title">
-            <i class="el-icon-location"></i>
+            <i class="el-icon-setting"></i>
             <span>个人中心</span>
           </template>
           <el-menu-item :index="indexes[3]">个人信息</el-menu-item>
