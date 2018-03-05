@@ -30,7 +30,7 @@ create by YOU
     </el-card>
     <el-dialog
       :visible.sync="editDialog"
-      width="500px">
+      width="700px">
       <report-current-week-form></report-current-week-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="editDialog = false">取 消</el-button>
