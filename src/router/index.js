@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '@/home/Login'
-import Register from '@/home/Register'
-import teamManage from '@/home/teamManage'
-import User from '@/home/User'
+import Login from '@/pages/Login'
+import Register from '@/pages/Register'
+import teamManage from '@/pages/teamManage'
+import User from '@/pages/User'
+
 Vue.use(Router)
 
 export default new Router({
