@@ -45,4 +45,8 @@ create by YOU
   .el-header
     color: #fff
     line-height: 60px
+
+  /* 覆盖样式 */
+  ul.el-menu
+    border-right: none
 </style>

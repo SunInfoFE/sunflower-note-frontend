@@ -4,7 +4,6 @@ import Login from '@/pages/Login'
 import Register from '@/pages/Register'
 import teamManage from '@/pages/teamManage'
 import User from '@/pages/User'
-
 Vue.use(Router)
 
 export default new Router({
@@ -25,7 +24,7 @@ export default new Router({
       component: teamManage
     },
     {
-      path: '/User',
+      path: '/User/:path?',
       name: 'User',
       component: User
     }
