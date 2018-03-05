@@ -1,10 +1,10 @@
 <template>
-  <h1 style="color: red">登录</h1>
+<h1>用户stylus-loader</h1>
 </template>
 
 <script type="text/ecmascript-6">
 
 </script>
 
-<style>
+<style lang="stylus" rel="stylesheet/stylus">
 </style>
