@@ -8,17 +8,30 @@ Vue.use(VueX)
 
 let store = new VueX.Store({
  state: {
+  login: false,
   userName: '',
   password: '',
   uuid: ''
  },
  getters:{},
- mutations: {},
+ mutations: {
+ setLoginStorage(state, data) {
+  state.userData = data.user
+  state.login = true
+ }
+ },
  actions: {
  LOGIN({state, commit}, params) {
   state.userName = params.userName
   return new Promise((resolve, reject) => {
-   $axios
+   $axios.post('/user/login' ,params).then(function({data}) {
+    if (data.errorReason) {
+     reject(data)
+    } else {
+     commit('setLoginStorage', data)
+     resolve(data)
+    }
+   })
   })
  }
  }

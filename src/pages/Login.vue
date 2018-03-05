@@ -266,15 +266,6 @@
     border-radius: 2px;
     border: 1px solid #1c6dad;
   }
-
-  .page_left {
-    background-image: url(../assets/images/login/page_left.png);
-  }
-
-  .page_right {
-    background-image: url(../assets/images/login/page_right.png);
-  }
-
   /*登录信息*/
   .bottom_con {
     width: 384px;
