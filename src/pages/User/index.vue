@@ -52,11 +52,11 @@
     data () {
       return {
         indexes: [
-          'report-currentWeek',
-          'report-mine',
-          'report-group',
-          'me-info',
-          'me-password'
+          '/User/report-currentWeek',
+          '/User/report-mine',
+          '/User/report-group',
+          '/User/me-info',
+          '/User/me-password'
         ],
         components: [
           'reportCurrentWeek',
@@ -65,13 +65,13 @@
           'meInfo',
           'mePassword'
         ],
-        defaultActive: 'report-currentWeek',
+        defaultActive: '/User/report-currentWeek',
         currentComponent: 'reportCurrentWeek'
       }
     },
     mounted() {
       // 当前路由
-      let path = this.$route.params.path
+      let path = this.$route.path
       // 判断路由是否存在,存在设置defaultActive = path
       let index = this.indexes.indexOf(path)
       if (path && index !== -1) {
