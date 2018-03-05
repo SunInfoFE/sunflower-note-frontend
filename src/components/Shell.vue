@@ -3,9 +3,9 @@ create by YOU
 */
 <template>
   <el-container class="app-shell">
-    <el-header>Header</el-header>
+    <el-header style="background: rgb(84, 92, 100);">Header</el-header>
     <el-container>
-      <el-aside width="200px">
+      <el-aside class="shell-aside" width="200px">
         <slot name="aside"></slot>
       </el-aside>
       <el-main>
@@ -24,6 +24,10 @@ create by YOU
   .app-shell
     min-height: 100%
 
+  .app-shell .shell-aside
+    border-right: solid 1px #e6e6e6
+    overflow: hidden
+
   .el-container
     display: flex
     flex-direction: row
@@ -38,22 +42,7 @@ create by YOU
   .el-main
     flex: 1
 
-  /* 测试样式 */
-  .el-header, .el-footer {
-    background-color: #B3C0D1;
-    color: #333;
-    text-align: center;
-  }
-
-  .el-aside {
-    background-color: #D3DCE6;
-    color: #333;
-    text-align: center;
-  }
-
-  .el-main {
-    background-color: #E9EEF3;
-    color: #333;
-    text-align: center;
-  }
+  .el-header
+    color: #fff
+    line-height: 60px
 </style>
