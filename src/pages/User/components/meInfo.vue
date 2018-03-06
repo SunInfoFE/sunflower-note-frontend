@@ -18,7 +18,7 @@ create by YOU
         <el-input v-model="form.email"></el-input>
       </el-form-item>
       <el-form-item label="授权码">
-        <el-input v-model="form.emailToken" type="token"></el-input>
+        <el-input v-model="form.emailToken" type="password"></el-input>
       </el-form-item>
       <el-form-item label="所属小组">
         <el-input v-model="form.group" disabled></el-input>
