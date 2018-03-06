@@ -1,5 +1,5 @@
 <template>
-<h1>管理员</h1>
+<div>小组管理</div>
 </template>
 
 <script type="text/ecmascript-6">

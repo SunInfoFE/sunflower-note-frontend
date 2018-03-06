@@ -8,13 +8,6 @@
 
 <script type="text/babel">
   export default {
-    data () {
-    },
-    mounted () {
-    },
-    computed: {
-    },
-    methods: {}
   }
 </script>
 

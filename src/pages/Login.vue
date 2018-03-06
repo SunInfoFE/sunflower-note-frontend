@@ -9,9 +9,9 @@
           <p class="wel_word">欢迎登录:</p>
           <el-form :model="loginForm" :rules="rules" ref="loginForm" labs-position="left" labs-width="0px"
                   class="demo-ruleForm login-container">
-            <el-form-item prop="userName" class="inp_group username">
+            <el-form-item prop="email" class="inp_group username">
               <label></label>
-              <el-input @keyup.enter.native="handleSubmit" id="username" type="text" v-model="loginForm.userName"
+              <el-input @keyup.enter.native="handleSubmit" id="username" type="text" v-model="loginForm.email"
                        auto-complete="off" placeholder="账号" autofocus></el-input>
             </el-form-item>
             <el-form-item prop="password" class="inp_group password">
@@ -20,7 +20,7 @@
                        auto-complete="off" placeholder="密码"></el-input>
             </el-form-item>
            <el-form-item style="width: 320px;">
-            <el-row style="margin-top: 20px;padding-left:30px">
+            <el-row style="margin-top: 5px;padding-left:45px">
               <el-col :span="12">
                 <el-button>注册</el-button>
               </el-col>
@@ -45,20 +45,21 @@
 
 <script>
   import $axios from '@/plugins/ajax'
+  import Validaters from '@/common/utils/validaters';
   export default {
     data () {
       return {
         logining: false,
         loginButton: '登 录',
         loginForm: {
-          userName: '',
-          password: '',
-          validateCode: ''
+          email: '',
+          password: ''
         },
         loginTypeName: '--',
         rules: {
-          userName: [
-            {required: true, message: '请输入账号', trigger: 'blur'}
+          email: [
+            {required: true, message: '请输入邮箱账号', trigger: 'blur'},
+            Validaters.Email
           ],
           password: [
             {required: true, message: '请输入密码', trigger: 'blur'}
@@ -98,7 +99,7 @@
             }).catch(function (data) {
               _self.toggleLogining(false)
               _self.$message({
-                message: data.errorReason,
+                message: data.data,
                 type: 'error'
               });
             })
@@ -290,8 +291,8 @@
     width: 320px;
     height: 42px;
     margin-top: 12px;
-    margin-bottom: 0px;
-    background-color: rgba(41, 59, 74, .3);
+    margin-bottom: 20px;
+    /*background-color: rgba(41, 59, 74, .3);*/
     border-radius: 2px;
     border: 1px solid rgba(41, 59, 74, .3);
   }
