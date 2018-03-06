@@ -3,6 +3,19 @@ create by YOU
 */
 <template>
   <div>
+    <div>
+      <el-date-picker
+        v-model="currentWeek"
+        type="week"
+        format="yyyy 第 WW 周"
+        placeholder="选择周">
+      </el-date-picker>
+      <el-select v-model="currentStatus" placeholder="请选择">
+        <el-option label="未提交" value="0"></el-option>
+        <el-option label="已提交" value="1"></el-option>
+        <el-option label="全部" value="all"></el-option>
+      </el-select>
+    </div>
     <table-pagination :data="tableData">
       <el-table-column
         prop="date"
@@ -42,23 +55,31 @@ create by YOU
     },
     data() {
       return {
-        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }]
+        currentStatus: 'all',
+        currentWeek: '',
+        tableData: [
+          {
+            date: '2016-05-02',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄'
+          }, {
+            date: '2016-05-04',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1517 弄'
+          }, {
+            date: '2016-05-01',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1519 弄'
+          }, {
+            date: '2016-05-03',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1516 弄'
+          }]
+      }
+    },
+    watch: {
+      currentWeek(val){
+        console.log(val)
       }
     }
   };
