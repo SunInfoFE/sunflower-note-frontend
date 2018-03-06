@@ -53,7 +53,6 @@
    },
     methods: {
       handleMenuSelected(index){
-        console.log(index)
         this.currentComponent = this.components[this.indexes.indexOf(index)]
       }
     }
