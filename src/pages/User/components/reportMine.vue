@@ -18,21 +18,21 @@ create by YOU
     </div>
     <table-pagination :data="tableData">
       <el-table-column
-        prop="date"
+        prop="title"
         label="周报名"
         width="180">
       </el-table-column>
       <el-table-column
-        prop="name"
+        prop="createTime"
         label="创建时间"
         width="180">
       </el-table-column>
       <el-table-column
-        prop="name"
+        prop="summary"
         label="本周工作总结">
       </el-table-column>
       <el-table-column
-        prop="name"
+        prop="plan"
         label="下周工作计划">
       </el-table-column>
       <el-table-column
@@ -59,22 +59,17 @@ create by YOU
         currentWeek: '',
         tableData: [
           {
-            date: '2016-05-02',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄'
-          }, {
-            date: '2016-05-04',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1517 弄'
-          }, {
-            date: '2016-05-01',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1519 弄'
-          }, {
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1516 弄'
-          }]
+            title: '测试测试',
+            summary: '应该是会的，应该是会的，而且或许已经为地府带来了严重的经济问题。 在早期人类社会，显要人物在去世时都要配备数额庞大的陪葬品，其中，金银等贵金属占据了很大比重，为地府经济活动提供了丰富的通货。现存史料也支持了这一假设：绝大多数古代文明中都存在巫师和祭司。 ',
+            plan: '应该是会的，应该是会的，而且或许已经为地府带来了严重的经济问题。 在早期人类社会，显要人物在去世时都要配备数额庞大的陪葬品，其中，金银等贵金属占据了很大比重，为地府经济活动提供了丰富的通货。现存史料也支持了这一假设：绝大多数古代文明中都存在巫师和祭司。 ',
+            status: 0,
+            createTime: '2018-03-03'
+          },
+          {title: '测试测试', summary: '应该是会的，而且或许已经为地府带来了严重的经济问题。 ', plan: '应该是会的，而且或许已经为地府带来了严重的经济问题。 ', status: 0, createTime: '2018-03-03'},
+          {title: '测试测试', summary: '应该是会的，而且或许已经为地府带来了严重的经济问题。 ', plan: '应该是会的，而且或许已经为地府带来了严重的经济问题。 ', status: 1, createTime: '2018-03-03'},
+          {title: '测试测试', summary: '应该是会的，而且或许已经为地府带来了严重的经济问题。 ', plan: '应该是会的，而且或许已经为地府带来了严重的经济问题。 ', status: 0, createTime: '2018-03-03'},
+          {title: '测试测试', summary: '应该是会的，而且或许已经为地府带来了严重的经济问题。 ', plan: '应该是会的，而且或许已经为地府带来了严重的经济问题。 ', status: 0, createTime: '2018-03-03'}
+        ]
       }
     },
     watch: {

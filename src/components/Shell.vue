@@ -4,7 +4,7 @@ create by YOU
 <template>
   <el-container class="app-shell">
     <el-header style="background: rgb(84, 92, 100);,padding-top:5px">
-    <s-header></s-header>
+      <s-header></s-header>
     </el-header>
     <el-container>
       <el-aside class="shell-aside" width="200px">
@@ -33,7 +33,7 @@ create by YOU
 
 <style lang="stylus" rel="stylesheet/stylus">
   .app-shell
-    min-height: 100%
+    height: 100%
 
   .app-shell .shell-aside
     border-right: solid 1px #e6e6e6

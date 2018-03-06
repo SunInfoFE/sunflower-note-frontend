@@ -5,13 +5,13 @@ create by YOU
   <div>
     <el-form class="topForm" label-position="top" :model="form">
       <el-form-item label="周报名称">
-        <el-input v-model="form.name"></el-input>
+        <el-input v-model="form.title"></el-input>
       </el-form-item>
       <el-form-item label="本周工作总结">
-        <el-input v-model="form.region" type="textarea" :rows="6"></el-input>
+        <el-input v-model="form.summary" type="textarea" :rows="6"></el-input>
       </el-form-item>
       <el-form-item label="下周工作计划">
-        <el-input v-model="form.type" type="textarea" :rows="6"></el-input>
+        <el-input v-model="form.plan" type="textarea" :rows="6"></el-input>
       </el-form-item>
     </el-form>
   </div>
@@ -22,11 +22,18 @@ create by YOU
     data () {
       return {
         form: {
-          name: '',
-          region: '',
-          type: ''
+          id: '',
+          title: '',
+          summary: '',
+          plan: ''
         }
       }
+    },
+    mounted() {
+      this.form.id = this.defaultData.id
+      this.form.title = this.defaultData.title
+      this.form.summary = this.defaultData.summary
+      this.form.plan = this.defaultData.plan
     },
     props: {
       defaultData: {
