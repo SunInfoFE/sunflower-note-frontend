@@ -5,19 +5,21 @@ create by YOU
   <div class="report-current-week" style="display: flex">
     <el-card class="report-card"
              :body-style="{height: '150px'}"
-             v-for="(item,index) in data" :key="index"
-             :style="item.status === 1 ? 'background: rgba(64,158,255,0.4)' : '' ">
+             v-for="(item,index) in data" :key="index">
       <div slot="header" class="clearfix">
         <span>{{ item.title }}</span>
         <el-button v-if="item.status === 1" class="report-card-button" type="text" icon="el-icon-circle-close"
+                   @click="changeStatus(item)"
                    title="撤销提交"></el-button>
         <el-button v-if="item.status !== 1" class="report-card-button" type="text" icon="el-icon-delete"
+                   @click="handleDelete(item)"
                    title="删除"></el-button>
         <el-button v-if="item.status !== 1" class="report-card-button" type="text" icon="el-icon-circle-check"
+                   @click="changeStatus(item)"
                    title="提交为本周周报"></el-button>
       </div>
       <div class="report-card-content"
-           @click="handleCardClick">
+           @click="handleCardClick(item)">
         {{ item.content }}
       </div>
     </el-card>
@@ -66,12 +68,17 @@ create by YOU
       }
     },
     methods: {
-      handleCardClick() {
+      handleCardClick(item) {
         console.log('click')
         this.editDialog = true
       },
       handleReportAdd() {
         this.editDialog = true
+      },
+      handleDelete(item) {
+        this.data = Object.assign([], this.data).splice(this.data.indexOf(item), 1)
+      },
+      changeStatus(item) {
       }
     }
   };
