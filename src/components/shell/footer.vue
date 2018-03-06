@@ -1,29 +1,31 @@
 <template>
-  <footer class="s-footer">
+  <div class="s-footer">
     <div class="copyright">
       版权所有&copy;2017&nbsp;www.suninfo.com&nbsp;上海上讯信息技术股份有限公司
     </div>
-  </footer>
+  </div>
 </template>
 
 <script type="text/babel">
   export default {
+    data () {
+    },
+    computed: {
+    },
+    methods: {}
   }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
   .s-footer
-    position: absolute
-    left: 0
-    bottom: 0
     width: 100%
     min-width: 1310px
     text-align: center
 
   .copyright
     width: 100%
-    height: 20px
-    line-height: 20px
+    height: 30px
+    line-height: 30px
     font-size: 12px
     color: #fff
     background: rgb(84, 92, 100)
