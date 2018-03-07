@@ -10,11 +10,10 @@
     suffix-icon="el-icon-search"
     placeholder="请输入用户名"
     v-model="searchlookdata"
-    @blur = "searchName()"
     >
   </el-input>
 </div>
-  <table-pagination :data="lookData">
+  <table-pagination :data="tableData">
     <el-table-column
       prop="name"
       label="用户名"
@@ -59,7 +58,6 @@
     },
      data() {
      return {
-       tablelookData: [],
        searchlookdata: ''
      }
      },
@@ -71,21 +69,22 @@
       type: Object
       }
     },
+    computed: {
+      tableData() {
+        return this.lookData.filter(item => {
+          // 判断当前查询值不为空 且和item的相关字段不相等 返回false
+          if (item.name.indexOf(this.searchlookdata) === -1) {
+            return false
+          }
+          return true
+        })
+      }
+    },
     created() {
     },
      methods: {
        deleteHandler(row) {
          this.$emit('delete', row)
-       },
-       searchName() {
-       /* let tableData = []
-         this.lookData.forEach(item => {
-           if (item.name.indexOf(this.searchlookdata) >= 0) {
-             tableData.push(item)
-           }
-         })
-         return tableData*/
-         console.log('1')
        }
      }
   }

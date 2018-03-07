@@ -5,7 +5,6 @@
    suffix-icon="el-icon-search"
    placeholder="请输入组名"
    v-model="searchdata"
-   @blur = "search()"
    style="width: 500px">
    </el-input>
    </div>
@@ -84,7 +83,6 @@ export default {
  },
  data() {
  return {
-   tableData: [],
    ajaxData: [],
    addDialog: false,
    editDialog: false,
@@ -102,7 +100,7 @@ export default {
  getgroupList() {
    $axios.get('/group/groupManage/get').then((res) => {
      this.ajaxData = res.data.data
-     this.tableData = this.ajaxData
+    // this.tableData = this.ajaxData
    })
  },
    eyeHandler(row) {
@@ -113,7 +111,7 @@ export default {
    this.lookDialog = true
    },
    deleteUser(row) {
-     $axios.post('/group/groupManage/deleteGroupMember', {idList: [row.groupId]}).then((res) => {
+     $axios.post('/group/groupManage/deleteGroupMember', {idList: [row.email]}).then((res) => {
        if (res.data.status === true) {
          this.$message({
            type: 'success',
@@ -193,17 +191,19 @@ export default {
         })
       }
       })
-   },
-   search() {
-     this.tableData = []
-     this.ajaxData.forEach(item => {
-      if (item.name.indexOf(this.searchdata) >= 0) {
-        this.tableData.push(item)
-      }
-     })
-     return this.tableData
    }
- }
+ },
+  computed: {
+    tableData() {
+      return this.ajaxData.filter(item => {
+        // 判断当前查询值不为空 且和item的相关字段不相等 返回false
+        if (item.name.indexOf(this.searchdata) === -1) {
+          return false
+        }
+        return true
+      })
+    }
+  },
 }
 </script>
 
