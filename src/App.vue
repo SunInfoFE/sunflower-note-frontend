@@ -24,6 +24,7 @@
     padding: 0;
     width: 100%;
     height: 100%;
+    min-height: 500px
   }
   .el-dialog{
     border-radius: 5px;
