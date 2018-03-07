@@ -69,6 +69,12 @@
         currentComponent: 'reportCurrentWeek'
       }
     },
+    watch: {
+      '$route.path': function(index) {
+        this.defaultActive = index
+        this.currentComponent = this.components[this.indexes.indexOf(index)]
+      }
+    },
     mounted() {
       // 当前路由
       let path = this.$route.path
@@ -83,10 +89,9 @@
     },
     methods: {
       handleMenuSelected(index){
-        console.log(index)
-        this.currentComponent = this.components[this.indexes.indexOf(index)]
+        this.defaultActive = index
       }
-    },
+    }
   }
 </script>
 
