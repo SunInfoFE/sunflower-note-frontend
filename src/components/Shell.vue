@@ -14,7 +14,7 @@ create by YOU
         <slot name="main"></slot>
       </el-main>
     </el-container>
-    <el-footer>
+    <el-footer style="height:0px">
       <s-footer></s-footer>
     </el-footer>
   </el-container>

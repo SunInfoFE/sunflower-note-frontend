@@ -1,5 +1,5 @@
 <template>
-  <header id="headBar">
+  <div id="headBar">
     <el-row type="flex" justify="between" align="middle" class="header-bg">
       <el-col :span="16" class="left-info">
         <div class="logo-icon">
@@ -20,7 +20,7 @@
         </el-row>
       </el-col>
     </el-row>
-  </header>
+  </div>
 </template>
 
 <script type="text/ecmascript-6">
