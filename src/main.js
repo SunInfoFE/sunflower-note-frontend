@@ -14,12 +14,12 @@ Vue.use(Router)
 router.beforeEach(function (to, from, next) {
   if (localStorage.getItem('data')) {
     store.commit('SET_TOKEN')
-    if ((to.path === '/login' || to.path === '/adminLogin' || to.path === '/')) {
+    if ((to.path === '/login' || to.path === '/adminLogin' || to.path ==='/Register' || to.path === '/' )) {
        next(store.state.user)
     } else {
      next()
     }
-  } else if (to.path === '/login'|| to.path === '/adminLogin' ) {
+  } else if (to.path === '/login'|| to.path === '/adminLogin' || to.path ==='/Register' ) {
   next()
   } else {
   next('/login')
