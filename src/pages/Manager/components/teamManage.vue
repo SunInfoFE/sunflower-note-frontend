@@ -117,7 +117,7 @@ export default {
            type: 'success',
            message: res.data.data
          })
-         this.eyeHandler()
+         this.eyeHandler(row)
        } else {
          this.$message({
            type: 'error',
