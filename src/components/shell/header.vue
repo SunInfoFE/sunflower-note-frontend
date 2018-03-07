@@ -7,7 +7,7 @@
         </div>
       </el-col>
       <el-col :span="12" class="right-info">
-        <el-row  justify="center" align="middle" :gutter="8" style="margin-top:85px">
+        <el-row  justify="center" align="middle" style="margin-top:85px">
           <el-col class="user-info" :span="20">
           您好:  {{email}}
           </el-col>

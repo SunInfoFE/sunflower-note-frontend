@@ -21,6 +21,9 @@ let store = new VueX.Store({
    SET_TOKEN (state) {
     state.data = JSON.parse(localStorage.getItem('data'))
     state.user = localStorage.getItem('user')
+   },
+   removeLoginStorage(state) {
+     localStorage.removeItem('data')
    }
  },
  actions: {
@@ -51,7 +54,11 @@ let store = new VueX.Store({
     }
    })
   })
- }
+ },
+   LOGOUT({state, commit}) {
+     $axios.post('/user/logOut')
+     commit('removeLoginStorage')
+   }
  }
 })
 export default store

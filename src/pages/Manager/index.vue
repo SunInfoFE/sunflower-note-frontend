@@ -40,6 +40,12 @@
       currentComponent: 'teamManage'
     }
    },
+    watch: {
+      '$route.path': function(index) {
+        this.defaultActive = index
+        this.currentComponent = this.components[this.indexes.indexOf(index)]
+      }
+    },
    mounted() {
      let path = this.$route.path
      // 判断路由是否存在,存在设置defaultActive = path
@@ -53,7 +59,7 @@
    },
     methods: {
       handleMenuSelected(index){
-        this.currentComponent = this.components[this.indexes.indexOf(index)]
+        this.defaultActive = index
       }
     }
   }
