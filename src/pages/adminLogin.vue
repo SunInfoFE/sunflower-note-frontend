@@ -20,7 +20,7 @@
                         auto-complete="off" placeholder="密码"></el-input>
             </el-form-item>
             <el-form-item style="width: 320px;">
-              <el-row style="margin-top: 5px;padding-left:100px">
+              <el-row style="margin-top: 5px;padding-left:120px">
                   <el-button  @click.native.prevent="handleSubmit"
                               :disabled="logining">{{loginButton}}
               </el-button>

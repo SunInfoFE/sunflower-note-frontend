@@ -7,12 +7,9 @@
         </div>
       </el-col>
       <el-col :span="12" class="right-info">
-        <el-row  justify="center" align="middle" style="margin-top:85px">
-          <el-col class="user-info" :span="20">
-          您好:  {{email}}
-          </el-col>
-          <el-col class="user-loginout" :span="4">
-           <a @click="loginout()">退出</a>
+        <el-row  justify="center" align="middle" style="margin-top:25px">
+          <el-col>
+          <a class="user-info"> 您好:{{email}} </a>  <a class="user-loginout" @click="loginout()">退出登录</a>
           </el-col>
         </el-row>
       </el-col>
@@ -102,7 +99,11 @@ export default {
         & .user-loginout
           cursor pointer
           font-size 12px
+          width: 10px
           color #fff
+          margin-left:15px
+        & .user-loginout:hover
+          color #D9FDFF
     .scrollheight
       max-height: 500px
 </style>
