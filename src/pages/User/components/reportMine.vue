@@ -106,7 +106,8 @@ create by YOU
       tableData() {
         return this.data.filter(item => {
           // 判断当前查询值不为空 且和item的相关字段不相等 返回false
-          if (this.currentStatus !== 'all' && this.currentStatus !== item.currentStatus) {
+          if (this.currentStatus !== 'all' && this.currentStatus !== item.status) {
+            console.log('not equal')
             return false
           }
           if (this.currentWeek && this.currentWeek.getTime() !== new Date(item.currentWeek + ' 00:00:00').getTime()) {
