@@ -6,35 +6,25 @@
           <p>周报管理系统</p>
         </div>
         <div class="bottom_con">
-          <p class="wel_word">欢迎登录:</p>
+          <p class="wel_word">欢迎管理员登录:</p>
           <el-form :model="loginForm" :rules="rules" ref="loginForm" labs-position="left" labs-width="0px"
-                  class="demo-ruleForm login-container">
+                   class="demo-ruleForm login-container">
             <el-form-item prop="email" class="inp_group username">
               <label></label>
               <el-input @keyup.enter.native="handleSubmit" id="username" type="text" v-model="loginForm.email"
-                       auto-complete="off" placeholder="账号" autofocus></el-input>
+                        auto-complete="off" placeholder="账号" autofocus></el-input>
             </el-form-item>
             <el-form-item prop="password" class="inp_group password">
               <label></label>
               <el-input @keyup.enter.native="handleSubmit" id="password" type="password" v-model="loginForm.password"
-                       auto-complete="off" placeholder="密码"></el-input>
+                        auto-complete="off" placeholder="密码"></el-input>
             </el-form-item>
-           <el-form-item style="width: 320px;">
-            <el-row style="margin-top: 5px">
-              <el-col :span="8">
-                <el-button @click.native.prevent="handleRegister">注册</el-button>
-              </el-col>
-              <el-col :span="8">
-                <el-button  @click.native.prevent="handleSubmit"
-                           :disabled="logining">{{loginButton}}
+            <el-form-item style="width: 320px;">
+              <el-row style="margin-top: 5px;padding-left:100px">
+                  <el-button  @click.native.prevent="handleSubmit"
+                              :disabled="logining">{{loginButton}}
               </el-button>
-              </el-col>
-                <el-col :span="8">
-                 <el-button @click.native.prevent="handleAdmin">
-                  管理员登录
-              </el-button>
-              </el-col>
-            </el-row>
+              </el-row>
             </el-form-item>
           </el-form>
         </div>
@@ -63,8 +53,7 @@
         loginTypeName: '--',
         rules: {
           email: [
-            {required: true, message: '请输入邮箱账号', trigger: 'blur'},
-            Validaters.Email
+            {required: true, message: '请输入邮箱账号', trigger: 'blur'}
           ],
           password: [
             {required: true, message: '请输入密码', trigger: 'blur'}
@@ -97,7 +86,7 @@
           if (valid) {
             _self.toggleLogining(true)
             let loginParams = _self.loginForm
-            _self.$store.dispatch('LOGIN', loginParams).then(function (data) {
+            _self.$store.dispatch('adminLOGIN', loginParams).then(function (data) {
               _self.toggleLogining(false)
               _self.userData = data
               _self.$router.push('/');
@@ -116,12 +105,6 @@
             return false;
           }
         });
-      },
-      handleRegister() {
-        this.$router.push('/Register')
-      },
-      handleAdmin() {
-        this.$router.push('/adminLogin')
       }
     }
   }
@@ -421,6 +404,7 @@
     line-height: 18px;
     text-align: center;
   }
-  </style>
+</style>
+
 
 

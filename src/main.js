@@ -11,6 +11,20 @@ import 'element-ui/lib/theme-chalk/index.css'
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(Router)
+router.beforeEach(function (to, from, next) {
+  if (localStorage.getItem('data')) {
+    store.commit('SET_TOKEN')
+    if ((to.path === '/login' || to.path === '/adminLogin' || to.path === '/')) {
+       next(store.state.user)
+    } else {
+     next()
+    }
+  } else if (to.path === '/login'|| to.path === '/adminLogin' ) {
+  next()
+  } else {
+  next('/login')
+   }
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -4,6 +4,7 @@ import Login from '@/pages/Login'
 import Register from '@/pages/Register'
 import Manager from '@/pages/Manager'
 import User from '@/pages/User'
+import AdminLogin from '@/pages/adminLogin'
 Vue.use(Router)
 
 export default new Router({
@@ -18,6 +19,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/adminLogin',
+      name: 'adminLogin',
+      component: AdminLogin
     },
     {
       path: '/Register',
