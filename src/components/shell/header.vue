@@ -1,21 +1,18 @@
 <template>
   <div id="headBar">
     <el-row type="flex" justify="between" align="middle" class="header-bg">
-      <el-col :span="16" class="left-info">
+      <el-col :span="12" class="left-info">
         <div class="logo-icon">
           <img src="" title="周报管理系统">
         </div>
       </el-col>
-      <el-col :span="8" class="right-info">
-        <el-row  justify="center" align="middle" :gutter="16" style="margin-top:60px">
-          <el-col class="user-info-icon">
-            <i class="iconfont icon-user"></i>
+      <el-col :span="12" class="right-info">
+        <el-row  justify="center" align="middle" :gutter="8" style="margin-top:85px">
+          <el-col class="user-info" :span="20">
+          您好:  {{email}}
           </el-col>
-          <el-col class="user-info">
-          您好:XXXX
-          </el-col>
-          <el-col class="head-handler-btns">
-            <span><a><i class="iconfont icon-quit-s" title="退出登录"></i></a></span>
+          <el-col class="user-loginout" :span="4">
+           <a @click="loginout()">退出</a>
           </el-col>
         </el-row>
       </el-col>
@@ -24,7 +21,25 @@
 </template>
 
 <script type="text/ecmascript-6">
-
+  import {mapGetters} from 'vuex'
+export default {
+ data() {
+  return {
+    email: ''
+  }
+ },
+  created() {
+    this.email = this.$store.state.data.email
+  },
+   methods: {
+     loginout() {
+       this.$confirm('确定退出登录?', '提示', {confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning'}).then(() => {
+         this.$store.dispatch('LOGOUT')
+         window.location.reload('/#/login')
+       }).catch();
+     }
+   }
+}
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
@@ -84,7 +99,10 @@
           height: 10px
           content: ""
           margin-bottom: 1px
-          border-right: 1px solid #009CBA
+        & .user-loginout
+          cursor pointer
+          font-size 12px
+          color #fff
     .scrollheight
       max-height: 500px
 </style>
