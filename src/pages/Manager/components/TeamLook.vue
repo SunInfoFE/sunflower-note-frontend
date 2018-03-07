@@ -8,7 +8,10 @@
   <div>
   <el-input
     suffix-icon="el-icon-search"
-    placeholder="请输入查询内容">
+    placeholder="请输入用户名"
+    v-model="searchlookdata"
+    @blur = "searchName()"
+    >
   </el-input>
 </div>
   <table-pagination :data="lookData">
@@ -56,6 +59,8 @@
     },
      data() {
      return {
+       tablelookData: [],
+       searchlookdata: ''
      }
      },
     props: {
@@ -66,9 +71,21 @@
       type: Object
       }
     },
+    created() {
+    },
      methods: {
        deleteHandler(row) {
          this.$emit('delete', row)
+       },
+       searchName() {
+       /* let tableData = []
+         this.lookData.forEach(item => {
+           if (item.name.indexOf(this.searchlookdata) >= 0) {
+             tableData.push(item)
+           }
+         })
+         return tableData*/
+         console.log('1')
        }
      }
   }
