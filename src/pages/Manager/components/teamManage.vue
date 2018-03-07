@@ -3,7 +3,9 @@
    <div>
    <el-input
    suffix-icon="el-icon-search"
-   placeholder="请输入查询内容"
+   placeholder="请输入组名"
+   v-model="searchdata"
+   @blur = "search()"
    style="width: 500px">
    </el-input>
    </div>
@@ -83,12 +85,14 @@ export default {
  data() {
  return {
    tableData: [],
+   ajaxData: [],
    addDialog: false,
    editDialog: false,
    editData: {},
    lookDialog: false,
    lookData: [],
-   lookTeamData: {}
+   lookTeamData: {},
+   searchdata: ''
  }
  },
  created() {
@@ -97,27 +101,25 @@ export default {
  methods: {
  getgroupList() {
    $axios.get('/group/groupManage/get').then((res) => {
-     this.tableData = res.data.data
+     this.ajaxData = res.data.data
+     this.tableData = this.ajaxData
    })
  },
    eyeHandler(row) {
     this.lookTeamData = row
-    console.log(row)
     $axios.get('/group/groupManage/getGroupMember', {id:row.id}).then((res) => {
       this.lookData = res.data.data
     })
    this.lookDialog = true
    },
    deleteUser(row) {
-   console.log(row)
      $axios.post('/group/groupManage/deleteGroupMember', {idList: [row.groupId]}).then((res) => {
        if (res.data.status === true) {
          this.$message({
            type: 'success',
-           message: '删除成功'
+           message: res.data.data
          })
          this.eyeHandler()
-         console.log(this.lookData)
        } else {
          this.$message({
            type: 'error',
@@ -137,7 +139,7 @@ export default {
       if (res.data.status === true) {
         this.$message({
           type: 'success',
-          message: '删除成功'
+          message: res.data.data
         })
         this.getgroupList()
       } else {
@@ -159,7 +161,7 @@ export default {
         if (res.data.status === true) {
           this.$message({
             type: 'success',
-            message: '编辑成功'
+            message: res.data.data
           })
           this.editDialog = false
           this.getgroupList()
@@ -180,7 +182,7 @@ export default {
       if (res.data.status === true) {
         this.$message({
           type: 'success',
-          message: '添加成功'
+          message: res.data.data
         })
         this.addDialog = false
          this.getgroupList()
@@ -191,6 +193,15 @@ export default {
         })
       }
       })
+   },
+   search() {
+     this.tableData = []
+     this.ajaxData.forEach(item => {
+      if (item.name.indexOf(this.searchdata) >= 0) {
+        this.tableData.push(item)
+      }
+     })
+     return this.tableData
    }
  }
 }

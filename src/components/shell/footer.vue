@@ -8,11 +8,6 @@
 
 <script type="text/babel">
   export default {
-    data () {
-    },
-    computed: {
-    },
-    methods: {}
   }
 </script>
 
