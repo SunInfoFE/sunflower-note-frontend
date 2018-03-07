@@ -15,7 +15,7 @@ create by YOU
           <el-input v-model="form.repeatPassword" type="password"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">保存修改</el-button>
+          <el-button type="primary" @click="onSubmit">确认修改</el-button>
           <el-button>取消</el-button>
         </el-form-item>
       </el-form>
@@ -32,6 +32,10 @@ create by YOU
           newPassword: '',
           repeatPassword: ''
         }
+      }
+    },
+    methods: {
+      onSubmit() {
       }
     }
   };
