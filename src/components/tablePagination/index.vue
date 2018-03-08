@@ -9,6 +9,7 @@ create by YOU
       <slot></slot>
     </el-table>
     <el-pagination
+      style="margin-top: 20px"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="currentPage"

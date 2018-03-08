@@ -275,6 +275,8 @@
     border-radius: 50%;
     padding-left: 58px;
     background: url(../assets/images/login/input_bg.jpg) 36% 23% no-repeat;
+    background-size: 143% auto;
+    background-position: 47% 47%;
   }
 
   .bottom_con .wel_word {
@@ -396,14 +398,14 @@
   }
 
   /******版权信息******/
-  adminLogin-page footer {
+  #adminLogin-page footer {
     position: fixed;
     width: 100%;
     bottom: 10px;
     height: auto !important;
   }
 
-  adminLogin-page footer p {
+  #adminLogin-page footer p {
     font-size: 12px;
     color: #333D46;
     line-height: 18px;

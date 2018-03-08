@@ -3,7 +3,7 @@ create by YOU
 */
 <template>
   <div>
-    <div>
+    <div style="margin-bottom: 20px">
       <el-date-picker
         v-model="currentWeek"
         type="week"

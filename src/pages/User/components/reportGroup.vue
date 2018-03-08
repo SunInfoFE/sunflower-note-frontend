@@ -5,7 +5,7 @@ create by YOU
   <div>
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="本周周报" name="first">
-        <el-button type="primary">复制到剪切板</el-button>
+        <el-button type="primary" style="margin-bottom: 20px">复制到剪切板</el-button>
         <table-pagination :data="weekData">
           <el-table-column
             type="index"
@@ -33,16 +33,18 @@ create by YOU
         </table-pagination>
       </el-tab-pane>
       <el-tab-pane label="历史周报" name="second">
-        <el-date-picker
-          v-model="currentWeek"
-          type="week"
-          format="yyyy 第 WW 周"
-          placeholder="选择周">
-        </el-date-picker>
-        <el-select v-model="email" placeholder="请选择用户">
-          <el-option v-for="item in users" :label="`${item.name}(${item.email})`" :value="item.email"
-                     :key="item.email"></el-option>
-        </el-select>
+        <div style="margin-bottom: 20px">
+          <el-date-picker
+            v-model="currentWeek"
+            type="week"
+            format="yyyy 第 WW 周"
+            placeholder="选择周">
+          </el-date-picker>
+          <el-select v-model="email" placeholder="请选择用户">
+            <el-option v-for="item in users" :label="`${item.name}(${item.email})`" :value="item.email"
+                       :key="item.email"></el-option>
+          </el-select>
+        </div>
         <table-pagination :data="tableData">
           <el-table-column
             type="index"
@@ -106,7 +108,7 @@ create by YOU
           if (this.email !== 'all' && this.email !== item.email) {
             return false
           }
-          if (this.currentWeek && this.currentWeek.getTime()!== new Date(item.week).getTime()) {
+          if (this.currentWeek && this.currentWeek.getTime() !== new Date(item.week).getTime()) {
             return false
           }
           // 其它所有情况返回true

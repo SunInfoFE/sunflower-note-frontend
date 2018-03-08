@@ -1,7 +1,7 @@
 <template>
   <div class="s-footer">
     <div class="copyright">
-      版权所有&copy;2017&nbsp;www.suninfo.com&nbsp;上海上讯信息技术股份有限公司
+      版权所有&copy;{{ new Date().getYear() }}&nbsp;www.suninfo.com&nbsp;上海上讯信息技术股份有限公司
     </div>
   </div>
 </template>

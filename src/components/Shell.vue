@@ -38,6 +38,7 @@ create by YOU
   .app-shell .shell-aside
     border-right: solid 1px #e6e6e6
     overflow: hidden
+    background: #fff
 
   .el-container
     display: flex

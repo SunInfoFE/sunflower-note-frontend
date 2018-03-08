@@ -287,6 +287,8 @@
     border-radius: 50%;
     padding-left: 58px;
     background: url(../assets/images/login/input_bg.jpg) 36% 23% no-repeat;
+    background-size: 143% auto;
+    background-position: 47% 47%;
   }
 
   .bottom_con .wel_word {
