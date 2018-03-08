@@ -9,43 +9,73 @@ create by YOU
       </el-form-item>
       <el-form-item label="性别">
         <el-select v-model="form.sex" placeholder="请选择性别">
-          <el-option label="男" value="1"></el-option>
-          <el-option label="女" value="2"></el-option>
-          <el-option label="未知" value="0"></el-option>
+          <el-option label="男" value="male"></el-option>
+          <el-option label="女" value="female"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="邮箱">
-        <el-input v-model="form.email"></el-input>
+        <el-input v-model="form.email" disabled></el-input>
       </el-form-item>
       <el-form-item label="授权码">
-        <el-input v-model="form.emailToken" type="password"></el-input>
+        <el-input v-model="form.emailToken" type="password" placeholder="未投入使用" disabled></el-input>
       </el-form-item>
       <el-form-item label="所属小组">
-        <el-input v-model="form.group" disabled></el-input>
+        <el-input v-model="form.groupName" disabled></el-input>
+      </el-form-item>
+      <el-form-item label="备注">
+        <el-input v-model="form.remark"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">保存修改</el-button>
-        <el-button>取消</el-button>
+        <el-button @click="onReset">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script type="text/babel">
+  import $axios from '@/plugins/ajax'
   export default {
     data() {
       return {
+        data: {},
         form: {
-          name: '李四',
-          sex: '0',
-          email: 'lsi@suninfo.com',
-          group: '后勤组',
-          emailToken: 'qqqqqq'
+          name: '',
+          sex: '',
+          email: '',
+          groupName: '',
+          emailToken: '',
+          remark: ''
         }
       }
     },
+    mounted() {
+      this.getData()
+    },
     methods: {
+      getData() {
+        //
+        $axios.get('/user/getUserInfo').then(({data}) => {
+          if (data.status) {
+            this.form = data.data[0]
+          }
+        })
+      },
       onSubmit() {
+        $axios.post('/user/changeUserInfo', {
+          name: this.form.name,
+          sex:  this.form.sex,
+          remark:  this.form.remark
+        }).then(({data}) => {
+          if (data.status) {
+            this.$message.error(data.data)
+          } else {
+            this.$message.error(data.data)
+          }
+        })
+      },
+      onReset() {
+        this.getData()
       }
     }
   };

@@ -5,13 +5,13 @@ create by YOU
   <div>
     <el-form class="topForm" label-position="top" :model="form">
       <el-form-item label="周报名称">
-        <el-input v-model="form.title"></el-input>
+        <el-input v-model="form.title" @input="triggerChange"></el-input>
       </el-form-item>
       <el-form-item label="本周工作总结">
-        <el-input v-model="form.summary" type="textarea" :rows="6"></el-input>
+        <el-input v-model="form.summary" type="textarea" :rows="6" @input="triggerChange"></el-input>
       </el-form-item>
       <el-form-item label="下周工作计划">
-        <el-input v-model="form.plan" type="textarea" :rows="6"></el-input>
+        <el-input v-model="form.plan" type="textarea" :rows="6" @input="triggerChange"></el-input>
       </el-form-item>
     </el-form>
   </div>
@@ -25,7 +25,9 @@ create by YOU
           id: '',
           title: '',
           summary: '',
-          plan: ''
+          plan: '',
+          lastTime: Date.now(),
+          saving: null
         }
       }
     },
@@ -38,6 +40,19 @@ create by YOU
     methods: {
       getForm() {
         return this.form
+      },
+      triggerChange() {
+        let duration = Date.now() - this.lastTime
+        if (duration < 1000) {
+          clearTimeout(this.saving)
+          this.saving = setTimeout(() => {
+            this.$emit('change')
+          }, 1000)
+        } else {
+          clearTimeout(this.saving)
+          this.lastTime = Date.now()
+          this.$emit('change')
+        }
       }
     },
     props: {

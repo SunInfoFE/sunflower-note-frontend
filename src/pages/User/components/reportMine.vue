@@ -11,8 +11,8 @@ create by YOU
         placeholder="选择周">
       </el-date-picker>
       <el-select v-model="currentStatus" placeholder="请选择">
-        <el-option label="未提交" :value="0"></el-option>
-        <el-option label="已提交" :value="1"></el-option>
+        <el-option label="未提交" value="private"></el-option>
+        <el-option label="已提交" value="public"></el-option>
         <el-option label="全部" value="all"></el-option>
       </el-select>
     </div>
@@ -21,6 +21,14 @@ create by YOU
         prop="title"
         label="周报名"
         width="180">
+      </el-table-column>
+      <el-table-column
+        prop="title"
+        label="状态"
+        width="180">
+        <template slot-scope="scope">
+          {{ scope.row.status === 'public' ? '已提交' : '未提交' }}
+        </template>
       </el-table-column>
       <el-table-column
         prop="createTime"
@@ -40,7 +48,7 @@ create by YOU
         width="100">
         <template slot-scope="scope">
           <el-button type="text" icon="el-icon-view" @click="" title="查看"></el-button>
-          <el-button type="text" icon="el-icon-delete" @click="" title="删除"></el-button>
+          <el-button type="text" v-if="scope.row.status !== 'public'" icon="el-icon-delete" @click="handleDelete(scope.row)" title="删除"></el-button>
         </template>
       </el-table-column>
     </table-pagination>
@@ -48,6 +56,7 @@ create by YOU
 </template>
 
 <script type="text/babel">
+  import $axios from '@/plugins/ajax'
   import tablePagination from '@/components/tablePagination'
   export default {
     components: {
@@ -57,49 +66,11 @@ create by YOU
       return {
         currentStatus: 'all',
         currentWeek: '',
-        data: [
-          {
-            title: '测试测试',
-            summary: '应该是会的，应该是会的，而且或许已经为地府带来了严重的经济问题。 在早期人类社会，显要人物在去世时都要配备数额庞大的陪葬品，其中，金银等贵金属占据了很大比重，为地府经济活动提供了丰富的通货。现存史料也支持了这一假设：绝大多数古代文明中都存在巫师和祭司。 ',
-            plan: '应该是会的，应该是会的，而且或许已经为地府带来了严重的经济问题。 在早期人类社会，显要人物在去世时都要配备数额庞大的陪葬品，其中，金银等贵金属占据了很大比重，为地府经济活动提供了丰富的通货。现存史料也支持了这一假设：绝大多数古代文明中都存在巫师和祭司。 ',
-            status: 0,
-            createTime: '2018-03-03',
-            currentWeek: '2018-03-12'
-          },
-          {
-            title: '测试测试',
-            summary: '应该是会的，而且或许已经为地府带来了严重的经济问题。 ',
-            plan: '应该是会的，而且或许已经为地府带来了严重的经济问题。 ',
-            status: 0,
-            createTime: '2018-03-03',
-            currentWeek: '2018-03-12'
-          },
-          {
-            title: '测试测试',
-            summary: '应该是会的，而且或许已经为地府带来了严重的经济问题。 ',
-            plan: '应该是会的，而且或许已经为地府带来了严重的经济问题。 ',
-            status: 1,
-            createTime: '2018-03-03',
-            currentWeek: '2018-03-19'
-          },
-          {
-            title: '测试测试',
-            summary: '应该是会的，而且或许已经为地府带来了严重的经济问题。 ',
-            plan: '应该是会的，而且或许已经为地府带来了严重的经济问题。 ',
-            status: 0,
-            createTime: '2018-03-03',
-            currentWeek: '2018-03-19'
-          },
-          {
-            title: '测试测试',
-            summary: '应该是会的，而且或许已经为地府带来了严重的经济问题。 ',
-            plan: '应该是会的，而且或许已经为地府带来了严重的经济问题。 ',
-            status: 0,
-            createTime: '2018-03-03',
-            currentWeek: '2018-03-19'
-          }
-        ]
+        data: []
       }
+    },
+    mounted() {
+      this.getData()
     },
     watch: {},
     computed: {
@@ -107,7 +78,6 @@ create by YOU
         return this.data.filter(item => {
           // 判断当前查询值不为空 且和item的相关字段不相等 返回false
           if (this.currentStatus !== 'all' && this.currentStatus !== item.status) {
-            console.log('not equal')
             return false
           }
           if (this.currentWeek && this.currentWeek.getTime() !== new Date(item.currentWeek + ' 00:00:00').getTime()) {
@@ -116,6 +86,29 @@ create by YOU
           // 其它所有情况返回true
           return true
         })
+      }
+    },
+    methods: {
+      getData() {
+        $axios.post('/report/myReport/get').then(({data}) => {
+          if (data.status) {
+            this.data = data.data
+          }
+        })
+      },
+      handleDelete(item) {
+        this.$confirm('确定删除?', '提示', {confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning'}).then(() => {
+          $axios.post(`/report/myReport/delete`, {
+            idList: [item.id]
+          }).then(({data}) => {
+            if (data.status) {
+              this.$message({showClose: true, message: '删除成功!', type: 'success'});
+              this.getData()
+            } else {
+              this.$message({showClose: true, message: '删除失败!', type: 'error'});
+            }
+          });
+        }).catch();
       }
     }
   };

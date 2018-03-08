@@ -15,7 +15,8 @@ create by YOU
         <el-button v-if="item.status !== 'public'" class="report-card-button" type="text" icon="el-icon-delete"
                    @click="handleDelete(item)"
                    title="删除"></el-button>
-        <el-button v-if="item.status !== 'public'" class="report-card-button" type="text" icon="el-icon-circle-check-outline"
+        <el-button v-if="item.status !== 'public'" class="report-card-button" type="text"
+                   icon="el-icon-circle-check-outline"
                    @click="changeStatus(item)"
                    title="提交为本周周报"></el-button>
       </div>
@@ -35,10 +36,14 @@ create by YOU
       v-if="editDialog"
       :visible.sync="editDialog"
       width="700px">
-      <report-current-week-form ref="edit" :defaultData="currentReport"></report-current-week-form>
+      <report-current-week-form @change="handleReportChange" ref="edit"
+                                :defaultData="currentReport"></report-current-week-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="editDialog = false">取 消</el-button>
-        <el-button type="primary" @click="saveReport">保 存</el-button>
+        <el-button type="primary" :disabled="saving" @click="saveReport">
+          <span v-if="saving">保存中 <i class="el-icon-loading"></i></span>
+          <span v-else>保 存</span>
+        </el-button>
       </span>
     </el-dialog>
   </div>
@@ -55,7 +60,8 @@ create by YOU
       return {
         data: [],
         editDialog: false,
-        currentReport: {}
+        currentReport: {},
+        saving: false
       }
     },
     mounted() {
@@ -73,13 +79,24 @@ create by YOU
         this.currentReport = item
         this.editDialog = true
       },
-      saveReport() {
-        $axios.post('/report/currentWeekReport/edit', this.$refs.edit.getForm()).then(({data}) => {
-          this.editDialog = false
-          if (data.status) {
-            this.editDialog = false
+      handleReportChange() {
+        this.saving = true
+        this.submitReport().then(() => {
+          setTimeout(() => {
+            this.saving = false
             this.getData()
-          }
+          }, 500)
+        })
+      },
+      submitReport() {
+        return $axios.post('/report/currentWeekReport/edit', this.$refs.edit.getForm()).then(({data}) => {
+          return data
+        })
+      },
+      saveReport() {
+        this.submitReport().then(() => {
+          this.editDialog = false
+          this.getData()
         })
       },
       handleReportAdd() {
