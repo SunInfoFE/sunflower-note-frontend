@@ -35,10 +35,11 @@ create by YOU
           format="yyyy 第 WW 周"
           placeholder="选择周">
         </el-date-picker>
-        <el-select v-model="userName" placeholder="请选择用户">
-          <el-option v-for="item in users" :label="item.userName" :value="item.email" :key="item.email"></el-option>
+        <el-select v-model="email" placeholder="请选择用户">
+          <el-option v-for="item in users" :label="`${item.name}(${item.email})`" :value="item.email"
+                     :key="item.email"></el-option>
         </el-select>
-        <table-pagination :data="data">
+        <table-pagination :data="tableData">
           <el-table-column
             prop="name"
             label="作者"
@@ -83,25 +84,44 @@ create by YOU
       return {
         activeName: 'first',
         currentWeek: '',
-        userName: 'all',
-        users: [
-          {userName: '所有成员', email: 'all'},
-          {userName: '张三', email: 'mail1@suninfo.com'},
-          {userName: '李四', email: 'mail2@suninfo.com'},
-          {userName: '王小虎', email: 'mail3@suninfo.com'},
-          {userName: '赵六', email: 'mail4@suninfo.com'},
-          {userName: '钱老板', email: 'mail5@suninfo.com'},
-          {userName: '张麻子', email: 'mail6@suninfo.com'},
-          {userName: '师爷', email: 'mail7@suninfo.com'}
-        ],
+        email: 'all',
+        users: [],
         weekData: [],
         data: []
       }
     },
+    computed: {
+      tableData() {
+        return this.data.filter(item => {
+          // 判断当前查询值不为空 且和item的相关字段不相等 返回false
+          console.log(this.email)
+          if (this.email !== 'all' && this.email !== item.email) {
+            return false
+          }
+          if (this.currentWeek && this.currentWeek.getTime() !== new Date(item.week).getTime()) {
+            return false
+          }
+          // 其它所有情况返回true
+          return true
+        })
+      }
+    },
     mounted() {
       this.getData()
+      this.getUsers()
     },
     methods: {
+      getUsers() {
+        $axios.get('/group/groupManage/getGroupMember', {
+          id: this.$store.state.data.groupId
+        }).then(({data}) => {
+          if (data.status) {
+            this.users = data.data
+            this.users.unshift({name: '所有成员', email: 'all'})
+            console.log(this.users)
+          }
+        })
+      },
       getData() {
         $axios.post('report/groupCurrentWeekReport/get').then(({data}) => {
           if (data.status) {
