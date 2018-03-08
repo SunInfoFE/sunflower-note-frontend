@@ -119,6 +119,7 @@
       },
       handleRegister() {
         this.$router.push('/Register')
+        console.log('1')
       },
       handleAdmin() {
         this.$router.push('/adminLogin')
