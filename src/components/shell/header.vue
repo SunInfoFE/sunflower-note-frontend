@@ -10,7 +10,7 @@
       <el-col :span="12" class="right-info">
         <el-row  justify="center" align="middle" style="margin-top:25px">
           <el-col>
-          <a class="user-info"> 您好:{{email}} </a>  <a class="user-loginout" @click="loginout()">退出登录</a>
+          <a class="user-info"> 您好! {{name}} </a> <a class="user-loginout" @click="loginout()">退出登录</a>
           </el-col>
         </el-row>
       </el-col>
@@ -23,11 +23,11 @@
 export default {
  data() {
   return {
-    email: ''
+    name: ''
   }
  },
   created() {
-    this.email = this.$store.state.data.email
+    this.name = this.$store.state.data.name || this.$store.state.data.email
   },
    methods: {
      loginout() {
