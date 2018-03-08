@@ -45,6 +45,7 @@ create by YOU
 </template>
 
 <script type="text/babel">
+  import $axios from '@/plugins/ajax'
   import reportCurrentWeekForm from './reportCurrentWeekForm.vue'
   export default {
     components: {
@@ -67,6 +68,13 @@ create by YOU
         editDialog: false,
         currentReport: {}
       }
+    },
+    mounted() {
+      $axios.get('/report/currentWeekReport/get').then(({data}) => {
+        if (data.status) {
+          this.data = data.data
+        }
+      })
     },
     methods: {
       handleCardClick(item) {
@@ -111,7 +119,7 @@ create by YOU
         word-break: break-all
         color: #565656
         cursor: pointer
-        >pre
+        > pre
           display: inline-block
           word-wrap: break-word
           word-break: break-all
