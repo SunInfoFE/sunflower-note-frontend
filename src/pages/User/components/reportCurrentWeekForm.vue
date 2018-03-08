@@ -35,6 +35,11 @@ create by YOU
       this.form.summary = this.defaultData.summary
       this.form.plan = this.defaultData.plan
     },
+    methods: {
+      getForm() {
+        return this.form
+      }
+    },
     props: {
       defaultData: {
         type: Object,
