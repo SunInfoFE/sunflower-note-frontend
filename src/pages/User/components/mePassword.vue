@@ -24,6 +24,7 @@ create by YOU
 </template>
 
 <script type="text/babel">
+  import $axios from '@/plugins/ajax'
   export default {
     data() {
       return {
@@ -36,6 +37,16 @@ create by YOU
     },
     methods: {
       onSubmit() {
+        $axios.post('/user/changePassword', {
+          oldPassword: this.form.oldPassword,
+          newPassword: this.form.newPassword
+        }).then(({data}) => {
+          if (data.status) {
+            this.$message.error(data.data)
+          } else {
+            this.$message.error(data.data)
+          }
+        })
       }
     }
   };
