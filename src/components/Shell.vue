@@ -14,7 +14,7 @@ create by YOU
         <slot name="main"></slot>
       </el-main>
     </el-container>
-    <el-footer style="height:0px">
+    <el-footer style="height: 30px">
       <s-footer></s-footer>
     </el-footer>
   </el-container>
@@ -25,8 +25,8 @@ create by YOU
   import SFooter from './shell/footer.vue'
   export default {
     components: {
-     SHeader,
-     SFooter
+      SHeader,
+      SFooter
     }
   };
 </script>
@@ -56,6 +56,9 @@ create by YOU
   .el-header
     color: #fff
     line-height: 60px
+
+  .el-footer
+    padding: 0
 
   /* 覆盖样式 */
   ul.el-menu

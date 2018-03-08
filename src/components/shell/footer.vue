@@ -7,14 +7,12 @@
 </template>
 
 <script type="text/babel">
-  export default {
-  }
+  export default {}
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
   .s-footer
     width: 100%
-    min-width: 1310px
     text-align: center
 
   .copyright

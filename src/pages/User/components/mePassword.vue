@@ -42,7 +42,7 @@ create by YOU
           newPassword: this.form.newPassword
         }).then(({data}) => {
           if (data.status) {
-            this.$message.error(data.data)
+            this.$message.success(data.data)
           } else {
             this.$message.error(data.data)
           }

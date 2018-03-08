@@ -3,7 +3,8 @@
     <el-row type="flex" justify="between" align="middle" class="header-bg">
       <el-col :span="12" class="left-info">
         <div class="logo-icon">
-          <img src="" title="周报管理系统">
+          <!--<img src="" title="周报管理系统">-->
+          <h1>周报管理系统V0.5 Alpha</h1>
         </div>
       </el-col>
       <el-col :span="12" class="right-info">
@@ -44,7 +45,6 @@ export default {
   activeColor = #fff
   #headBar
     .header-bg
-      min-width: 1310px
       color: mainColor
       height: 35px
       font-size: 14px
@@ -55,7 +55,6 @@ export default {
 
       & .left-info
         display flex
-        margin-left 30px
         & .logo-icon
           margin-top: 30px
       & .right-info
