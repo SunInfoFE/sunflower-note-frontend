@@ -3,24 +3,33 @@
     <h1>周报管理系统</h1>
     <span>注册新用户</span>
     <div style="max-width: 500px; margin: 50px auto 0">
-      <el-form ref="form" :model="form" label-width="80px" style="margin-left: -80px">
-        <el-form-item label="邮箱">
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px" style="margin-left: -80px">
+        <el-form-item label="邮箱" prop="email">
           <el-input v-model="form.email"></el-input>
         </el-form-item>
-        <el-form-item label="密码">
+        <el-form-item label="密码" prop="password">
           <el-input v-model="form.password" type="password"></el-input>
         </el-form-item>
-        <el-form-item label="重复密码">
+        <el-form-item label="重复密码" prop="repeatPassword">
           <el-input v-model="form.repeatPassword" type="password"></el-input>
         </el-form-item>
-        <el-form-item label="姓名">
-          <el-input v-model="form.userName"></el-input>
+        <el-form-item label="姓名" prop="name">
+          <el-input v-model="form.name"></el-input>
         </el-form-item>
-        <el-form-item label="小组">
-          <el-select style="width: 100%" v-model="form.groupID" placeholder="请选择用户">
-            <el-option v-for="item in groups" :label="item.groupName" :value="item.groupID"
-                       :key="item.groupID"></el-option>
+        <el-form-item label="性别" prop="sex">
+          <el-select style="width: 100%" v-model="form.sex" placeholder="请选择性别">
+            <el-option label="男" value="male"></el-option>
+            <el-option label="女" value="female"></el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item label="小组" prop="groupId">
+          <el-select style="width: 100%" v-model="form.groupId" placeholder="请选择小组">
+            <el-option v-for="item in groups" :label="item.name" :value="item.id"
+                       :key="item.id"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="form.remark"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button style="width: 100%" type="primary" @click="onSubmit">确认注册</el-button>
@@ -40,28 +49,48 @@
           email: '',
           password: '',
           repeatPassword: '',
-          userName: '',
-          groupID: ''
+          name: '',
+          sex: '',
+          groupId: '',
+          remark: ''
         },
-        groups: [
-          {groupID: 123213, groupName: '后勤'},
-          {groupID: 424243, groupName: '前台'},
-          {groupID: 188821, groupName: '人事'}
-        ]
+        rules: {
+          email: [{required: true, message: '必须', trigger: 'blur'}],
+          password: [{required: true, message: '必须', trigger: 'blur'}],
+          repeatPassword: [{required: true, message: '必须', trigger: 'blur'}],
+          name: [{required: true, message: '必须', trigger: 'blur'}],
+          sex: [{required: true, message: '必须', trigger: 'blur'}],
+          groupId: [{required: true, message: '必须', trigger: 'blur'}]
+        },
+        groups: []
       }
     },
     computed: {},
     created () {
+      $axios.get('/group/groupManage/get').then(({data}) => {
+        this.groups = data.data
+      })
     },
     methods: {
       onSubmit() {
+        this.$refs.form.validate(valid => {
+          if (valid) {
+            $axios.post('/user/register', this.form).then(({data}) => {
+              if (data.status) {
+                this.$message.success('注册成功!')
+              } else {
+                this.$message.error(data.data)
+              }
+            })
+          }
+        })
       }
     }
   }
 </script>
 
 <style>
-  #register-page{
+  #register-page {
     width: 100%;
     text-align: center;
     position: absolute;
