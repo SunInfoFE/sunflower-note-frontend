@@ -1,11 +1,14 @@
 <template>
   <div class="teamlook">
-    <el-row>小组名</el-row>
-    <el-row>{{TeamData.name}}</el-row>
-    <el-row>备注</el-row>
-    <el-row>{{TeamData.remark}}</el-row>
-    <el-row>成员列表</el-row>
-    <div>
+    <el-form class="topForm" label-position="top" :model="TeamData">
+      <el-form-item label="小组名">
+        <el-input v-model="TeamData.name" disabled></el-input>
+      </el-form-item>
+      <el-form-item label="备注">
+        <el-input v-model="TeamData.remark" type="textarea" disabled></el-input>
+      </el-form-item>
+    </el-form>
+    <div style="margin-top: 20px">
       <el-input
         suffix-icon="el-icon-search"
         placeholder="请输入用户名"
@@ -91,6 +94,20 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  .topForm
+    border: solid 1px #dedede
+    .el-form-item
+      margin: 0
+      label
+        width: 100%
+        color: #fff
+        background-color: rgb(84, 92, 100)
+        padding: 0 10px
+      .el-form-item__content
+        line-height: 33px
+        input, textarea
+          border-radius: 0
+          border: none
   .teamlook
     .el-row
       border: 1px #DCDFE6 solid
