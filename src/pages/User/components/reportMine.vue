@@ -18,6 +18,10 @@ create by YOU
     </div>
     <table-pagination :data="tableData">
       <el-table-column
+        type="index"
+        width="50">
+      </el-table-column>
+      <el-table-column
         prop="title"
         label="周报名"
         width="120">
@@ -89,7 +93,7 @@ create by YOU
           if (this.currentStatus !== 'all' && this.currentStatus !== item.status) {
             return false
           }
-          if (this.currentWeek && this.currentWeek !== new Date(item.week)) {
+          if (this.currentWeek && this.currentWeek.getTime() !== new Date(item.week).getTime()) {
             return false
           }
           // 其它所有情况返回true

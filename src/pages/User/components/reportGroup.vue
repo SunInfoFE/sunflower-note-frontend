@@ -8,6 +8,10 @@ create by YOU
         <el-button type="primary">复制到剪切板</el-button>
         <table-pagination :data="weekData">
           <el-table-column
+            type="index"
+            width="50">
+          </el-table-column>
+          <el-table-column
             prop="name"
             label="作者"
             width="180">
@@ -40,6 +44,10 @@ create by YOU
                      :key="item.email"></el-option>
         </el-select>
         <table-pagination :data="tableData">
+          <el-table-column
+            type="index"
+            width="50">
+          </el-table-column>
           <el-table-column
             prop="name"
             label="作者"
@@ -98,7 +106,7 @@ create by YOU
           if (this.email !== 'all' && this.email !== item.email) {
             return false
           }
-          if (this.currentWeek && this.currentWeek!== new Date(item.week)) {
+          if (this.currentWeek && this.currentWeek.getTime()!== new Date(item.week).getTime()) {
             return false
           }
           // 其它所有情况返回true
