@@ -98,7 +98,7 @@ create by YOU
           if (this.email !== 'all' && this.email !== item.email) {
             return false
           }
-          if (this.currentWeek && this.currentWeek.getTime() !== new Date(item.week).getTime()) {
+          if (this.currentWeek && this.currentWeek!== new Date(item.week)) {
             return false
           }
           // 其它所有情况返回true

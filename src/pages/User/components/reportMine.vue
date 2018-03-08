@@ -89,8 +89,7 @@ create by YOU
           if (this.currentStatus !== 'all' && this.currentStatus !== item.status) {
             return false
           }
-          console.log(this.currentWeek.toLocaleString(), new Date(item.week).toLocaleString())
-          if (this.currentWeek && this.currentWeek.getTime() !== new Date(item.week).getTime()) {
+          if (this.currentWeek && this.currentWeek !== new Date(item.week)) {
             return false
           }
           // 其它所有情况返回true
