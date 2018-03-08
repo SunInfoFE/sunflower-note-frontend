@@ -32,7 +32,8 @@
           <el-input v-model="form.remark"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button style="width: 100%" type="primary" @click="onSubmit">确认注册</el-button>
+          <el-button icon="el-icon-back" @click="gotoLogin">返回登录</el-button>
+          <el-button type="primary" @click="onSubmit">确认注册</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -57,7 +58,19 @@
         rules: {
           email: [{required: true, message: '必须', trigger: 'blur'}],
           password: [{required: true, message: '必须', trigger: 'blur'}],
-          repeatPassword: [{required: true, message: '必须', trigger: 'blur'}],
+          repeatPassword: [
+            {required: true, message: '必须', trigger: 'blur'},
+            {
+              validator: (rule, value, callback) => {
+                if (value !== this.form.password) {
+                  return callback(new Error('两次输入密码不一致！'))
+                } else {
+                  callback();
+                }
+              },
+              trigger: 'blur'
+            }
+          ],
           name: [{required: true, message: '必须', trigger: 'blur'}],
           sex: [{required: true, message: '必须', trigger: 'blur'}],
           groupId: [{required: true, message: '必须', trigger: 'blur'}]
@@ -73,17 +86,32 @@
     },
     methods: {
       onSubmit() {
+        let _self = this
         this.$refs.form.validate(valid => {
           if (valid) {
             $axios.post('/user/register', this.form).then(({data}) => {
               if (data.status) {
                 this.$message.success('注册成功!')
+                this.$store.dispatch('LOGIN', {
+                  email: _self.form.email,
+                  password: _self.form.password
+                }).then(function (data) {
+                  _self.$router.push('/');
+                }).catch(function (data) {
+                  _self.$message({
+                    message: data.data,
+                    type: 'error'
+                  });
+                })
               } else {
                 this.$message.error(data.data)
               }
             })
           }
         })
+      },
+      gotoLogin() {
+        this.$router.push('/Login')
       }
     }
   }
