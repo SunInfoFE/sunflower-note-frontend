@@ -12,7 +12,7 @@ create by YOU
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="currentPage"
-      :page-sizes="[20, 50, 100, 200]"
+      :page-sizes="[10, 20, 50, 100]"
       :page-size="size"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total">
@@ -29,7 +29,7 @@ create by YOU
         total: 0
       }
     },
-    created() {
+    mounted() {
       this.total = this.data.length
     },
     computed: {
