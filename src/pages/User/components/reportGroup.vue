@@ -15,10 +15,16 @@ create by YOU
           <el-table-column
             prop="summary"
             label="本周工作总结">
+            <template slot-scope="scope">
+              <pre>{{scope.row.summary}}</pre>
+            </template>
           </el-table-column>
           <el-table-column
             prop="plan"
             label="下周工作计划">
+            <template slot-scope="scope">
+              <pre>{{scope.row.plan}}</pre>
+            </template>
           </el-table-column>
         </table-pagination>
       </el-tab-pane>
@@ -34,22 +40,31 @@ create by YOU
         </el-select>
         <table-pagination :data="data">
           <el-table-column
-            prop="email"
+            prop="name"
             label="作者"
             width="120">
           </el-table-column>
           <el-table-column
-            prop="commitTime"
+            prop="lastUpdateTime"
             label="提交时间"
             width="180">
+            <template slot-scope="scope">
+              <pre>{{ new Date(scope.row.lastUpdateTime).toLocaleString() }}</pre>
+            </template>
           </el-table-column>
           <el-table-column
             prop="summary"
             label="本周工作总结">
+            <template slot-scope="scope">
+              <pre>{{scope.row.summary}}</pre>
+            </template>
           </el-table-column>
           <el-table-column
             prop="plan"
             label="下周工作计划">
+            <template slot-scope="scope">
+              <pre>{{scope.row.plan}}</pre>
+            </template>
           </el-table-column>
         </table-pagination>
       </el-tab-pane>

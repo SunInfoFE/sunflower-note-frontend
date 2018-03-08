@@ -20,12 +20,12 @@ create by YOU
       <el-table-column
         prop="title"
         label="周报名"
-        width="180">
+        width="120">
       </el-table-column>
       <el-table-column
         prop="title"
         label="状态"
-        width="180">
+        width="100">
         <template slot-scope="scope">
           {{ scope.row.status === 'public' ? '已提交' : '未提交' }}
         </template>
@@ -34,14 +34,23 @@ create by YOU
         prop="createTime"
         label="创建时间"
         width="180">
+        <template slot-scope="scope">
+          <pre>{{ new Date(scope.row.createTime).toLocaleString() }}</pre>
+        </template>
       </el-table-column>
       <el-table-column
         prop="summary"
         label="本周工作总结">
+        <template slot-scope="scope">
+          <pre>{{scope.row.summary}}</pre>
+        </template>
       </el-table-column>
       <el-table-column
         prop="plan"
         label="下周工作计划">
+        <template slot-scope="scope">
+          <pre>{{scope.row.plan}}</pre>
+        </template>
       </el-table-column>
       <el-table-column
         label="操作"
@@ -80,7 +89,8 @@ create by YOU
           if (this.currentStatus !== 'all' && this.currentStatus !== item.status) {
             return false
           }
-          if (this.currentWeek && this.currentWeek.getTime() !== new Date(item.currentWeek + ' 00:00:00').getTime()) {
+          console.log(this.currentWeek.toLocaleString(), new Date(item.week).toLocaleString())
+          if (this.currentWeek && this.currentWeek.getTime() !== new Date(item.week).getTime()) {
             return false
           }
           // 其它所有情况返回true

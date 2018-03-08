@@ -3,26 +3,26 @@ create by YOU
 */
 <template>
   <div style="max-width: 500px; margin: 50px auto 0">
-    <el-form ref="form" :model="form" label-width="80px">
-      <el-form-item label="姓名">
+    <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form-item label="姓名" prop="name">
         <el-input v-model="form.name"></el-input>
       </el-form-item>
-      <el-form-item label="性别">
+      <el-form-item label="性别" prop="sex">
         <el-select v-model="form.sex" placeholder="请选择性别">
           <el-option label="男" value="male"></el-option>
           <el-option label="女" value="female"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="邮箱">
+      <el-form-item label="邮箱" prop="email">
         <el-input v-model="form.email" disabled></el-input>
       </el-form-item>
-      <el-form-item label="授权码">
+      <el-form-item label="授权码" prop="emailToken">
         <el-input v-model="form.emailToken" type="password" placeholder="未投入使用" disabled></el-input>
       </el-form-item>
-      <el-form-item label="所属小组">
+      <el-form-item label="所属小组" prop="groupName">
         <el-input v-model="form.groupName" disabled></el-input>
       </el-form-item>
-      <el-form-item label="备注">
+      <el-form-item label="备注" prop="remark">
         <el-input v-model="form.remark"></el-input>
       </el-form-item>
       <el-form-item>
@@ -46,6 +46,11 @@ create by YOU
           groupName: '',
           emailToken: '',
           remark: ''
+        },
+        rules: {
+          name: [{required: true, message: '不能为空', trigger: 'blur'}],
+          sex: [{required: true, message: '不能为空', trigger: 'blur'}],
+          groupName: [{required: true, message: '不能为空', trigger: 'blur'}]
         }
       }
     },
