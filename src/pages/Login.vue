@@ -22,7 +22,7 @@
            <el-form-item style="width: 320px;">
             <el-row style="margin-top: 5px">
               <el-col :span="8">
-                <el-button @click.native.prevent="handleRegister">注册</el-button>
+                <el-button @click.native.prevent="gotoRegister">注册</el-button>
               </el-col>
               <el-col :span="8">
                 <el-button  @click.native.prevent="handleSubmit"
@@ -117,9 +117,8 @@
           }
         });
       },
-      handleRegister() {
-        this.$router.push('/Register')
-        console.log('1')
+      gotoRegister() {
+        this.$router.push('/register')
       },
       handleAdmin() {
         this.$router.push('/adminLogin')
@@ -409,14 +408,14 @@
   }
 
   /******版权信息******/
-  footer {
+  #login-page footer {
     position: fixed;
     width: 100%;
     bottom: 10px;
     height: auto !important;
   }
 
-  footer p {
+  #login-page footer p {
     font-size: 12px;
     color: #333D46;
     line-height: 18px;

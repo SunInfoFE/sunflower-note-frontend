@@ -1,5 +1,5 @@
 <template>
-  <section id="login-page">
+  <section id="adminLogin-page">
     <div class="all_bg">
       <div class="login_wrapper">
         <div class="top_con">
@@ -20,11 +20,12 @@
                         auto-complete="off" placeholder="密码"></el-input>
             </el-form-item>
             <el-form-item style="width: 320px;">
-              <el-row style="margin-top: 5px;padding-left:120px">
-                  <el-button  @click.native.prevent="handleSubmit"
-                              :disabled="logining">{{loginButton}}
+              <el-button @click.native.prevent="jumpToLogin" icon="el-icon-back">
+                普通用户登录
               </el-button>
-              </el-row>
+              <el-button style="float: right" @click.native.prevent="handleSubmit"
+                         :disabled="logining">{{loginButton}}
+              </el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -105,25 +106,28 @@
             return false;
           }
         });
+      },
+      jumpToLogin() {
+        this.$router.push('/Login')
       }
     }
   }
 </script>
 
 <style>
-  #login-page .dialogScrollHeight {
+  #adminLogin-page .dialogScrollHeight {
     height: 85px;
   }
 
-  #login-page input {
+  #adminLogin-page input {
     border: none;
   }
 
-  #login-page .el-input, #login-page .el-select {
+  #adminLogin-page .el-input, #adminLogin-page .el-select {
     width: 80%;
   }
 
-  #login-page .el-select .el-input {
+  #adminLogin-page .el-select .el-input {
     width: 100%;
   }
 
@@ -133,7 +137,7 @@
     color: #fff;
   }
 
-  #login-page .el-form-item-error {
+  #adminLogin-page .el-form-item-error {
     top: 39px
   }
 
@@ -167,7 +171,7 @@
   }
 
   /******主内容******/
-  #login-page {
+  #adminLogin-page {
     background: #030a13 url(../assets/images/login/all_pg.jpg) no-repeat;
     background-size: cover;
     height: 100vh
@@ -261,6 +265,7 @@
     border-radius: 2px;
     border: 1px solid #1c6dad;
   }
+
   /*登录信息*/
   .bottom_con {
     width: 384px;
@@ -391,14 +396,14 @@
   }
 
   /******版权信息******/
-  footer {
+  adminLogin-page footer {
     position: fixed;
     width: 100%;
     bottom: 10px;
     height: auto !important;
   }
 
-  footer p {
+  adminLogin-page footer p {
     font-size: 12px;
     color: #333D46;
     line-height: 18px;
