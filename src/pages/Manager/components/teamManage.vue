@@ -1,16 +1,18 @@
 <template>
   <div>
-    <div>
-      <el-input
-        suffix-icon="el-icon-search"
-        placeholder="请输入组名"
-        v-model="searchdata"
-        style="width: 500px">
-      </el-input>
-    </div>
-    <div style="margin-top: 10px">
-      <el-button @click="add()">添加小组</el-button>
-    </div>
+    <el-row>
+      <el-col span="16">
+        <el-button @click="add()" type="primary">添加小组</el-button>
+      </el-col>
+      <el-col span="8">
+        <el-input
+          suffix-icon="el-icon-search"
+          placeholder="请输入组名"
+          v-model="searchdata"
+          style="width: 100%">
+        </el-input>
+      </el-col>
+    </el-row>
     <table-pagination :data="tableData">
       <el-table-column
         prop="name"

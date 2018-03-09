@@ -33,6 +33,11 @@ create by YOU
     mounted() {
       this.total = this.data.length
     },
+    watch: {
+      data() {
+        this.total = this.data.length
+      }
+    },
     computed: {
       tableData () {
         let end = this.size * this.currentPage

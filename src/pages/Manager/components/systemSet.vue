@@ -1,5 +1,5 @@
 <template>
-<div>系统设置</div>
+<div style="text-align: center; color: #cdcdcd">系统设置</div>
 </template>
 
 <script type="text/ecmascript-6">
