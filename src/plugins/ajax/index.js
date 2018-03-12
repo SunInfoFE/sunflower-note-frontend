@@ -15,9 +15,9 @@ axios.interceptors.response.use(response => response, error => Promise.resolve(e
 
 const globalOptions = {
   withCredentials: true,
-  // baseURL: window.location.protocol + '//' + window.location.host + '/',
-  // baseURL: 'http://192.168.212.23:9898',
-  baseURL: '/api',
+  baseURL: window.location.protocol + '//' + window.location.host + '/',
+  // baseURL: 'http://192.168.212.41:9898',
+  // baseURL: '/api',
   timeout: 60000,
   headers: {
     'axios-header': 'axios'
@@ -60,13 +60,13 @@ function checkTimeout(res) {
  */
 function convertURL(url) {
   // 获取时间戳
-  var timstamp = (new Date()).valueOf();
-  // 将时间戳信息拼接到url上
-  if (url.indexOf('?') >= 0) {
-    url = url + '&t=' + timstamp;
-  } else {
-    url = url + '?t=' + timstamp;
-  }
+  // var timstamp = (new Date()).valueOf();
+  // // 将时间戳信息拼接到url上
+  // if (url.indexOf('?') >= 0) {
+  //   url = url + '&t=' + timstamp;
+  // } else {
+  //   url = url + '?t=' + timstamp;
+  // }
   return url;
 }
 
