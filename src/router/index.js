@@ -5,6 +5,7 @@ import Register from '@/pages/Register'
 import Manager from '@/pages/Manager'
 import User from '@/pages/User'
 import AdminLogin from '@/pages/adminLogin'
+import notFound from '@/components/404'
 Vue.use(Router)
 
 export default new Router({
@@ -39,6 +40,11 @@ export default new Router({
       path: '/User/:path?',
       name: 'User',
       component: User
+    },
+    {
+      path: '*',
+      name: '404',
+      component: notFound
     }
   ]
 });
