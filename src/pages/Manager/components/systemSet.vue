@@ -1,5 +1,5 @@
 <template>
-<div style="text-align: center; color: #cdcdcd">系统设置</div>
+<h1 style="text-align: center; color: #cdcdcd; line-height: 300px">incoming...</h1>
 </template>
 
 <script type="text/ecmascript-6">
