@@ -57,8 +57,8 @@
         logining: false,
         loginButton: '登 录',
         loginForm: {
-          email: 'caolx@suninfo.com',
-          password: '123456'
+          email: '',
+          password: ''
         },
         loginTypeName: '--',
         rules: {
