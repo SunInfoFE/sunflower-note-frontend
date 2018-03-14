@@ -32,8 +32,8 @@
         <div class="clr"></div>
       </div>
       <footer>
-        <p>版权所有&copy;2017 上海上讯信息技术股份有限公司</p>
-        <p>Copyright&copy;2017 Shanghai Suninfo Information Technology Co., Ltd. All rights reserved</p>
+        <p>版权所有&copy;{{ new Date().getYear() }} 上海上讯信息技术股份有限公司</p>
+        <p>Copyright&copy;{{ new Date().getYear() }} Shanghai Suninfo Information Technology Co., Ltd. All rights reserved</p>
       </footer>
     </div>
   </section>
