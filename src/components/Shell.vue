@@ -64,4 +64,10 @@ create by YOU
   /* 覆盖样式 */
   ul.el-menu
     border-right: none
+
+  @media screen and (max-width: 786px)
+    .shell-aside
+      width: 0 !important
+    .el-main
+      padding: 0 !important
 </style>

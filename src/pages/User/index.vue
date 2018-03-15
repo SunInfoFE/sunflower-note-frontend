@@ -2,29 +2,32 @@
   <shell>
     <!--template插入菜单-->
     <template slot="aside">
-      <el-menu
-        :router="true"
-        :default-active="defaultActive"
-        @select="handleMenuSelected"
-        class="el-menu-vertical-demo">
-        <el-submenu index="reportManage">
-          <template slot="title">
-            <i class="el-icon-document"></i>
-            <span>周报管理</span>
-          </template>
-          <el-menu-item :index="indexes[0]">本周周报</el-menu-item>
-          <el-menu-item :index="indexes[1]">我的周报</el-menu-item>
-          <el-menu-item :index="indexes[2]">小组周报</el-menu-item>
-        </el-submenu>
-        <el-submenu index="me">
-          <template slot="title">
-            <i class="el-icon-setting"></i>
-            <span>个人中心</span>
-          </template>
-          <el-menu-item :index="indexes[3]">个人信息</el-menu-item>
-          <el-menu-item :index="indexes[4]">密码修改</el-menu-item>
-        </el-submenu>
-      </el-menu>
+      <note-menu ref="noteMenu">
+        <el-menu
+          :router="true"
+          :default-active="defaultActive"
+          :default-openeds="['reportManage', 'me']"
+          @select="handleMenuSelected"
+          class="el-menu-vertical">
+          <el-submenu index="reportManage">
+            <template slot="title">
+              <i class="el-icon-document"></i>
+              <span>周报管理</span>
+            </template>
+            <el-menu-item :index="indexes[0]">本周周报</el-menu-item>
+            <el-menu-item :index="indexes[1]">我的周报</el-menu-item>
+            <el-menu-item :index="indexes[2]">小组周报</el-menu-item>
+          </el-submenu>
+          <el-submenu index="me">
+            <template slot="title">
+              <i class="el-icon-setting"></i>
+              <span>个人中心</span>
+            </template>
+            <el-menu-item :index="indexes[3]">个人信息</el-menu-item>
+            <el-menu-item :index="indexes[4]">密码修改</el-menu-item>
+          </el-submenu>
+        </el-menu>
+      </note-menu>
     </template>
     <!--template插入主要内容-->
     <template slot="main">
@@ -34,6 +37,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import noteMenu from '../../components/menu'
   import Shell from '../../components/Shell.vue'
   import reportCurrentWeek from './components/reportCurrentWeek.vue'
   import reportMine from './components/reportMine.vue'
@@ -42,6 +46,7 @@
   import mePassword from './components/mePassword.vue'
   export default {
     components: {
+      noteMenu,
       Shell,
       reportCurrentWeek,
       reportMine,
@@ -70,9 +75,10 @@
       }
     },
     watch: {
-      '$route.path': function(index) {
+      '$route.path': function (index) {
         this.defaultActive = index
         this.currentComponent = this.components[this.indexes.indexOf(index)]
+        this.$refs.noteMenu.close()
       }
     },
     mounted() {

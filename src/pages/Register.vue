@@ -53,10 +53,13 @@
           name: '',
           sex: '',
           groupId: '',
-          remark: ''
+          remark: '',
+          mailTail: '@suninfo.com',
         },
         rules: {
-          email: [{required: true, message: '必须', trigger: 'blur'}],
+          email: [
+            {required: true, message: '必须', trigger: 'blur'}
+          ],
           password: [{required: true, message: '必须', trigger: 'blur'}],
           repeatPassword: [
             {required: true, message: '必须', trigger: 'blur'},

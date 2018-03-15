@@ -171,4 +171,49 @@ create by YOU
         box-shadow: 0 5px 12px 0 rgba(0, 0, 0, .3)
       &:active
         box-shadow: 0 5px 12px 0 rgba(0, 0, 0, .5)
+  @media screen and (max-width: 786px)
+    .el-message-box
+      width: auto !important
+    .el-dialog
+      border-radius: 0 !important
+      width: 100% !important
+      height: 100%
+      max-height: 100%
+      margin: 0 !important
+      .el-dialog__body
+        padding: 20px 0 0
+      .dialog-footer
+        display: flex
+        .el-button
+          flex: 1
+          &.el-button--default
+            display: none !important
+    .report-current-week
+      display: flex
+      flex-wrap: wrap
+      justify-content: center
+      .report-card
+        width: 100%
+        transition: .3s
+        .report-card-button
+          float: right
+          padding: 3px 0
+          margin-left: 10px
+          &:hover
+            transform: scale(1.3, 1.3)
+        .report-card-content
+          height: 100%
+          overflow: hidden
+          text-overflow: ellipsis
+          word-break: break-all
+          color: #565656
+          cursor: pointer
+          > pre
+            display: inline-block
+            word-wrap: break-word
+            word-break: break-all
+            font-size: 14px
+            line-height: 22px
+        &:active
+          box-shadow: 0 5px 12px 0 rgba(0, 0, 0, .5)
 </style>

@@ -8,10 +8,6 @@ create by YOU
         <el-button type="primary" style="margin-bottom: 20px">复制到剪切板</el-button>
         <table-pagination :data="weekData">
           <el-table-column
-            type="index"
-            width="50">
-          </el-table-column>
-          <el-table-column
             prop="name"
             label="作者"
             width="180">
@@ -46,10 +42,6 @@ create by YOU
           </el-select>
         </div>
         <table-pagination :data="tableData">
-          <el-table-column
-            type="index"
-            width="50">
-          </el-table-column>
           <el-table-column
             prop="name"
             label="作者"

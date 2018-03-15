@@ -3,7 +3,7 @@ create by YOU
 */
 <template>
   <div>
-    <div style="max-width: 500px; margin: 50px auto 0">
+    <div style="max-width: 500px; margin: 50px auto 0; padding: 10px">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="旧密码" prop="oldPassword">
           <el-input v-model="form.oldPassword" type="password"></el-input>

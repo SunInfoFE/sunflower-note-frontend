@@ -2,13 +2,13 @@
 create by YOU
 */
 <template>
-  <div style="max-width: 500px; margin: 50px auto 0">
+  <div style="max-width: 500px; margin: 50px auto 0; padding: 10px">
     <el-form ref="form" :model="form" :rules="rules" label-width="80px">
       <el-form-item label="姓名" prop="name">
         <el-input v-model="form.name"></el-input>
       </el-form-item>
       <el-form-item label="性别" prop="sex">
-        <el-select v-model="form.sex" placeholder="请选择性别">
+        <el-select v-model="form.sex" style="width: 100%" placeholder="请选择性别">
           <el-option label="男" value="male"></el-option>
           <el-option label="女" value="female"></el-option>
         </el-select>

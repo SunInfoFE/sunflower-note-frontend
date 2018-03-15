@@ -3,7 +3,7 @@ create by YOU
 */
 <template>
   <div>
-    <div style="margin-bottom: 20px">
+    <div class="query-wrapper" style="margin-bottom: 20px">
       <el-date-picker
         v-model="currentWeek"
         type="week"
@@ -17,24 +17,20 @@ create by YOU
       </el-select>
     </div>
     <table-pagination :data="tableData">
-      <el-table-column
-        type="index"
-        width="50">
-      </el-table-column>
-      <el-table-column type="expand">
-        <template slot-scope="scope">
-          <el-row :gutter="20" style="margin-left: 100px">
-            <el-col span="12">
-              <h4>本周工作总结</h4>
-              <pre>{{scope.row.summary}}</pre>
-            </el-col>
-            <el-col span="12">
-              <h4>下周工作计划</h4>
-              <pre>{{scope.row.plan}}</pre>
-            </el-col>
-          </el-row>
-        </template>
-      </el-table-column>
+      <!--<el-table-column type="expand">-->
+        <!--<template slot-scope="scope">-->
+          <!--<el-row :gutter="20" style="margin-left: 100px">-->
+            <!--<el-col span="12">-->
+              <!--<h4>本周工作总结</h4>-->
+              <!--<pre>{{scope.row.summary}}</pre>-->
+            <!--</el-col>-->
+            <!--<el-col span="12">-->
+              <!--<h4>下周工作计划</h4>-->
+              <!--<pre>{{scope.row.plan}}</pre>-->
+            <!--</el-col>-->
+          <!--</el-row>-->
+        <!--</template>-->
+      <!--</el-table-column>-->
       <el-table-column
         prop="title"
         label="周报名">
@@ -55,25 +51,26 @@ create by YOU
           <pre>{{ new Date(scope.row.createTime).toLocaleString() }}</pre>
         </template>
       </el-table-column>
-      <!--<el-table-column-->
-        <!--prop="summary"-->
-        <!--label="本周工作总结">-->
-        <!--<template slot-scope="scope">-->
-          <!--<pre>{{scope.row.summary}}</pre>-->
-        <!--</template>-->
-      <!--</el-table-column>-->
-      <!--<el-table-column-->
-        <!--prop="plan"-->
-        <!--label="下周工作计划">-->
-        <!--<template slot-scope="scope">-->
-          <!--<pre>{{scope.row.plan}}</pre>-->
-        <!--</template>-->
-      <!--</el-table-column>-->
+      <el-table-column
+      prop="summary"
+      label="本周工作总结">
+      <template slot-scope="scope">
+      <pre>{{scope.row.summary}}</pre>
+      </template>
+      </el-table-column>
+      <el-table-column
+      prop="plan"
+      label="下周工作计划">
+      <template slot-scope="scope">
+      <pre>{{scope.row.plan}}</pre>
+      </template>
+      </el-table-column>
       <el-table-column
         label="操作"
         width="100">
         <template slot-scope="scope">
-          <el-button type="text" v-if="scope.row.status !== 'public'" icon="el-icon-delete" @click="handleDelete(scope.row)" title="删除"></el-button>
+          <el-button type="text" v-if="scope.row.status !== 'public'" icon="el-icon-delete"
+                     @click="handleDelete(scope.row)" title="删除"></el-button>
         </template>
       </el-table-column>
     </table-pagination>
@@ -142,5 +139,13 @@ create by YOU
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  @media screen and (max-width: 768px)
+    .query-wrapper
+      padding: 10px
+      .el-date-editor.el-input
+        width: 100%
+        margin-bottom: 10px
+      .el-select
+        width: 100%
 
 </style>

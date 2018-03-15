@@ -1,16 +1,17 @@
 <template>
   <div id="headBar">
     <el-row type="flex" justify="between" align="middle" class="header-bg">
-      <el-col :span="12" class="left-info">
+      <el-col :span="18" class="left-info">
         <div class="logo-icon">
           <!--<img src="" title="周报管理系统">-->
           <h1>周报管理系统V0.5 Alpha</h1>
         </div>
       </el-col>
-      <el-col :span="12" class="right-info">
-        <el-row  justify="center" align="middle" style="margin-top:25px">
+      <el-col :span="6" class="right-info">
+        <el-row justify="center" align="middle" style="margin-top:25px">
           <el-col>
-          <a class="user-info"> 您好! {{name}} </a> <a class="user-loginout" @click="loginout()">退出登录</a>
+            <a class="user-info"> 您好! {{name}} </a>
+            <a class="user-loginout" @click="loginout()">退出登录</a>
           </el-col>
         </el-row>
       </el-col>
@@ -20,24 +21,24 @@
 
 <script type="text/ecmascript-6">
   import {mapGetters} from 'vuex'
-export default {
- data() {
-  return {
-    name: ''
+  export default {
+    data() {
+      return {
+        name: ''
+      }
+    },
+    created() {
+      this.name = this.$store.state.data.name || this.$store.state.data.email
+    },
+    methods: {
+      loginout() {
+        this.$confirm('确定退出登录?', '提示', {confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning'}).then(() => {
+          this.$store.dispatch('LOGOUT')
+          window.location.reload('/#/login')
+        }).catch();
+      }
+    }
   }
- },
-  created() {
-    this.name = this.$store.state.data.name || this.$store.state.data.email
-  },
-   methods: {
-     loginout() {
-       this.$confirm('确定退出登录?', '提示', {confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning'}).then(() => {
-         this.$store.dispatch('LOGOUT')
-         window.location.reload('/#/login')
-       }).catch();
-     }
-   }
-}
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
@@ -100,9 +101,22 @@ export default {
           font-size 12px
           width: 10px
           color #fff
-          margin-left:15px
+          margin-left: 15px
         & .user-loginout:hover
           color #D9FDFF
     .scrollheight
       max-height: 500px
+  @media screen and (max-width: 786px)
+    .logo-icon
+      margin-left: 60px !important
+    .user-info
+      display: none
+  @media screen and (max-width: 500px)
+    .logo-icon
+      h1
+        font-size: 16px
+  @media screen and (max-width: 400px)
+    .logo-icon
+      h1
+        font-size: 12px
 </style>

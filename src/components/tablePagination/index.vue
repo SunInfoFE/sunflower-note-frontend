@@ -6,6 +6,11 @@ create by YOU
     <el-table
       :data="tableData"
       style="width: 100%">
+      <el-table-column
+        type="index"
+        fixed
+        width="30">
+      </el-table-column>
       <slot></slot>
     </el-table>
     <el-pagination
@@ -64,5 +69,10 @@ create by YOU
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-
+  @media screen and (max-width: 768px)
+    .el-pagination
+      display: flex
+      justify-content: space-around
+      .el-pagination__jump
+        display: none !important
 </style>
