@@ -65,7 +65,7 @@ create by YOU
   ul.el-menu
     border-right: none
 
-  @media screen and (max-width: 786px)
+  @media screen and (max-width: 768px)
     .shell-aside
       width: 0 !important
     .el-main

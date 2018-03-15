@@ -7,8 +7,14 @@
           :default-active="defaultActive"
           @select="handleMenuSelected"
           class="el-menu-vertical">
-          <el-menu-item :index="indexes[0]">小组管理</el-menu-item>
-          <el-menu-item :index="indexes[1]">系统设置</el-menu-item>
+          <el-menu-item :index="indexes[0]">
+            <i class="el-icon-tickets"></i>
+            小组管理
+          </el-menu-item>
+          <el-menu-item :index="indexes[1]">
+            <i class="el-icon-setting"></i>
+            系统设置
+          </el-menu-item>
         </el-menu>
       </note-menu>
     </template>

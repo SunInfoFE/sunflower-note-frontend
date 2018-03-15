@@ -42,7 +42,7 @@ create by YOU
         &:active
           transform: rotate(90deg)
 
-  @media screen and (max-width: 786px)
+  @media screen and (max-width: 768px)
     .menu-wrapper
       position: absolute
       top: 0

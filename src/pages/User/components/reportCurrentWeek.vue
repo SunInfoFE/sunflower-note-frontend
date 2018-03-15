@@ -171,7 +171,7 @@ create by YOU
         box-shadow: 0 5px 12px 0 rgba(0, 0, 0, .3)
       &:active
         box-shadow: 0 5px 12px 0 rgba(0, 0, 0, .5)
-  @media screen and (max-width: 786px)
+  @media screen and (max-width: 768px)
     .el-message-box
       width: auto !important
     .el-dialog

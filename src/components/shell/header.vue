@@ -11,7 +11,7 @@
         <el-row justify="center" align="middle" style="margin-top:25px">
           <el-col>
             <a class="user-info"> 您好! {{name}} </a>
-            <a class="user-loginout" @click="loginout()">退出登录</a>
+            <a class="user-loginout" @click="loginout()">登出</a>
           </el-col>
         </el-row>
       </el-col>
@@ -106,15 +106,20 @@
           color #D9FDFF
     .scrollheight
       max-height: 500px
-  @media screen and (max-width: 786px)
+
+  @media screen and (max-width: 768px)
     .logo-icon
       margin-left: 60px !important
     .user-info
       display: none
+    .el-message-box
+      width: auto !important
+
   @media screen and (max-width: 500px)
     .logo-icon
       h1
         font-size: 16px
+
   @media screen and (max-width: 400px)
     .logo-icon
       h1

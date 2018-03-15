@@ -1,18 +1,25 @@
 <template>
   <div>
-    <el-row>
-      <el-col span="16">
-        <el-button @click="add()" type="primary">添加小组</el-button>
-      </el-col>
-      <el-col span="8">
-        <el-input
-          suffix-icon="el-icon-search"
-          placeholder="请输入组名"
-          v-model="searchdata"
-          style="width: 100%">
-        </el-input>
-      </el-col>
-    </el-row>
+    <div class="operation-group">
+      <el-button @click="add()" type="primary">添加小组</el-button>
+      <el-input
+        suffix-icon="el-icon-search"
+        placeholder="请输入组名"
+        v-model="searchdata">
+      </el-input>
+    </div>
+    <!--<el-row>-->
+      <!--<el-col span="16">-->
+        <!--<el-button @click="add()" type="primary">添加小组</el-button>-->
+      <!--</el-col>-->
+      <!--<el-col span="8">-->
+        <!--<el-input-->
+          <!--suffix-icon="el-icon-search"-->
+          <!--placeholder="请输入组名"-->
+          <!--v-model="searchdata">-->
+        <!--</el-input>-->
+      <!--</el-col>-->
+    <!--</el-row>-->
     <table-pagination :data="tableData">
       <el-table-column
         prop="name"
@@ -212,4 +219,16 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  .operation-group
+    display: flex
+    justify-content: space-between
+    .el-input
+      width: 200px
+  @media screen and (max-width: 768px)
+    .operation-group
+      padding: 10px
+      flex-direction: column
+      .el-button,.el-input
+        width: 100%
+        margin-bottom: 10px
 </style>

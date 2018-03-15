@@ -6,7 +6,7 @@
         <el-menu
           :router="true"
           :default-active="defaultActive"
-          :default-openeds="['reportManage', 'me']"
+          :default-openeds="['reportManage', 'me', indexes[2]]"
           @select="handleMenuSelected"
           class="el-menu-vertical">
           <el-submenu index="reportManage">
@@ -16,7 +16,14 @@
             </template>
             <el-menu-item :index="indexes[0]">本周周报</el-menu-item>
             <el-menu-item :index="indexes[1]">我的周报</el-menu-item>
-            <el-menu-item :index="indexes[2]">小组周报</el-menu-item>
+            <!--<el-menu-item :index="indexes[2]">小组周报</el-menu-item>-->
+            <el-submenu :index="indexes[2]">
+              <template slot="title">
+                <span>小组周报</span>
+              </template>
+              <el-menu-item :index="indexes[5]">本周</el-menu-item>
+              <el-menu-item :index="indexes[6]">历史</el-menu-item>
+            </el-submenu>
           </el-submenu>
           <el-submenu index="me">
             <template slot="title">
@@ -44,6 +51,8 @@
   import reportGroup from './components/reportGroup.vue'
   import meInfo from './components/meInfo.vue'
   import mePassword from './components/mePassword.vue'
+  import reportGroupCurrentWeek from './components/reportGroupCurrentWeek.vue'
+  import reportGroupHistory from './components/reportGroupHistory.vue'
   export default {
     components: {
       noteMenu,
@@ -52,7 +61,9 @@
       reportMine,
       reportGroup,
       meInfo,
-      mePassword
+      mePassword,
+      reportGroupCurrentWeek,
+      reportGroupHistory
     },
     data () {
       return {
@@ -61,14 +72,18 @@
           '/User/report-mine',
           '/User/report-group',
           '/User/me-info',
-          '/User/me-password'
+          '/User/me-password',
+          '/User/group_currentWeek',
+          '/User/group_history'
         ],
         components: [
           'reportCurrentWeek',
           'reportMine',
           'reportGroup',
           'meInfo',
-          'mePassword'
+          'mePassword',
+          'reportGroupCurrentWeek',
+          'reportGroupHistory'
         ],
         defaultActive: '/User/report-currentWeek',
         currentComponent: 'reportCurrentWeek'
