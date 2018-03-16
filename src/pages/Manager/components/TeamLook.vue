@@ -8,7 +8,7 @@
         <el-input v-model="TeamData.remark" type="textarea" disabled></el-input>
       </el-form-item>
     </el-form>
-    <div style="margin-top: 20px">
+    <div style="margin-top: 20px; padding: 10px">
       <el-input
         suffix-icon="el-icon-search"
         placeholder="请输入用户名"

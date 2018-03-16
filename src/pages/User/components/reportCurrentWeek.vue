@@ -174,20 +174,20 @@ create by YOU
   @media screen and (max-width: 768px)
     .el-message-box
       width: auto !important
-    .el-dialog
-      border-radius: 0 !important
-      width: 100% !important
-      height: 100%
+    .el-dialog__wrapper
       max-height: 100%
-      margin: 0 !important
-      .el-dialog__body
-        padding: 20px 0 0
-      .dialog-footer
-        display: flex
-        .el-button
-          flex: 1
-          &.el-button--default
-            display: none !important
+      .el-dialog
+        border-radius: 0 !important
+        width: 100% !important
+        margin: 0 !important
+        .el-dialog__body
+          padding: 20px 0 0
+        .dialog-footer
+          display: flex
+          .el-button
+            flex: 1
+            &.el-button--default
+              display: none !important
     .report-current-week
       display: flex
       flex-wrap: wrap
