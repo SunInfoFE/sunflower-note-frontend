@@ -8,33 +8,33 @@
         <div class="bottom_con">
           <p class="wel_word">欢迎登录:</p>
           <el-form :model="loginForm" :rules="rules" ref="loginForm" labs-position="left" labs-width="0px"
-                  class="demo-ruleForm login-container">
+                   class="demo-ruleForm login-container">
             <el-form-item prop="email" class="inp_group username">
               <label></label>
               <el-input @keyup.enter.native="handleSubmit" id="username" type="text" v-model="loginForm.email"
-                       auto-complete="off" placeholder="账号" autofocus></el-input>
+                        auto-complete="off" placeholder="账号" autofocus></el-input>
             </el-form-item>
             <el-form-item prop="password" class="inp_group password">
               <label></label>
               <el-input @keyup.enter.native="handleSubmit" id="password" type="password" v-model="loginForm.password"
-                       auto-complete="off" placeholder="密码"></el-input>
+                        auto-complete="off" placeholder="密码"></el-input>
             </el-form-item>
-           <el-form-item style="width: 320px;">
-            <el-row style="margin-top: 5px">
-              <el-col :span="8">
-                <el-button @click.native.prevent="gotoRegister">注册</el-button>
-              </el-col>
-              <el-col :span="8">
-                <el-button  @click.native.prevent="handleSubmit"
-                           :disabled="logining">{{loginButton}}
-              </el-button>
-              </el-col>
+            <el-form-item style="width: 320px;">
+              <el-row style="margin-top: 5px">
                 <el-col :span="8">
-                 <el-button @click.native.prevent="handleAdmin">
-                  管理员登录
-              </el-button>
-              </el-col>
-            </el-row>
+                  <el-button @click.native.prevent="gotoRegister">注册</el-button>
+                </el-col>
+                <el-col :span="8">
+                  <el-button @click.native.prevent="handleSubmit"
+                             :disabled="logining">{{loginButton}}
+                  </el-button>
+                </el-col>
+                <el-col :span="8">
+                  <el-button @click.native.prevent="handleAdmin">
+                    管理员登录
+                  </el-button>
+                </el-col>
+              </el-row>
             </el-form-item>
           </el-form>
         </div>
@@ -42,7 +42,8 @@
       </div>
       <footer>
         <p>版权所有&copy;{{ new Date().getYear() }} 上海上讯信息技术股份有限公司</p>
-        <p>Copyright&copy;{{ new Date().getYear() }} Shanghai Suninfo Information Technology Co., Ltd. All rights reserved</p>
+        <p>Copyright&copy;{{ new Date().getYear()
+          }} Shanghai Suninfo Information Technology Co., Ltd. All rights reserved</p>
       </footer>
     </div>
   </section>
@@ -278,6 +279,7 @@
     border-radius: 2px;
     border: 1px solid #1c6dad;
   }
+
   /*登录信息*/
   .bottom_con {
     width: 384px;
@@ -423,6 +425,29 @@
     line-height: 18px;
     text-align: center;
   }
-  </style>
+
+  @media screen and (max-width: 768px) {
+    .login_wrapper {
+      width: 100% !important;
+    }
+
+    .bottom_con {
+      box-sizing: border-box;
+      width: 100% !important;
+      padding: 75px 10px 0 !important;
+      background: none !important;
+    }
+
+    .bottom_con .el-form-item {
+      box-sizing: border-box;
+      width: 100%;
+      color: #fff !important;
+    }
+
+    .bottom_con .el-form-item input {
+      color: #fff !important;
+    }
+  }
+</style>
 
 

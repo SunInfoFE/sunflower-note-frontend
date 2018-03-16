@@ -411,6 +411,29 @@
     line-height: 18px;
     text-align: center;
   }
+
+  @media screen and (max-width: 768px) {
+    .login_wrapper {
+      width: 100% !important;
+    }
+
+    .bottom_con {
+      box-sizing: border-box;
+      width: 100% !important;
+      padding: 75px 10px 0 !important;
+      background: none !important;
+    }
+
+    .bottom_con .el-form-item {
+      box-sizing: border-box;
+      width: 100%;
+      color: #fff !important;
+    }
+
+    .bottom_con .el-form-item input {
+      color: #fff !important;
+    }
+  }
 </style>
 
 

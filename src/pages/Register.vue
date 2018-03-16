@@ -2,19 +2,19 @@
   <section id="register-page">
     <h1>周报管理系统</h1>
     <span>注册新用户</span>
-    <div style="max-width: 500px; margin: 50px auto 0">
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px" style="margin-left: -80px">
+    <div style="max-width: 500px; margin: 50px auto 0; padding: 20px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="邮箱" prop="email">
-          <el-input v-model="form.email"></el-input>
+          <el-input placeholder="邮箱" v-model="form.email"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input v-model="form.password" type="password"></el-input>
+          <el-input placeholder="密码" v-model="form.password" type="password"></el-input>
         </el-form-item>
         <el-form-item label="重复密码" prop="repeatPassword">
-          <el-input v-model="form.repeatPassword" type="password"></el-input>
+          <el-input placeholder="重复密码" v-model="form.repeatPassword" type="password"></el-input>
         </el-form-item>
         <el-form-item label="姓名" prop="name">
-          <el-input v-model="form.name"></el-input>
+          <el-input placeholder="姓名" v-model="form.name"></el-input>
         </el-form-item>
         <el-form-item label="性别" prop="sex">
           <el-select style="width: 100%" v-model="form.sex" placeholder="请选择性别">
@@ -29,7 +29,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark"></el-input>
+          <el-input placeholder="备注" v-model="form.remark"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button icon="el-icon-back" @click="gotoLogin">返回登录</el-button>
@@ -127,6 +127,16 @@
     position: absolute;
     top: 40%;
     transform: translateY(-40%);
+  }
+
+  @media screen and (max-width: 768px) {
+    .el-form-item__label {
+      display: none;
+    }
+
+    .el-form-item__content {
+      margin-left: 0 !important;
+    }
   }
 </style>
 
