@@ -126,15 +126,16 @@
     text-align: center;
     position: absolute;
     top: 40%;
+    padding-top: 80px;
     transform: translateY(-40%);
   }
 
   @media screen and (max-width: 768px) {
-    .el-form-item__label {
+    #register-page .el-form-item__label {
       display: none;
     }
 
-    .el-form-item__content {
+    #register-page .el-form-item__content {
       margin-left: 0 !important;
     }
   }

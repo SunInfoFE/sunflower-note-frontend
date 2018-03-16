@@ -101,7 +101,7 @@ create by YOU
       },
       handleReportAdd() {
         if (this.data.length < 8) {
-          $axios.post('/report/currentWeekReport/add', {title: '未命名周报', summary: '总结', plan: '计划'}).then(({data}) => {
+          $axios.post('/report/currentWeekReport/add', {title: '未命名周报', summary: '', plan: ''}).then(({data}) => {
             if (data.status) {
               this.getData()
             }
@@ -130,7 +130,21 @@ create by YOU
             id: item.id
           }).then(({data}) => {
             if (data.status) {
+              this.$message.success(data.data)
               this.getData()
+            } else {
+              this.$message.error(data.data)
+            }
+          })
+        } else {
+          $axios.post('/report/currentWeekReport/cancelSubmit ', {
+            id: item.id
+          }).then(({data}) => {
+            if (data.status) {
+              this.$message.success(data.data)
+              this.getData()
+            } else {
+              this.$message.error(data.data)
             }
           })
         }

@@ -29,4 +29,7 @@
   .el-dialog{
     border-radius: 5px;
   }
+  pre{
+    white-space: pre-line !important;
+  }
 </style>

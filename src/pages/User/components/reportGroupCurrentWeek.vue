@@ -4,7 +4,7 @@ create by YOU
 <template>
   <div>
     <div class="buttons-wrapper">
-      <el-button type="primary" style="margin-bottom: 20px">复制周报到剪切板</el-button>
+      <el-button type="primary" @click="preView" style="margin-bottom: 20px">预览</el-button>
     </div>
     <table-pagination :data="weekData">
       <el-table-column
@@ -27,6 +27,17 @@ create by YOU
         </template>
       </el-table-column>
     </table-pagination>
+    <el-dialog
+      v-if="eyeDialog"
+      :visible.sync="eyeDialog"
+      width="700px">
+      <el-input ref="preView" v-model="content" type="textarea"
+                :autosize="{ minRows: 10, maxRows: 30}"></el-input>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="resetContent">重置内容</el-button>
+        <el-button type="primary" @click="copy">复制到剪贴板</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -39,7 +50,10 @@ create by YOU
     },
     data () {
       return {
-        weekData: []
+        weekData: [],
+        content: '',
+        eyeDialog: false,
+        content: ''
       }
     },
     mounted() {
@@ -52,6 +66,32 @@ create by YOU
             this.weekData = data.data
           }
         })
+      },
+      preView() {
+        if (!this.content) {
+          this.resetContent()
+        }
+        this.eyeDialog = true
+      },
+      resetContent() {
+        let content = ''
+        this.weekData.map(item => {
+          content += `${item.name}\n本周工作内容:\n${item.summary}\n下周工作内容:\n${item.plan}\n\n`
+        })
+        this.content = content
+      },
+      copy() {
+        var inputText = document.createElement('textarea');
+        inputText.value = this.content
+        inputText.style.position = 'fixed'
+        inputText.style.left = '-99999px'
+        inputText.style.top = '-99999px'
+        document.body.appendChild(inputText)
+        var currentFocus = document.activeElement;
+        inputText.focus();
+        inputText.setSelectionRange(0, inputText.value.length);
+        document.execCommand('copy', true);
+        currentFocus.focus();
       }
     }
   };

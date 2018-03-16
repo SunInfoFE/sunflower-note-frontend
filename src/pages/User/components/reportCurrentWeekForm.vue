@@ -39,6 +39,9 @@ create by YOU
     },
     methods: {
       getForm() {
+        if (!this.form.title) {
+          this.form.title = '未命名周报'
+        }
         return this.form
       },
       triggerChange() {
