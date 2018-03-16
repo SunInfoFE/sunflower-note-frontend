@@ -9,7 +9,7 @@ create by YOU
       <el-table-column
         type="index"
         fixed
-        width="30">
+        width="40">
       </el-table-column>
       <slot></slot>
     </el-table>
