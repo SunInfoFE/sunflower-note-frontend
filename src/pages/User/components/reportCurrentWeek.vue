@@ -158,6 +158,17 @@ create by YOU
     display: flex
     flex-wrap: wrap
     justify-content: center
+    .el-card__header > div
+      & > span
+        display: inline-block
+        box-sizing: border-box
+        width: calc(100% - 60px)
+        overflow: hidden
+        text-overflow: ellipsis
+        white-space: nowrap
+        z-index 1
+      & > button
+        z-index 999
     .report-card
       width: 300px
       margin: 10px
@@ -185,9 +196,11 @@ create by YOU
         box-shadow: 0 5px 12px 0 rgba(0, 0, 0, .3)
       &:active
         box-shadow: 0 5px 12px 0 rgba(0, 0, 0, .5)
+
   @media screen and (max-width: 768px)
     .el-message-box
       width: auto !important
+
     .el-dialog__wrapper
       max-height: 100%
       .el-dialog
@@ -202,6 +215,7 @@ create by YOU
             flex: 1
             &.el-button--default
               display: none !important
+
     .report-current-week
       display: flex
       flex-wrap: wrap

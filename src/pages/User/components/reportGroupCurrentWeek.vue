@@ -32,7 +32,7 @@ create by YOU
       :visible.sync="eyeDialog"
       width="700px">
       <el-input ref="preView" v-model="content" type="textarea"
-                :autosize="{ minRows: 10, maxRows: 30}"></el-input>
+                :autosize="{ minRows: 10, maxRows: 20}"></el-input>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="resetContent">重置内容</el-button>
         <el-button type="primary" @click="copy">复制到剪贴板</el-button>
@@ -81,16 +81,17 @@ create by YOU
         this.content = content
       },
       copy() {
-        var inputText = document.createElement('textarea');
+        let inputText = document.createElement('textarea');
         inputText.value = this.content
         inputText.style.position = 'fixed'
         inputText.style.left = '-99999px'
         inputText.style.top = '-99999px'
         document.body.appendChild(inputText)
-        var currentFocus = document.activeElement;
+        let currentFocus = document.activeElement;
         inputText.focus();
         inputText.setSelectionRange(0, inputText.value.length);
         document.execCommand('copy', true);
+        this.$message.success('复制成功！')
         currentFocus.focus();
       }
     }
@@ -103,4 +104,13 @@ create by YOU
       padding: 10px
       .el-button
         width: 100%
+
+    .el-dialog
+      height: 100% !important
+      .el-dialog__body
+        height: calc(100% - 130px) !important
+        .el-textarea
+          height: 100% !important
+          textarea
+            height: 100% !important
 </style>
