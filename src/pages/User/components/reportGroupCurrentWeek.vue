@@ -5,6 +5,7 @@ create by YOU
   <div>
     <div class="buttons-wrapper">
       <el-button type="primary" @click="preView" style="margin-bottom: 20px">预览</el-button>
+      <el-button type="primary" @click="showUnfinishedList" style="margin-bottom: 20px">未提交名单</el-button>
     </div>
     <table-pagination :data="weekData">
       <el-table-column
@@ -38,6 +39,29 @@ create by YOU
         <el-button type="primary" @click="copy">复制到剪贴板</el-button>
       </span>
     </el-dialog>
+    <el-dialog
+      v-if="unfinishedDialog"
+      :visible.sync="unfinishedDialog"
+      width="700px">
+      <el-table :data="unFinishedList">
+        <el-table-column
+          type="index"
+          fixed
+          width="40">
+        </el-table-column>
+        <el-table-column
+          prop="name"
+          label="姓名">
+        </el-table-column>
+        <el-table-column
+          prop="email"
+          label="邮箱">
+        </el-table-column>
+      </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="unfinishedDialog = false">关闭</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -51,15 +75,32 @@ create by YOU
     data () {
       return {
         weekData: [],
-        content: '',
         eyeDialog: false,
-        content: ''
+        unfinishedDialog: false,
+        content: '',
+        users: []
       }
     },
     mounted() {
       this.getData()
+      this.getUsers()
+    },
+    computed: {
+      unFinishedList() {
+        let finishedList = this.weekData.map(item => item.email)
+        return this.users.filter(item => finishedList.indexOf(item.email) === -1)
+      }
     },
     methods: {
+      getUsers() {
+        $axios.get('/group/groupManage/getGroupMember', {
+          id: this.$store.state.data.groupId
+        }).then(({data}) => {
+          if (data.status) {
+            this.users = data.data
+          }
+        })
+      },
       getData() {
         $axios.post('report/groupCurrentWeekReport/get').then(({data}) => {
           if (data.status) {
@@ -72,6 +113,9 @@ create by YOU
           this.resetContent()
         }
         this.eyeDialog = true
+      },
+      showUnfinishedList() {
+        this.unfinishedDialog = true
       },
       resetContent() {
         let content = ''
