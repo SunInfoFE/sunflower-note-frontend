@@ -10,6 +10,7 @@
           @select="handleMenuSelected"
           class="el-menu-vertical">
           <el-submenu index="reportManage">
+            <el-menu-item :index="indexes[7]">本周任务</el-menu-item>
             <template slot="title">
               <i class="el-icon-document"></i>
               <span>周报管理</span>
@@ -53,6 +54,7 @@
   import mePassword from './components/mePassword.vue'
   import reportGroupCurrentWeek from './components/reportGroupCurrentWeek.vue'
   import reportGroupHistory from './components/reportGroupHistory.vue'
+  import todoList from './components/todoList.vue'
   export default {
     components: {
       noteMenu,
@@ -63,7 +65,8 @@
       meInfo,
       mePassword,
       reportGroupCurrentWeek,
-      reportGroupHistory
+      reportGroupHistory,
+      todoList
     },
     data () {
       return {
@@ -74,7 +77,8 @@
           '/User/me-info',
           '/User/me-password',
           '/User/group_currentWeek',
-          '/User/group_history'
+          '/User/group_history',
+          '/User/todo_list'
         ],
         components: [
           'reportCurrentWeek',
@@ -83,7 +87,8 @@
           'meInfo',
           'mePassword',
           'reportGroupCurrentWeek',
-          'reportGroupHistory'
+          'reportGroupHistory',
+          'todoList'
         ],
         defaultActive: '/User/report-currentWeek',
         currentComponent: 'reportCurrentWeek'
