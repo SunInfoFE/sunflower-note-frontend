@@ -4,7 +4,7 @@
       <el-col :span="18" class="left-info">
         <div class="logo-icon">
           <!--<img src="" title="周报管理系统">-->
-          <h1>周报管理系统V0.5 Alpha</h1>
+          <h1>周报管理系统V1.0 Alpha</h1>
         </div>
       </el-col>
       <el-col :span="6" class="right-info">
