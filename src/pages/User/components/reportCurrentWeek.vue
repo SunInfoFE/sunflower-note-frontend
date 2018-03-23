@@ -137,7 +137,7 @@ create by YOU
             }
           })
         } else {
-          $axios.post('/report/currentWeekReport/cancelSubmit ', {
+          $axios.post('/report/currentWeekReport/cancelSubmit', {
             id: item.id
           }).then(({data}) => {
             if (data.status) {

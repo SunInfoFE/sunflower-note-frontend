@@ -10,11 +10,11 @@
           @select="handleMenuSelected"
           class="el-menu-vertical">
           <el-submenu index="reportManage">
-            <el-menu-item :index="indexes[7]">我的任务</el-menu-item>
             <template slot="title">
               <i class="el-icon-document"></i>
               <span>周报管理</span>
             </template>
+            <el-menu-item :index="indexes[7]">我的任务</el-menu-item>
             <el-menu-item :index="indexes[0]">本周周报</el-menu-item>
             <el-menu-item :index="indexes[1]">我的周报</el-menu-item>
             <!--<el-menu-item :index="indexes[2]">小组周报</el-menu-item>-->
