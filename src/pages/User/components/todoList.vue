@@ -2,7 +2,7 @@
 create by YOU
 */
 <template>
-  <div>
+  <div class="todo-list">
     <div>
       <el-button type="primary" @click="saveDraft" style="margin-bottom: 20px">存为周报草稿</el-button>
       <el-button type="primary" @click="submitDraft" style="margin-bottom: 20px">提交为小组周报</el-button>
@@ -31,9 +31,13 @@ create by YOU
                   prop="task"
                   label="内容">
                   <template slot-scope="scope">
-                    <p :class='`editField showField${scope.row.id}`' @click="handleEdit(scope.row)">{{scope.row.task}}</p>
-                    <el-input :class='`editField hidden editField${scope.row.id}`' ref="editField" @blur="saveEdit(scope.row)"
-                              v-model="scope.row.task"
+                    <el-tooltip :content="scope.row.task" placement="left" effect="dark">
+                      <p :class='`editField showField${scope.row.id} editField-p`' @click="handleEdit(scope.row)">
+                        {{scope.row.task}}</p>
+                    </el-tooltip>
+                    <el-input :class='`editField hidden editField${scope.row.id}`' ref="editField"
+                              @blur="saveEdit(scope.row)"
+                              v-model="scope.row.task" style="width: 100%"
                               placeholder="请输入条目内容"></el-input>
                   </template>
                 </el-table-column>
@@ -70,9 +74,13 @@ create by YOU
                   prop="task"
                   label="内容">
                   <template slot-scope="scope">
-                    <p :class='`editField showField${scope.row.id}`' @click="handleEdit(scope.row)">{{scope.row.task}}</p>
-                    <el-input :class='`editField hidden editField${scope.row.id}`' ref="editField" @blur="saveEdit(scope.row)"
-                              v-model="scope.row.task"
+                    <el-tooltip :content="scope.row.task" placement="left" effect="dark">
+                      <p :class='`editField showField${scope.row.id} editField-p`' @click="handleEdit(scope.row)">
+                        {{scope.row.task}}</p>
+                    </el-tooltip>
+                    <el-input :class='`editField hidden editField${scope.row.id}`' ref="editField"
+                              @blur="saveEdit(scope.row)"
+                              v-model="scope.row.task" style="width: 100%"
                               placeholder="请输入条目内容"></el-input>
                   </template>
                 </el-table-column>
@@ -151,7 +159,7 @@ create by YOU
           item.editing = false
         })
         row.editing = true
-        document.querySelector(`.showField${row.id}`).className = `editField hidden showField${row.id}`
+        document.querySelector(`.showField${row.id}`).className = `editField hidden showField${row.id} editField-p`
         document.querySelector(`.editField${row.id}`).className = `editField editField${row.id}`
         this.$nextTick(() => {
           document.querySelector(`.editField${row.id} input`).focus()
@@ -159,7 +167,7 @@ create by YOU
       },
       saveEdit(row) {
         if (row.task) {
-          document.querySelector(`.showField${row.id}`).className = `editField showField${row.id}`
+          document.querySelector(`.showField${row.id}`).className = `editField showField${row.id} editField-p`
           document.querySelector(`.editField${row.id}`).className = `editField hidden editField${row.id}`
           row.editing = false
           $axios.post('/journal/currentWeekJournal/edit', {
@@ -283,8 +291,13 @@ create by YOU
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  .editField
-    display: inline-block
-    &.hidden
-      display: none
+  .todo-list
+    .editField
+      &.editField-p
+        margin: 0
+        overflow: hidden
+        text-overflow: ellipsis
+        white-space: nowrap
+      &.hidden
+        display: none
 </style>
