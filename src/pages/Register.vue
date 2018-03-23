@@ -81,10 +81,25 @@
         groups: []
       }
     },
-    computed: {},
     created () {
       $axios.get('/group/groupManage/get').then(({data}) => {
-        this.groups = data.data
+        if (data.status) {
+          this.groups = data.data
+        }
+      })
+      $axios.get('/system/getSysSetting').then(({data}) => {
+        if (data.status) {
+          let emailReg = '^[\\w]{1,30}(' + data.data.emailSuffix.split(';').map(item => `(${item})`).join('|') + ')$'
+          console.log(emailReg)
+          this.rules.email = [
+            {required: true, message: '必须', trigger: 'blur'},
+            {
+              pattern: new RegExp(emailReg),
+              message: `只能使用${data.data.emailSuffix}等邮箱后缀`,
+              trigger: 'blur'
+            }
+          ]
+        }
       })
     },
     methods: {
