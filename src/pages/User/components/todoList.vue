@@ -10,7 +10,7 @@ create by YOU
     </div>
     <div>
       <el-card style="margin-bottom: 20px">
-        <div slot="header" class="clearfix">未完成条目</div>
+        <div slot="header" class="clearfix">未完成任务</div>
         <div>
           <el-table @selection-change="handleUnfinishedChange" :data="completedData">
             <el-table-column
@@ -45,7 +45,7 @@ create by YOU
         </div>
       </el-card>
       <el-card>
-        <div slot="header" class="clearfix">已完成条目</div>
+        <div slot="header" class="clearfix">已完成任务</div>
         <div>
           <el-table @selection-change="handleFinishedChange" :data="uncompletedData">
             <el-table-column
