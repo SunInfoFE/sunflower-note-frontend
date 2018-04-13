@@ -45,6 +45,7 @@
         width="100"
       >
         <template slot-scope="scope">
+          <el-button type="text" icon="el-icon-location-outline" @click="moveHandler(scope.row)" tilte="移动"></el-button>
           <el-button type="text" icon="el-icon-delete" @click="deleteHandler(scope.row)" tilte="删除"></el-button>
         </template>
       </el-table-column>
@@ -88,6 +89,9 @@
     methods: {
       deleteHandler(row) {
         this.$emit('delete', row)
+      },
+      moveHandler(row) {
+        this.$emit('move', row)
       }
     }
   }

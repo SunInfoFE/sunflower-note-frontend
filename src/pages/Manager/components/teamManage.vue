@@ -8,18 +8,6 @@
         v-model="searchdata">
       </el-input>
     </div>
-    <!--<el-row>-->
-    <!--<el-col span="16">-->
-    <!--<el-button @click="add()" type="primary">添加小组</el-button>-->
-    <!--</el-col>-->
-    <!--<el-col span="8">-->
-    <!--<el-input-->
-    <!--suffix-icon="el-icon-search"-->
-    <!--placeholder="请输入组名"-->
-    <!--v-model="searchdata">-->
-    <!--</el-input>-->
-    <!--</el-col>-->
-    <!--</el-row>-->
     <table-pagination :data="tableData">
       <el-table-column
         prop="name"
@@ -71,9 +59,33 @@
     <el-dialog
       :visible.sync="lookDialog"
       width="700px">
-      <team-look :lookData="lookData" :TeamData="lookTeamData" @delete="deleteUser"></team-look>
+      <div style="max-height: 600px; overflow-y: scroll">
+        <team-look :lookData="lookData" :TeamData="lookTeamData" @move="openMoveUserDialog"
+                   @delete="deleteUser"></team-look>
+      </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="lookDialog = false">取 消</el-button>
+      </span>
+    </el-dialog>
+    <!--移动-->
+    <el-dialog
+      :visible.sync="moveUserDialog"
+      width="500px">
+      <el-form class="moveForm" :model="moveForm" ref="moveForm" label-width="60px">
+        <el-form-item label="小组">
+          <el-select style="width: 100%" v-model="moveForm.moveTo" placeholder="请选择小组">
+            <el-option
+              v-for="item in tableData"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="moveUser()">移 动</el-button>
+        <el-button @click="moveUserDialog = false">取 消</el-button>
       </span>
     </el-dialog>
   </div>
@@ -97,9 +109,15 @@
         editDialog: false,
         editData: {},
         lookDialog: false,
+        moveUserDialog: false,
         lookData: [],
         lookTeamData: {},
-        searchdata: ''
+        searchdata: '',
+        moveForm: {
+          moveTo: ''
+        },
+        moveTo: '',
+        moveUsers: []
       }
     },
     created() {
@@ -135,6 +153,29 @@
             }
           })
         }).catch();
+      },
+      openMoveUserDialog(row) {
+        this.moveUsers = [row.email]
+        this.moveUserDialog = true
+      },
+      moveUser(row) {
+        this.moveUserDialog = false
+        $axios.post('/group/groupManage/moveGroupMember', {
+          emailList: this.moveUsers,
+          groupId: this.moveForm.moveTo
+        }).then((res) => {
+          if (res.data.status === true) {
+            this.$message({
+              type: 'success',
+              message: res.data.data
+            })
+            this.getgroupList()
+          }
+          this.$message({
+            type: 'error',
+            message: res.data.data
+          })
+        })
       },
       deleteHandler(row) {
         if (row.memberNum !== 0) {
@@ -232,6 +273,7 @@
       .el-button, .el-input
         width: 100%
         margin-bottom: 10px
+
     .el-dialog__wrapper
       max-height: 100%
       .el-dialog

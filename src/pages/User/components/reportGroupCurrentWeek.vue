@@ -32,9 +32,13 @@ create by YOU
       v-if="eyeDialog"
       :visible.sync="eyeDialog"
       width="700px">
+      <div style="margin-bottom: 10px; font-weight: 600">本小组共 {{users.length}} 人，还有<span
+        style="color: red"> {{unFinishedList.length}} </span>人未提交
+      </div>
       <el-input ref="preView" v-model="content" type="textarea"
                 :autosize="{ minRows: 10, maxRows: 20}"></el-input>
       <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="openMailSendDialog">发送邮件</el-button>
         <el-button type="primary" @click="resetContent">重置内容</el-button>
         <el-button type="primary" @click="copy">复制到剪贴板</el-button>
       </span>
@@ -62,14 +66,67 @@ create by YOU
         <el-button type="primary" @click="unfinishedDialog = false">关闭</el-button>
       </span>
     </el-dialog>
+    <el-dialog
+      v-if="mailSendDialog"
+      :visible.sync="mailSendDialog"
+      title="邮件发送"
+      width="700px">
+      <el-form ref="mailForm" :model="mailForm" :rules="mailFormRules" label-width="100px">
+        <el-form-item label="邮件标题" prop="title">
+          <el-input v-model="mailForm.title"></el-input>
+        </el-form-item>
+        <el-form-item label="收件人" prop="to">
+          <el-select style="width:100%" v-model="mailForm.to" multiple placeholder="请选择">
+            <el-option
+              v-for="item in receivers"
+              :key="item.email"
+              :label="item.name"
+              :value="item.email">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="抄送周报作者">
+          <el-select style="width: 100%" v-model="mailForm.defaultCc" multiple placeholder="请选择">
+            <el-option
+              v-for="item in users"
+              :key="item.email"
+              :label="item.name"
+              :value="item.email">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="抄送其他人">
+          <el-select style="width: 100%" v-model="mailForm.cc" multiple placeholder="请选择">
+            <el-option
+              v-for="item in receivers"
+              :key="item.email"
+              :label="item.name"
+              :value="item.email">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="邮件内容" prop="content">
+          <div style="height: 200px; overflow-y: scroll; padding: 10px; border:1px solid #dcdfe6">
+            <div v-html="mailForm.content" class="mail-content">
+            </div>
+          </div>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="sendEmail">发送</el-button>
+        <el-button type="primary" @click="mailSendDialog = false">关闭</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script type="text/babel">
   import $axios from '@/plugins/ajax'
   import tablePagination from '@/components/tablePagination'
+  import ElInput from "../../../../node_modules/element-ui/packages/input/src/input";
   export default {
     components: {
+      ElInput,
       tablePagination
     },
     data () {
@@ -77,13 +134,40 @@ create by YOU
         weekData: [],
         eyeDialog: false,
         unfinishedDialog: false,
+        mailSendDialog: false,
         content: '',
-        users: []
+        users: [],
+        receivers: [],
+        mailForm: {
+          title: '',
+          to: '',
+          defaultCc: '',
+          cc: '',
+          content: ''
+        },
+        mailFormRules: {
+          title: [{required: true, message: '不能为空', trigger: 'blur'}],
+          to: [{required: true, message: '不能为空', trigger: 'blur'}],
+          defaultCc: '',
+          cc: '',
+          content: [{required: true, message: '不能为空', trigger: 'blur'}]
+        },
+        str: {
+          currentWeekTitle: '本周工作内容',
+          nextWeekTitle: '下周工作计划'
+        }
       }
     },
     mounted() {
       this.getData()
-      this.getUsers()
+      this.getUsers().then(() => {
+        this.setDefaultCc()
+      })
+      $axios.get('/user/getSendMailUser').then(({data}) => {
+        if (data.status === true) {
+          this.receivers = data.data
+        }
+      })
     },
     computed: {
       unFinishedList() {
@@ -93,13 +177,17 @@ create by YOU
     },
     methods: {
       getUsers() {
-        $axios.get('/group/groupManage/getGroupMember', {
+        return $axios.get('/group/groupManage/getGroupMember', {
           id: this.$store.state.data.groupId
         }).then(({data}) => {
           if (data.status) {
             this.users = data.data
           }
+          return data.data
         })
+      },
+      setDefaultCc() {
+        this.mailForm.defaultCc = this.weekData.map(item => item.email)
       },
       getData() {
         $axios.post('report/groupCurrentWeekReport/get').then(({data}) => {
@@ -115,12 +203,16 @@ create by YOU
         this.eyeDialog = true
       },
       showUnfinishedList() {
-        this.unfinishedDialog = true
+        if (this.unFinishedList.length > 0) {
+          this.unfinishedDialog = true
+        } else {
+          this.$message('所有成员都已提交！')
+        }
       },
       resetContent() {
         let content = ''
         this.weekData.map(item => {
-          content += `${item.name}\n本周工作内容:\n${item.summary}\n下周工作内容:\n${item.plan}\n\n`
+          content += `${item.name}\n${this.str.currentWeekTitle}\n${item.summary}\n${this.str.nextWeekTitle}\n${item.plan}\n\n`
         })
         this.content = content
       },
@@ -137,12 +229,56 @@ create by YOU
         document.execCommand('copy', true);
         this.$message.success('复制成功！')
         currentFocus.focus();
+      },
+      openMailSendDialog() {
+        // content mailForm
+//        this.mailForm.content = '<div>' + this.content.replace(/[^\n]+/g, function (str) {
+//            return `<p style=" margin: 0; padidng: 0; height: 20px; line-height 20px; font-size 14px;">${str}</p>`
+//          }).replace(new RegExp(`<p[\w:; "]*>([^\\n]+)</p[\w:; "]*>([\\n]<p>+${this.str.currentWeekTitle}</p>)`, 'g'), function () {
+//            return `<h4>${arguments[1]}</h4>${arguments[2]}`
+//          }) + '</div>'
+        this.mailForm.content = '<div>' + this.content.replace(new RegExp(`([^\\n]+)([\\n]+${this.str.currentWeekTitle})`, 'g'), function () {
+            return `<h4 style="margin: 20px 0 0 0; padding: 0; height: 20px; line-height: 20px; font-size: 14px;">${arguments[1]}</h4>${arguments[2]}`
+          }).replace(/[^\n]+/g, function (str) {
+            return `<div style=" margin: 0; padding: 5px 0; height: auto; line-height: 1; font-size: 14px;">${str}</div>`
+          }) + '</div>'
+        this.mailSendDialog = true
+      },
+      sendEmail() {
+        this.$refs.mailForm.validate(valid => {
+          if (valid) {
+            let quesition = '确定发送邮件？'
+            if (this.unFinishedList.length > 0) {
+              quesition = `${this.unFinishedList.length}人未提交，确定发送邮件？`
+            }
+            this.$confirm(quesition, '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              $axios.post('/report/groupCurrentWeekReport/sendMail', {
+                title: this.mailForm.title,
+                to: this.mailForm.to,
+                defaultCc: '',
+                cc: [...this.mailForm.cc, ...this.mailForm.defaultCc],
+                content: this.mailForm.content
+              }).then(({data}) => {
+                if (data.status === true) {
+                  this.$message.success(data.data)
+                } else {
+                  this.$message.error(data.data)
+                }
+              })
+            }).catch()
+          }
+        })
       }
     }
   };
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+
   @media screen and (max-width: 768px)
     .buttons-wrapper
       padding: 10px
@@ -157,4 +293,5 @@ create by YOU
           height: 100% !important
           textarea
             height: 100% !important
+
 </style>
