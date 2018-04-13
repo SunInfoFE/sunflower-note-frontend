@@ -46,6 +46,18 @@
           }} Shanghai Suninfo Information Technology Co., Ltd. All rights reserved</p>
       </footer>
     </div>
+    <el-dialog
+      v-if="mailDialog"
+      v-loading="mailSending"
+      element-loading-text="发送激活邮件中..."
+      :visible.sync="mailDialog"
+      width="400px">
+      <div>账号未激活，请前往邮箱查看激活链接</div>
+      <a @click="sendMail" href="javascript:;">未收到激活邮件？点击重新发送</a>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="mailDialog = false" :disabled="mailSending">'关闭'</el-button>
+      </span>
+    </el-dialog>
   </section>
 </template>
 
@@ -55,6 +67,8 @@
   export default {
     data () {
       return {
+        mailDialog: false,
+        mailSending: false,
         logining: false,
         loginButton: '登 录',
         loginForm: {
@@ -98,16 +112,19 @@
           if (valid) {
             _self.toggleLogining(true)
             let loginParams = _self.loginForm
-            _self.$store.dispatch('LOGIN', loginParams).then(function (data) {
+            _self.$store.dispatch('LOGIN', loginParams).then((data) => {
               _self.toggleLogining(false)
               _self.userData = data
               _self.$router.push('/');
-            }).catch(function (data) {
+            }).catch((data) => {
+              if (data.data === 'unactivated') {
+                this.mailDialog = true
+              }
               _self.toggleLogining(false)
-              _self.$message({
-                message: data.data,
-                type: 'error'
-              });
+//              _self.$message({
+//                message: data.data,
+//                type: 'error'
+//              });
             })
           } else {
             _self.$message({
@@ -123,6 +140,20 @@
       },
       handleAdmin() {
         this.$router.push('/adminLogin')
+      },
+      sendMail(){
+        this.mailSending = true
+        $axios.post('/user/resendActiveEmail', {
+          email: this.loginForm.email
+        }).then(({data}) => {
+          this.mailSending = false
+          if (data.status === 'status') {
+            this.mailDialog = false
+            this.$message.success(data.data)
+          } else {
+            this.$message.error(data.data)
+          }
+        })
       }
     }
   }

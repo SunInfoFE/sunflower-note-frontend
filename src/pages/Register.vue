@@ -1,5 +1,8 @@
 <template>
-  <section id="register-page">
+  <section id="register-page"
+           v-loading="loading"
+           element-loading-text="注册中...发送激活邮件中..."
+  >
     <h1>周报管理系统</h1>
     <span>注册新用户</span>
     <div style="max-width: 500px; margin: 50px auto 0; padding: 20px">
@@ -46,6 +49,7 @@
   export default {
     data () {
       return {
+        loading: false,
         form: {
           email: '',
           password: '',
@@ -107,20 +111,25 @@
         let _self = this
         this.$refs.form.validate(valid => {
           if (valid) {
+            this.loading = true
             $axios.post('/user/register', this.form).then(({data}) => {
+              this.loading = false
               if (data.status) {
-                this.$message.success('注册成功!')
-                this.$store.dispatch('LOGIN', {
-                  email: _self.form.email,
-                  password: _self.form.password
-                }).then(function (data) {
-                  _self.$router.push('/');
-                }).catch(function (data) {
-                  _self.$message({
-                    message: data.data,
-                    type: 'error'
-                  });
-                })
+                this.$message.success('注册成功,请前往注册邮箱查看激活邮件!')
+                window.setTimeout(() => {
+                  this.$router.push('/')
+                }, 500)
+//                this.$store.dispatch('LOGIN', {
+//                  email: _self.form.email,
+//                  password: _self.form.password
+//                }).then(function (data) {
+//                  _self.$router.push('/');
+//                }).catch(function (data) {
+//                  _self.$message({
+//                    message: data.data,
+//                    type: 'error'
+//                  });
+//                })
               } else {
                 this.$message.error(data.data)
               }

@@ -68,6 +68,8 @@ create by YOU
     </el-dialog>
     <el-dialog
       v-if="mailSendDialog"
+      v-loading="loading"
+      element-loading-text="邮件发送中"
       :visible.sync="mailSendDialog"
       title="邮件发送"
       width="700px">
@@ -155,7 +157,8 @@ create by YOU
         str: {
           currentWeekTitle: '本周工作内容',
           nextWeekTitle: '下周工作计划'
-        }
+        },
+        loading: false
       }
     },
     mounted() {
@@ -256,6 +259,7 @@ create by YOU
               cancelButtonText: '取消',
               type: 'warning'
             }).then(() => {
+              this.loading = true
               $axios.post('/report/groupCurrentWeekReport/sendMail', {
                 title: this.mailForm.title,
                 to: this.mailForm.to,
@@ -263,6 +267,7 @@ create by YOU
                 cc: [...this.mailForm.cc, ...this.mailForm.defaultCc],
                 content: this.mailForm.content
               }).then(({data}) => {
+                this.loading = false
                 if (data.status === true) {
                   this.$message.success(data.data)
                 } else {
