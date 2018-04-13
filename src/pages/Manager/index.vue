@@ -11,6 +11,10 @@
             <i class="el-icon-tickets"></i>
             小组管理
           </el-menu-item>
+          <el-menu-item :index="indexes[2]">
+            <i class="el-icon-message"></i>
+            收件人管理
+          </el-menu-item>
           <el-menu-item :index="indexes[1]">
             <i class="el-icon-setting"></i>
             系统设置
@@ -28,23 +32,27 @@
   import noteMenu from '../../components/menu'
   import Shell from '../../components/Shell.vue'
   import teamManage from './components/teamManage.vue'
+  import receiverManage from './components/receiverManage.vue'
   import systemSet from './components/systemSet.vue'
   export default {
     components: {
       noteMenu,
       Shell,
       teamManage,
-      systemSet
+      systemSet,
+      receiverManage
     },
     data() {
       return {
         indexes: [
           '/Manager/team-manage',
-          '/Manager/system-set'
+          '/Manager/system-set',
+          '/Manager/receiver-manage'
         ],
         components: [
           'teamManage',
-          'systemSet'
+          'systemSet',
+          'receiverManage'
         ],
         defaultActive: '/Manager/team-manage',
         currentComponent: 'teamManage'

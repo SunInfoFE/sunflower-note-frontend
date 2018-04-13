@@ -16,8 +16,8 @@ create by YOU
       <el-form-item label="邮箱" prop="email">
         <el-input v-model="form.email" disabled></el-input>
       </el-form-item>
-      <el-form-item label="授权码" prop="emailToken">
-        <el-input v-model="form.emailToken" type="password" placeholder="未投入使用" disabled></el-input>
+      <el-form-item label="授权码" prop="licenseKey">
+        <el-input v-model="form.licenseKey" type="password" placeholder="请输入新授权码"></el-input>
       </el-form-item>
       <el-form-item label="所属小组" prop="groupName">
         <el-input v-model="form.groupName" disabled></el-input>
@@ -44,7 +44,7 @@ create by YOU
           sex: '',
           email: '',
           groupName: '',
-          emailToken: '',
+          licenseKey: '',
           remark: ''
         },
         rules: {
@@ -67,11 +67,7 @@ create by YOU
         })
       },
       onSubmit() {
-        $axios.post('/user/changeUserInfo', {
-          name: this.form.name,
-          sex:  this.form.sex,
-          remark:  this.form.remark
-        }).then(({data}) => {
+        $axios.post('/user/changeUserInfo', this.form).then(({data}) => {
           if (data.status) {
             this.$message.success(data.data)
           } else {
