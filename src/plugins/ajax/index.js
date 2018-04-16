@@ -16,7 +16,8 @@ axios.interceptors.response.use(response => response, error => Promise.resolve(e
 const globalOptions = {
   withCredentials: true,
   baseURL: window.location.protocol + '//' + window.location.host + '/',
-  // baseURL: 'http://192.168.212.41:9898',
+  // baseURL: 'http://192.168.213.201',
+  // baseURL: 'http://192.168.212.50:3000',
   // baseURL: '/api',
   timeout: 60000,
   headers: {
@@ -90,6 +91,6 @@ export default {
     } else {
       options = merge(globalOptions, {params: params});
     }
-    return axios.get(convertURL(url), options).then(checkStatus).then(checkCode)
+    return axios.get(convertURL(url), options).then(checkStatus).then(checkCode).then(checkTimeout)
   }
 }
