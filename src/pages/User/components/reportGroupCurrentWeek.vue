@@ -6,6 +6,7 @@ create by YOU
     <div class="buttons-wrapper">
       <el-button type="primary" @click="preView" style="margin-bottom: 20px">预览</el-button>
       <el-button type="primary" @click="showUnfinishedList" style="margin-bottom: 20px">未提交名单</el-button>
+      <span style="float: right;font-size: 14px;font-weight: 600; color: #6f7180;">最后更新：{{timePass}}</span>
     </div>
     <table-pagination :data="weekData">
       <el-table-column
@@ -78,7 +79,10 @@ create by YOU
           <el-input v-model="mailForm.title"></el-input>
         </el-form-item>
         <el-form-item label="收件人" prop="to">
-          <el-select style="width:100%" v-model="mailForm.to" multiple placeholder="请选择">
+          <el-select style="width:100%"
+                     filterable
+                     allow-create
+                     v-model="mailForm.to" multiple placeholder="选择或手动输入">
             <el-option
               v-for="item in receivers"
               :key="item.email"
@@ -98,7 +102,10 @@ create by YOU
           </el-select>
         </el-form-item>
         <el-form-item label="抄送其他人">
-          <el-select style="width: 100%" v-model="mailForm.cc" multiple placeholder="请选择">
+          <el-select style="width: 100%"
+                     filterable
+                     allow-create
+                     v-model="mailForm.cc" multiple placeholder="选择或手动输入">
             <el-option
               v-for="item in receivers"
               :key="item.email"
@@ -158,7 +165,9 @@ create by YOU
           currentWeekTitle: '本周工作内容',
           nextWeekTitle: '下周工作计划'
         },
-        loading: false
+        loading: false,
+        lastUpdateTime: new Date().getTime(),
+        timePass: '已是最新数据'
       }
     },
     mounted() {
@@ -171,6 +180,12 @@ create by YOU
           this.receivers = data.data
         }
       })
+      window.setInterval(this.getData, 20000)
+      window.setInterval(this.updateTimePass, 1000)
+    },
+    beforeDestroy() {
+      window.clearInterval(this.getData)
+      window.clearInterval(this.updateTimePass)
     },
     computed: {
       unFinishedList() {
@@ -192,10 +207,17 @@ create by YOU
       setDefaultCc() {
         this.mailForm.defaultCc = this.weekData.map(item => item.email)
       },
+      updateTimePass() {
+        let pass = Math.floor((new Date().getTime() - this.lastUpdateTime) / 1000)
+        this.timePass = pass < 2 ? '已是最新数据' : (Math.floor((new Date().getTime() - this.lastUpdateTime) / 1000) + '秒前')
+      },
       getData() {
+        window.clearInterval(this.updateTimePass)
         $axios.post('report/groupCurrentWeekReport/get').then(({data}) => {
           if (data.status) {
+            window.setInterval(this.updateTimePass, 1000)
             this.weekData = data.data
+            this.lastUpdateTime = new Date().getTime()
           }
         })
       },
