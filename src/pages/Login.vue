@@ -117,14 +117,15 @@
               _self.userData = data
               _self.$router.push('/');
             }).catch((data) => {
+              _self.toggleLogining(false)
               if (data.data === 'unactivated') {
                 this.mailDialog = true
+              } else {
+                _self.$message({
+                  message: data.data,
+                  type: 'error'
+                });
               }
-              _self.toggleLogining(false)
-//              _self.$message({
-//                message: data.data,
-//                type: 'error'
-//              });
             })
           } else {
             _self.$message({
