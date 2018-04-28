@@ -10,12 +10,59 @@
       <el-col :span="6" class="right-info">
         <el-row justify="center" align="middle" style="margin-top:25px">
           <el-col>
+            <i @click="openHelpDialog" class="iconfont icon-help"></i> &nbsp;&nbsp;&nbsp;&nbsp;
             <a class="user-info"> 您好! {{name}} </a>
             <a class="user-loginout" @click="loginout()">登出</a>
           </el-col>
         </el-row>
       </el-col>
     </el-row>
+    <el-dialog
+      title="帮助"
+      :visible.sync="helpDialog"
+      width="30%">
+      <el-collapse v-model="activeName" accordion>
+        <el-collapse-item title="我的任务模块" name="1">
+          <template slot="title">
+            我的任务模块<i class="iconfont icon-help"></i>
+          </template>
+          <div style="padding: 10px">
+            <span>添加单个任务条目（默认为未完成状态）</span><br>
+            <span>点击完成将任务变为完成状态</span><br>
+            <span>选择已完成和未完成任务生成周报</span><br>
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;已完成任务->本周工作内容</span><br>
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;未完成任务->下周工作计划</span><br>
+          </div>
+        </el-collapse-item>
+        <el-collapse-item title="本周周报模块" name="2">
+          <template slot="title">
+            本周周报模块<i class="iconfont icon-help"></i>
+          </template>
+          <div style="padding: 10px">
+            <span>本周周报模块</span><br>
+          </div>
+        </el-collapse-item>
+        <el-collapse-item title="我的周报模块" name="3">
+          <template slot="title">
+            我的周报模块<i class="iconfont icon-help"></i>
+          </template>
+          <div style="padding: 10px">
+            <span>我的周报模块</span><br>
+          </div>
+        </el-collapse-item>
+        <el-collapse-item title="小组周报模块" name="4">
+          <template slot="title">
+            小组周报模块<i class="iconfont icon-help"></i>
+          </template>
+          <div style="padding: 10px">
+            <span>小组周报模块</span><br>
+          </div>
+        </el-collapse-item>
+      </el-collapse>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="helpDialog = false">关 闭</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -24,13 +71,18 @@
   export default {
     data() {
       return {
-        name: ''
+        name: '',
+        helpDialog: false,
+        activeNames: '1'
       }
     },
     created() {
       this.name = this.$store.state.data.name || this.$store.state.data.email
     },
     methods: {
+      openHelpDialog() {
+        this.helpDialog = true
+      },
       loginout() {
         this.$confirm('确定退出登录?', '提示', {confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning'}).then(() => {
           this.$store.dispatch('LOGOUT')
@@ -110,8 +162,10 @@
   @media screen and (max-width: 768px)
     .logo-icon
       margin-left: 60px !important
+
     .user-info
       display: none
+
     .el-message-box
       width: auto !important
 
