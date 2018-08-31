@@ -19,6 +19,10 @@
             <i class="el-icon-setting"></i>
             系统设置
           </el-menu-item>
+          <el-menu-item :index="indexes[3]">
+            <i class="el-icon-service"></i>
+            收周报设置
+          </el-menu-item>
         </el-menu>
       </note-menu>
     </template>
@@ -34,25 +38,29 @@
   import teamManage from './components/teamManage.vue'
   import receiverManage from './components/receiverManage.vue'
   import systemSet from './components/systemSet.vue'
+  import collectorSet from './components/collectorSet.vue'
   export default {
     components: {
       noteMenu,
       Shell,
       teamManage,
       systemSet,
-      receiverManage
+      receiverManage,
+      collectorSet
     },
     data() {
       return {
         indexes: [
           '/Manager/team-manage',
           '/Manager/system-set',
-          '/Manager/receiver-manage'
+          '/Manager/receiver-manage',
+          '/Manager/collector-set'
         ],
         components: [
           'teamManage',
           'systemSet',
-          'receiverManage'
+          'receiverManage',
+          'collectorSet'
         ],
         defaultActive: '/Manager/team-manage',
         currentComponent: 'teamManage'

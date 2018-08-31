@@ -73,7 +73,7 @@
       return {
         name: '',
         helpDialog: false,
-        activeNames: '1'
+        activeName: '1'
       }
     },
     created() {
