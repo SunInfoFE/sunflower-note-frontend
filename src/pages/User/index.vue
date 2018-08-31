@@ -25,7 +25,7 @@
               <el-menu-item :index="indexes[5]">本周</el-menu-item>
               <el-menu-item :index="indexes[6]">历史</el-menu-item>
             </el-submenu>
-            <el-menu-item :index="indexes[8]" v-if="collector">多组周报</el-menu-item>
+            <el-menu-item :index="indexes[8]" v-if="collector">集中组本周周报</el-menu-item>
           </el-submenu>
           <el-submenu index="me">
             <template slot="title">
