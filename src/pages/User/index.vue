@@ -14,6 +14,7 @@
               <i class="el-icon-document"></i>
               <span>周报管理</span>
             </template>
+            <el-menu-item :index="indexes[9]" v-if="intern">我的签到</el-menu-item>
             <el-menu-item :index="indexes[7]">我的任务</el-menu-item>
             <el-menu-item :index="indexes[0]">本周周报</el-menu-item>
             <el-menu-item :index="indexes[1]">我的周报</el-menu-item>
@@ -57,6 +58,7 @@
   import reportGroupHistory from './components/reportGroupHistory.vue'
   import todoList from './components/todoList.vue'
   import groupCollection from './components/groupCollection.vue';
+  import mySigned from './components/mySigned.vue';
   export default {
     components: {
       noteMenu,
@@ -69,7 +71,8 @@
       reportGroupCurrentWeek,
       reportGroupHistory,
       todoList,
-      groupCollection
+      groupCollection,
+      mySigned
     },
     data () {
       return {
@@ -83,7 +86,8 @@
           '/User/group_history',
           '/User/todo_list',
           '/User/group_list',
-          '/User/group_collection'
+          '/User/group_collection',
+          '/User/my_signed'
         ],
         components: [
           'reportCurrentWeek',
@@ -94,11 +98,13 @@
           'reportGroupCurrentWeek',
           'reportGroupHistory',
           'todoList',
-          'groupCollection'
+          'groupCollection',
+          'mySigned'
         ],
         defaultActive: '/User/report-currentWeek',
         currentComponent: 'reportCurrentWeek',
-        collector: false
+        collector: false, // 是否为多组周报收集者
+        intern: false // 是否为实习生
       }
     },
     watch: {
@@ -113,6 +119,7 @@
       let path = this.$route.path
       // 动态处理用户是否为周报整理人员
       this.collector = this.$store.state.data.collector === 1 ? true : false;
+      this.intern = this.$store.state.data.collector === 2 ? true : false;
       // 判断路由是否存在,存在设置defaultActive = path
       let index = this.indexes.indexOf(path)
       if (path && index !== -1) {
