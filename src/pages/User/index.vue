@@ -26,8 +26,6 @@
               <el-menu-item :index="indexes[6]">历史</el-menu-item>
             </el-submenu>
             <el-menu-item :index="indexes[8]" v-if="collector">集中组本周周报</el-menu-item>
-            <el-menu-item :index="indexes[9]" v-if="intern">我的签到</el-menu-item>
-            <el-menu-item :index="indexes[10]" v-if="statIntern">签到统计</el-menu-item>
           </el-submenu>
           <el-submenu index="me">
             <template slot="title">
@@ -36,6 +34,8 @@
             </template>
             <el-menu-item :index="indexes[3]">个人信息</el-menu-item>
             <el-menu-item :index="indexes[4]">密码修改</el-menu-item>
+            <el-menu-item :index="indexes[9]" v-if="intern">实习签到</el-menu-item>
+            <el-menu-item :index="indexes[10]" v-if="statIntern">实习签到统计</el-menu-item>
           </el-submenu>
         </el-menu>
       </note-menu>

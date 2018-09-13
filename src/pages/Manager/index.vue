@@ -23,6 +23,10 @@
             <i class="el-icon-service"></i>
             收周报设置
           </el-menu-item>
+          <el-menu-item :index="indexes[4]">
+            <i class="el-icon-edit-outline"></i>
+            实习签到
+          </el-menu-item>
         </el-menu>
       </note-menu>
     </template>
@@ -39,6 +43,7 @@
   import receiverManage from './components/receiverManage.vue'
   import systemSet from './components/systemSet.vue'
   import collectorSet from './components/collectorSet.vue'
+  import internSet from './components/internSet.vue'
   export default {
     components: {
       noteMenu,
@@ -46,7 +51,8 @@
       teamManage,
       systemSet,
       receiverManage,
-      collectorSet
+      collectorSet,
+      internSet
     },
     data() {
       return {
@@ -54,13 +60,15 @@
           '/Manager/team-manage',
           '/Manager/system-set',
           '/Manager/receiver-manage',
-          '/Manager/collector-set'
+          '/Manager/collector-set',
+          '/Manager/intern-set'
         ],
         components: [
           'teamManage',
           'systemSet',
           'receiverManage',
-          'collectorSet'
+          'collectorSet',
+          'internSet'
         ],
         defaultActive: '/Manager/team-manage',
         currentComponent: 'teamManage'

@@ -16,6 +16,11 @@
             width="180">
             </el-table-column>
             <el-table-column
+            prop="sex"
+            width="120"
+            label="性别">
+            </el-table-column>
+            <el-table-column
             prop="email"
             label="邮箱"
             width="180">
@@ -77,7 +82,7 @@ export default {
                     if(typeof statData[this.memberData[i].email] !== 'undefined'){
                         count = statData[this.memberData[i].email]; 
                     }
-                    member.push({name:this.memberData[i].name, email:this.memberData[i].email, count: count});
+                    member.push({name:this.memberData[i].name, sex: this.memberData[i].sex, email:this.memberData[i].email, count: count});
                 }
                 this.member = member;
             } else {

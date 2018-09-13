@@ -33,12 +33,11 @@ export default {
   methods : {
     getMontDataAjax(totalDay,monthStr,flag){
         $axios.post('/punchcard/userMonthList',{ userid: this.$store.state.data.email, month: monthStr }).then(({data}) => {
-            if (data.status && data.data.length > 0) {
+            if (data.status) {
                this.allData = data.data;
                 let eventData = [];
                 // 对于当月特殊处理
                 let length = flag ? (totalDay - 1) : totalDay;
-
                 for (let i = 0; i < length; i++) {
                     let day = String(i + 1).length === 1 ? '0' + String(i + 1) : String(i + 1);
                     let dateStr = monthStr + '-' + day;
