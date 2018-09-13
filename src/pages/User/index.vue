@@ -14,7 +14,6 @@
               <i class="el-icon-document"></i>
               <span>周报管理</span>
             </template>
-            <el-menu-item :index="indexes[9]" v-if="intern">我的签到</el-menu-item>
             <el-menu-item :index="indexes[7]">我的任务</el-menu-item>
             <el-menu-item :index="indexes[0]">本周周报</el-menu-item>
             <el-menu-item :index="indexes[1]">我的周报</el-menu-item>
@@ -27,6 +26,8 @@
               <el-menu-item :index="indexes[6]">历史</el-menu-item>
             </el-submenu>
             <el-menu-item :index="indexes[8]" v-if="collector">集中组本周周报</el-menu-item>
+            <el-menu-item :index="indexes[9]" v-if="intern">我的签到</el-menu-item>
+            <el-menu-item :index="indexes[10]" v-if="statIntern">签到统计</el-menu-item>
           </el-submenu>
           <el-submenu index="me">
             <template slot="title">
@@ -59,6 +60,7 @@
   import todoList from './components/todoList.vue'
   import groupCollection from './components/groupCollection.vue';
   import mySigned from './components/mySigned.vue';
+  import statSigned from './components/statSigned.vue';
   export default {
     components: {
       noteMenu,
@@ -72,7 +74,8 @@
       reportGroupHistory,
       todoList,
       groupCollection,
-      mySigned
+      mySigned,
+      statSigned
     },
     data () {
       return {
@@ -85,9 +88,9 @@
           '/User/group_currentWeek',
           '/User/group_history',
           '/User/todo_list',
-          '/User/group_list',
           '/User/group_collection',
-          '/User/my_signed'
+          '/User/my_signed',
+          '/User/stat_signed'
         ],
         components: [
           'reportCurrentWeek',
@@ -99,17 +102,19 @@
           'reportGroupHistory',
           'todoList',
           'groupCollection',
-          'mySigned'
+          'mySigned',
+          'statSigned'
         ],
         defaultActive: '/User/report-currentWeek',
         currentComponent: 'reportCurrentWeek',
         collector: false, // 是否为多组周报收集者
-        intern: false // 是否为实习生
+        intern: false, // 是否为实习生,
+        statIntern: false // 实习生签到统计页面
       }
     },
     watch: {
       '$route.path': function (index) {
-        this.defaultActive = index
+        this.defaultActive = index;
         this.currentComponent = this.components[this.indexes.indexOf(index)]
         this.$refs.noteMenu.close()
       }
@@ -119,9 +124,10 @@
       let path = this.$route.path
       // 动态处理用户是否为周报整理人员
       this.collector = this.$store.state.data.collector === 1 ? true : false;
-      this.intern = this.$store.state.data.collector === 2 ? true : false;
+      this.intern = this.$store.state.data.level === 1 ? true : false;
+      this.statIntern = this.$store.state.data.level === 2 ? true : false;
       // 判断路由是否存在,存在设置defaultActive = path
-      let index = this.indexes.indexOf(path)
+      let index = this.indexes.indexOf(path);
       if (path && index !== -1) {
         this.defaultActive = path
         this.currentComponent = this.components[index]
