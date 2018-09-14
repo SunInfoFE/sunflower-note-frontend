@@ -11,6 +11,10 @@
             stripe
             style="width: 100%">
             <el-table-column
+            type="index"
+            width="50">
+            </el-table-column>
+            <el-table-column
             prop="name"
             label="姓名"
             width="180">
@@ -29,8 +33,47 @@
             prop="count"
             label="天数">
             </el-table-column>
+            <el-table-column
+                fixed="right"
+                label="操作"
+                width="100">
+                <template slot-scope="scope">
+                    <el-button @click="viewAction(scope.row)" type="text" size="small">查看详细</el-button>
+                </template>
+                </el-table-column>
         </el-table>
-    </div> 
+        <el-dialog
+            v-if="viewDialog"
+            :visible.sync="viewDialog"
+            width="700px" title="签到详情">
+            <el-table
+            :data="detailTableData"
+            stripe
+            style="width: 100%">
+            <el-table-column
+                type="index"
+                width="50">
+                </el-table-column>
+            <el-table-column
+            prop="card_time"
+            label="签到日期"
+            width="180">
+            </el-table-column>
+            <el-table-column
+            prop="userid"
+            label="邮箱"
+            width="180">
+            </el-table-column>
+            <el-table-column
+            prop="card_status"
+            label="状态">
+            </el-table-column>
+            </el-table>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="viewDialog = false">关闭</el-button>
+            </span>
+            </el-dialog>
+    </div>
 </template>
 <script type="text/ecmascript-6">
 import $axios from "@/plugins/ajax";
@@ -39,7 +82,10 @@ export default {
     return{
         member: [],
         month: '',
-        memberData: []
+        memberData: [],
+        monthBaseData: [],
+        viewDialog: false,
+        detailTableData: []
     }
   },
   mounted() {
@@ -60,6 +106,11 @@ export default {
            }
         });
     },
+    viewAction(row){
+        this.viewDialog = true;
+        console.log(this.monthBaseData);
+        this.detailTableData = this.monthBaseData.filter(function(element){ return element.userid === row.email});
+    },
     changeMonth(){
         this.getStatData();
     },
@@ -76,6 +127,7 @@ export default {
                         statData[monthDataAry[i].userid] = statData[monthDataAry[i].userid] + 1;
                     }
                 }
+                this.monthBaseData = monthDataAry;
                 let member = [];
                 for (let i=0; i < this.memberData.length; i++) {
                     let count = 0;
