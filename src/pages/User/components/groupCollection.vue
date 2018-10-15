@@ -223,7 +223,7 @@ create by YOU
       },
       getData() {
         window.clearInterval(this.updateTimePass)
-        $axios.post('report/getCollectGroupCurrentWeekPort/get').then(({data}) => {
+        $axios.post('report/getCollectGroupCurrentWeekPort/get', {collector: this.$store.state.data.collector}).then(({data}) => {
           if (data.status) {
             window.setInterval(this.updateTimePass, 1000)
             this.weekData = data.data

@@ -123,9 +123,9 @@
       // 当前路由
       let path = this.$route.path
       // 动态处理用户是否为周报整理人员
-      this.collector = this.$store.state.data.collector === 1 ? true : false;
-      this.intern = this.$store.state.data.level === 1 ? true : false;
-      this.statIntern = this.$store.state.data.level === 2 ? true : false;
+      this.collector = this.$store.state.data.collector != 0 ? true : false;
+      this.intern = this.$store.state.data.level == 1 ? true : false;
+      this.statIntern = this.$store.state.data.level == 2 ? true : false;
       // 判断路由是否存在,存在设置defaultActive = path
       let index = this.indexes.indexOf(path);
       if (path && index !== -1) {
