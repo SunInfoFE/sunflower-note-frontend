@@ -177,7 +177,7 @@ create by YOU
           if (data.status === true) {
             let groups = data.data;
             for(let i = 0,length = groups.length; i < length; i++){
-              if(groups[i].combine == 1){
+              if(groups[i].combine == this.$store.state.data.collector){
                 sGroups.push(groups[i].id);
               }
             }
