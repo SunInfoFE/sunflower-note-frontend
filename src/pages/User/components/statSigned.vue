@@ -1,11 +1,15 @@
 <template>
     <div class="stat_signed">
         <el-date-picker
-        v-model="month"
-        type="month"
-        placeholder="选择月" @change="changeMonth" value-format="yyyy-MM">
+        v-model="dayRange"
+        type="daterange"
+        range-separator="至"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期"
+        @change="changeMonth"
+          value-format="yyyy-MM-dd">
         </el-date-picker>
-        月份实习生统计信息
+        实习生统计信息
         <el-table
             :data="member"
             stripe
@@ -45,11 +49,12 @@
         <el-dialog
             v-if="viewDialog"
             :visible.sync="viewDialog"
-            width="700px" title="签到详情">
+            width="700px" height="500px" title="签到详情">
             <el-table
             :data="detailTableData"
             stripe
-            style="width: 100%">
+            style="width: 100%"
+            height="500px">
             <el-table-column
                 type="index"
                 width="50">
@@ -57,16 +62,22 @@
             <el-table-column
             prop="card_time"
             label="签到日期"
-            width="180">
+            width="120">
+            </el-table-column>
+            <el-table-column
+            prop="signed_time"
+            label="签到时间"
+            width="120">
+            </el-table-column>
+            <el-table-column
+            prop="off_time"
+            label="签退时间"
+            width="120">
             </el-table-column>
             <el-table-column
             prop="userid"
             label="邮箱"
-            width="180">
-            </el-table-column>
-            <el-table-column
-            prop="card_status"
-            label="状态">
+            >
             </el-table-column>
             </el-table>
             <span slot="footer" class="dialog-footer">
@@ -80,6 +91,7 @@ import $axios from "@/plugins/ajax";
 export default {
   data() {
     return{
+        dayRange:[],
         member: [],
         month: '',
         memberData: [],
@@ -91,8 +103,23 @@ export default {
   mounted() {
     let month = new Date().getMonth() + 1;
     let year = new Date().getFullYear();
+    let day = new Date().getDate();
     let monthStr = String(month).length === 1 ? '0' + month : month;
-    this.month = year + '-' + monthStr;
+    let premonthStr = String((month-1)).length === 1 ? '0' + (month-1) : (month-1);
+    let nextmonthStr = String((month+1)).length === 1 ? '0' + (month+1) : (month+1);
+    let currentMonth = year + '-' + monthStr + '-';
+    let preMonth = year + '-' + premonthStr + '-';
+    let nextMonth = year + '-' + nextmonthStr + '-';
+    if( day <= 21) {
+        currentMonth += "20";
+        premonthStr += "21";
+        this.dayRange = [preMonth, currentMonth];
+    } else {
+        currentMonth += "21";
+        nextMonth += "20";
+        this.dayRange = [currentMonth, nextMonth]
+    }
+    //this.month = year + '-' + monthStr;
     this.getData();
   },
   methods: {
@@ -115,7 +142,7 @@ export default {
         this.getStatData();
     },
     getStatData(){
-        $axios.post('/punchcard/monthList',{ month: this.month }).then((res) => {
+        $axios.post('/punchcard/dayRangeList',{ dayRange: this.dayRange }).then((res) => {
             let statData = {};
             let member = [];
             if (res.data.status) {
