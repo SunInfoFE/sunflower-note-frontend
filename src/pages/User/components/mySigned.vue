@@ -47,6 +47,7 @@ export default {
                     let index = this.allData.findIndex(function(element){ return element.card_time === dateStr && element.card_status === 1});
                     if (index !== -1) {
                         eventData.push({
+                            cellIndex : 1,
                             title : data.data[this.num].signed_time,
                             start : dateStr,
                             end : dateStr,
@@ -55,6 +56,7 @@ export default {
                                 status:'上班打卡成功'
                             }
                         },{
+                            cellIndex : 2,
                             title : data.data[this.num].off_time,
                             start : dateStr,
                             end : dateStr,
@@ -65,7 +67,7 @@ export default {
                         });   
                         this.total ++;
                         this.num ++
-                        console .log(this.num)
+                        //console .log(this.num)
                     } else {
                         let day = String(i + 1).length === 1 ? '0' + String(i + 1) : String(i + 1);
                         eventData.push({
@@ -87,6 +89,7 @@ export default {
                     let offedIndex = this.allData.findIndex(function(element){ return element.card_time === dateStr && element.signed_time != null && element.off_time != null});
                     if (signedIndex !== -1) {
                         eventData.push({
+                            cellIndex : 1,
                             title : data.data[this.num].signed_time,
                             start : dateStr,
                             end : dateStr,
@@ -95,6 +98,7 @@ export default {
                                 status: '上班打卡成功'
                             }
                         },{
+                            cellIndex : 2,
                             title : '下班打卡',
                             start : dateStr,
                             end : dateStr,
@@ -106,6 +110,7 @@ export default {
                         this.total ++;
                     } else if (offedIndex !== -1) {
                         eventData.push({
+                            cellIndex : 1,
                             title : data.data[this.num].signed_time,
                             start : dateStr,
                             end : dateStr,
@@ -114,6 +119,7 @@ export default {
                                 status: '上班打卡成功'
                             }
                         },{
+                            cellIndex : 2,
                             title : data.data[this.num].off_time,
                             start : dateStr,
                             end : dateStr,
@@ -124,6 +130,7 @@ export default {
                         });
                     } else {
                         eventData.push({
+                            cellIndex : 1,
                             title : '上班打卡',
                             start : dateStr,
                             end : dateStr,
@@ -132,6 +139,7 @@ export default {
                                 status : ''
                             }
                         },{
+                            cellIndex : 2,
                             title : '下班打卡',
                             start : dateStr,
                             end : dateStr,
@@ -207,22 +215,24 @@ export default {
                     }
                });
             } else {
-                $axios.post('/punchcard/signoff', {userid: this.$store.state.data.email }).then(({data}) => {
-                    if(!data.status) {
-                        this.$message({showClose: true,message: data.data,type: 'error'}); 
-                    } else {
-                        this.$message.success("下班打卡成功");
-                        this.$set( this.fcEvents, this.fcEvents.length - 1,{
-                            title : data.data,
-                            start : this.currentDate,
-                            end : this.currentDate,
-                            cssClass : 'signed',
-                            myData : {
-                                status : '下班打卡成功'
-                            }
-                        });
-                    }
-                });
+                if(confirm("确定要下班打卡吗？")){
+                    $axios.post('/punchcard/signoff', {userid: this.$store.state.data.email }).then(({data}) => {
+                        if(!data.status) {
+                            this.$message({showClose: true,message: data.data,type: 'error'}); 
+                        } else {
+                            this.$message.success("下班打卡成功");
+                            this.$set( this.fcEvents, this.fcEvents.length - 1,{
+                                title : data.data,
+                                start : this.currentDate,
+                                end : this.currentDate,
+                                cssClass : 'signed',
+                                myData : {
+                                    status : '下班打卡成功'
+                                }
+                            });
+                        }
+                    });
+                }
             }    
         }
     }
