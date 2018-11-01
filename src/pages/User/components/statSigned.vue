@@ -112,7 +112,7 @@ export default {
     let nextMonth = year + '-' + nextmonthStr + '-';
     if( day <= 21) {
         currentMonth += "20";
-        premonthStr += "21";
+        preMonth += "21";
         this.dayRange = [preMonth, currentMonth];
     } else {
         currentMonth += "21";
