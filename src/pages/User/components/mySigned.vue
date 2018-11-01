@@ -167,7 +167,9 @@ export default {
         if(this.currentMon === null) {
             this.currentMon = current.split('-')[1];
             let date = new Date();
-            this.currentDate = date.getFullYear() + '-' + this.currentMon + '-' + date.getDate();
+            let day = date.getDate();
+            let dateDay = String(day).length ===1 ?  "0" + day : day;
+            this.currentDate = date.getFullYear() + '-' + this.currentMon + '-' + dateDay;
             this.currentDay = date.getDate();
             this.currentYear = date.getFullYear();
         }
