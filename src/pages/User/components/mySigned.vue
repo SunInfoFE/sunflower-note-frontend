@@ -215,7 +215,7 @@ export default {
                     }
                });
             } else {
-                if(confirm("确定要下班打卡吗？")){
+                this.$confirm('确定要下班打卡吗？', '提示', {confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning'}).then(() => {
                     $axios.post('/punchcard/signoff', {userid: this.$store.state.data.email }).then(({data}) => {
                         if(!data.status) {
                             this.$message({showClose: true,message: data.data,type: 'error'}); 
@@ -232,7 +232,7 @@ export default {
                             });
                         }
                     });
-                }
+                }).catch();
             }    
         }
     }
