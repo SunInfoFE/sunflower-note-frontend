@@ -36,6 +36,8 @@
             <el-menu-item :index="indexes[4]">密码修改</el-menu-item>
             <el-menu-item :index="indexes[9]" v-if="intern">实习签到</el-menu-item>
             <el-menu-item :index="indexes[10]" v-if="statIntern">实习签到统计</el-menu-item>
+            <el-menu-item :index="indexes[11]" v-if="releaseFood">发布加班餐</el-menu-item>
+            <el-menu-item :index="indexes[12]">点餐</el-menu-item>
           </el-submenu>
         </el-menu>
       </note-menu>
@@ -61,6 +63,8 @@
   import groupCollection from './components/groupCollection.vue';
   import mySigned from './components/mySigned.vue';
   import statSigned from './components/statSigned.vue';
+  import releaseFood from './components/releaseFood.vue'
+  import order from './components/order.vue'
   export default {
     components: {
       noteMenu,
@@ -75,7 +79,9 @@
       todoList,
       groupCollection,
       mySigned,
-      statSigned
+      statSigned,
+      releaseFood,
+      order
     },
     data () {
       return {
@@ -90,7 +96,9 @@
           '/User/todo_list',
           '/User/group_collection',
           '/User/my_signed',
-          '/User/stat_signed'
+          '/User/stat_signed',
+          '/User/release_food',
+          '/User/order'
         ],
         components: [
           'reportCurrentWeek',
@@ -103,13 +111,16 @@
           'todoList',
           'groupCollection',
           'mySigned',
-          'statSigned'
+          'statSigned',
+          'releaseFood',
+          'order'
         ],
         defaultActive: '/User/report-currentWeek',
         currentComponent: 'reportCurrentWeek',
         collector: false, // 是否为多组周报收集者
         intern: false, // 是否为实习生,
-        statIntern: false // 实习生签到统计页面
+        statIntern: false, // 实习生签到统计页面
+        releaseFood:false, //发布食物页面
       }
     },
     watch: {
@@ -126,6 +137,7 @@
       this.collector = this.$store.state.data.collector != 0 ? true : false;
       this.intern = this.$store.state.data.level == 1 ? true : false;
       this.statIntern = this.$store.state.data.level == 2 ? true : false;
+      this.releaseFood = this.$store.state.data.name == "李雪松" ? true : false;
       // 判断路由是否存在,存在设置defaultActive = path
       let index = this.indexes.indexOf(path);
       if (path && index !== -1) {
