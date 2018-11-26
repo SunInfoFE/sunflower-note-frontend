@@ -110,7 +110,6 @@
             </el-tabs>
         </div>
         <el-dialog v-if="viewDialog" :visible.sync="viewDialog" width="700px" title="统计详情">
-            <el-button @click="clearFilter" style="margin-top:0px;">清除过滤器</el-button>
             <el-table ref="filterTable" :data="alldata" style="width: 100%" max-height="550" :empty-text="messageThree">
                     <el-table-column type="selection" width="55"></el-table-column>
                 <el-table-column  prop="foodName" label="晚餐"  width="180"  column-key="foodName" 
@@ -198,16 +197,26 @@ export default {
       }
     },
     deleteDinner(index,rows){
-        $axios.post("/order/admindelete",{userId:rows[index].email,dinner:rows[index].foodName}).then(res=>{
-            if(res.data.status){
-                this.$message.success("删除成功")
-                rows.splice(index, 1);
-                this.getCollectDinner();
-            }else{
-                this.$message.error(res.data.data)
-            }
-        })
-       
+        this.$confirm('确定删除该记录?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+            $axios.post("/order/admindelete",{userId:rows[index].email,dinner:rows[index].foodName}).then(res=>{
+                if(res.data.status){
+                    this.$message.success("删除成功")
+                    rows.splice(index, 1);
+                    this.getCollectDinner();
+                }else{
+                    this.$message.error(res.data.data)
+                }
+            })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
     },
     //发布
     releaseFood() {
