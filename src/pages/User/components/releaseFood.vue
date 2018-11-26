@@ -297,7 +297,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .info {
   height: 30px;
   width: 200px;
