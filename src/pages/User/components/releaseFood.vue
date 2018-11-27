@@ -252,33 +252,35 @@ export default {
     },
     //获取收集板数据
     getCollectDinner() {
-      this.collectFoods.splice(0,this.collectFoods.length);
-      $axios.get("/order/getdinnermount").then(res => {
+      let collectFoods = [];
+      $axios.get("/order/getalluserdinner").then(res => {
         if(!res.data.status){
             this.messageTwo = res.data.data;
         }else{
-            for (let i = 0; i < res.data.data.length; i++) {
-            this.collectFoods.push({
-            foodName: res.data.data[i].dinner,
-            count: res.data.data[i].mount});
-          }
+            let object = {};
+            let data = res.data.data;
+            let alldata = [];
+            for (let i = 0; i < data.length; i++) {
+                let foodName = data[i].dinner;
+                if(typeof object[foodName] === 'undefined'){
+                    object[foodName] = 1;
+                } else {
+                    object[foodName] = object[foodName] + 1;
+                }
+                alldata.push({
+                    foodName: data[i].dinner,
+                    name: data[i].name,
+                    email:data[i].email});
+            }
+            this.alldata = alldata;
+            for (const key in object) {
+                if (object.hasOwnProperty(key)) {
+                    collectFoods.push({foodName: key, count: object[key]});
+                }
+            }
+            this.collectFoods = collectFoods;
         }
       });
-    },
-    //获取详细数据
-    getAllUserDinner(){
-        $axios.get('/order/getalluserdinner').then(res=>{
-            if(res.data.status){
-                for (let i = 0; i < res.data.data.length; i++) {
-                    this.alldata.push({
-                    foodName: res.data.data[i].dinner,
-                    name: res.data.data[i].name,
-                    email:res.data.data[i].email});
-                }
-            }else{
-                this.$message.error(res.data.data)
-            }  
-        })
     },
     filterHandler(value, row, column) {
         const property = column['property'];
@@ -288,9 +290,7 @@ export default {
         this.$refs.filterTable.clearFilter();
     },
     open(){
-        this.alldata.splice(0,this.alldata.length);
         this.viewDialog = true;
-        this.getAllUserDinner()
     }
   },
   mounted() {
