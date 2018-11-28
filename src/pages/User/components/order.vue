@@ -82,7 +82,7 @@ export default {
             this.getTodayDinner();
             this.getUserDinner();
             console.log(res.data.data)
-            if(res.data.data > "22:00:00"){
+            if(res.data.data > "16:00:00"){
                 this.reset = true;
             } else {
                 this.reset = false;
