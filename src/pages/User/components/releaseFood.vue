@@ -72,6 +72,76 @@
                     </el-card>
                 </el-col>
             </el-row>
+            <el-row class="other">
+                <el-col :span="8">
+                    <el-card :body-style="{ paddingBottom: '0px' }">
+                        <img src="../../../assets/images/food/jiucDum.jpg" class="image">
+                        <div style="padding: 14px;">
+                            <span>韭菜鸡蛋馅饺子</span>
+                            <div class="bottom clearfix">
+                                <el-button type="text" class="button" @click="addFood('韭菜鸡蛋饺子')">添加</el-button>
+                            </div>
+                        </div>
+                    </el-card>
+                </el-col>
+                <el-col :span="8">
+                    <el-card :body-style="{ paddingBottom: '0px' }">
+                        <img src="../../../assets/images/food/liancDum.jpg" class="image">
+                        <div style="padding: 14px;">
+                            <span>莲菜猪肉馅饺子</span>
+                            <div class="bottom clearfix">
+                                <el-button type="text" class="button" @click="addFood('莲菜猪肉饺子')">添加</el-button>
+                            </div>
+                        </div>
+                    </el-card>
+                </el-col>
+                <el-col :span="8">
+                    <el-card :body-style="{ paddingBottom: '0px' }">
+                        <img src="../../../assets/images/food/qincDum.jpg" class="image">
+                        <div style="padding: 14px;">
+                            <span>芹菜猪肉馅饺子</span>
+                            <div class="bottom clearfix">
+                                <el-button type="text" class="button" @click="addFood('芹菜猪肉饺子')">添加</el-button>
+                            </div>
+                        </div>
+                    </el-card>
+                </el-col>
+            </el-row>
+            <el-row class="other">
+                <el-col :span="8">
+                    <el-card :body-style="{ paddingBottom: '0px' }">
+                        <img src="../../../assets/images/food/xiarDum.jpg" class="image">
+                        <div style="padding: 14px;">
+                            <span>虾仁西葫芦馅饺子</span>
+                            <div class="bottom clearfix">
+                                <el-button type="text" class="button" @click="addFood('虾仁西葫芦饺子')">添加</el-button>
+                            </div>
+                        </div>
+                    </el-card>
+                </el-col>
+                <el-col :span="8">
+                    <el-card :body-style="{ paddingBottom: '0px' }">
+                        <img src="../../../assets/images/food/luobDum.jpg" class="image">
+                        <div style="padding: 14px;">
+                            <span>萝卜猪肉馅饺子</span>
+                            <div class="bottom clearfix">
+                                <el-button type="text" class="button" @click="addFood('萝卜猪肉饺子')">添加</el-button>
+                            </div>
+                        </div>
+                    </el-card>
+                </el-col>
+                <el-col :span="8">
+                    <el-card :body-style="{ paddingBottom: '0px' }">
+                        <img src="../../../assets/images/food/baicDum.jpg" class="image">
+                        <div style="padding: 14px;">
+                            <span>白菜猪肉馅饺子</span>
+                            <div class="bottom clearfix">
+                                <el-button type="text" class="button" @click="addFood('白菜猪肉饺子')">添加</el-button>
+                            </div>
+                        </div>
+                    </el-card>
+                </el-col>
+            </el-row>
         </div>
         <div class="total">
             <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card">
@@ -80,7 +150,7 @@
                         <div slot="header" class="clearfix">
                             <span class="releaseSpan">加班餐发布板</span>
                         </div>
-                        <el-table :data="releaseFoods" style="width:100%;" max-height="450" :empty-text="messageOne" >
+                        <el-table :data="releaseFoods" style="width:100%;" max-height="400" :empty-text="messageOne" >
                             <el-table-column fixed prop="foodName" label="加班餐" width="150" align="center" ></el-table-column>
                             <el-table-column fixed="right" label="操作" width="150" align="center">
                                 <template slot-scope="scope">

@@ -32,7 +32,12 @@ import rice from "../../../assets/images/food/rice.jpg";
 import cb from "../../../assets/images/food/bing.jpg";
 import cm from "../../../assets/images/food/noodles.jpg";
 import clt from "../../../assets/images/food/latiao.jpg";
-import mx from "../../../assets/images/food/mixian.jpg";
+import jiucDum from "../../../assets/images/food/jiucDum.jpg";
+import liancDum from "../../../assets/images/food/liancDum.jpg";
+import luobDum from "../../../assets/images/food/luobDum.jpg";
+import qincDum from "../../../assets/images/food/qincDum.jpg";
+import xiarDum from "../../../assets/images/food/xiarDum.jpg";
+import baicDum from "../../../assets/images/food/baicDum.jpg";
 import $axios from '@/plugins/ajax'
 export default {
   data() {
@@ -66,6 +71,18 @@ export default {
                       dinnerArr.push(clt)
                   } else if(this.todayDinner[i].dinner == '米线肉夹馍') {
                       dinnerArr.push(mx)
+                  } else if(this.todayDinner[i].dinner == '韭菜鸡蛋饺子') {
+                      dinnerArr.push(jiucDum)
+                  } else if(this.todayDinner[i].dinner == '莲菜猪肉饺子') {
+                      dinnerArr.push(liancDum)
+                  } else if(this.todayDinner[i].dinner == '萝卜猪肉饺子') {
+                      dinnerArr.push(luobDum)
+                  } else if(this.todayDinner[i].dinner == '芹菜猪肉饺子') {
+                      dinnerArr.push(qincDum)
+                  } else if(this.todayDinner[i].dinner == '虾仁西葫芦鸡蛋饺子') {
+                      dinnerArr.push(xiarDum)
+                  } else if(this.todayDinner[i].dinner == '白菜猪肉饺子') {
+                      dinnerArr.push(baicDum)
                   }
               
             }
