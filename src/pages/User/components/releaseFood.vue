@@ -114,7 +114,7 @@
                         <div style="padding: 14px;">
                             <span>虾仁西葫芦馅饺子</span>
                             <div class="bottom clearfix">
-                                <el-button type="text" class="button" @click="addFood('虾仁西葫芦饺子')">添加</el-button>
+                                <el-button type="text" class="button" @click="addFood('虾仁西葫芦鸡蛋饺子')">添加</el-button>
                             </div>
                         </div>
                     </el-card>
