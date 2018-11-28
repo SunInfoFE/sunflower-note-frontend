@@ -183,8 +183,7 @@
             <el-table ref="filterTable" :data="alldata" style="width: 100%" max-height="550" :empty-text="messageThree">
                     <el-table-column type="selection" width="55"></el-table-column>
                 <el-table-column  prop="foodName" label="晚餐"  width="180"  column-key="foodName" 
-                :filters="[{text:'米饭',value:'米饭'},{text:'米线肉夹馍',value:'米线肉夹馍'},{text:'炒饼丝',value:'炒饼丝'},
-                {text:'炒面',value:'炒面'},{text:'炒拉条',value:'炒拉条'},{text:'冒菜',value:'冒菜'}]" 
+                :filters = filtersFood
                 :filter-method="filterHandler"></el-table-column>
                 <el-table-column prop="name" label="姓名" width="180"></el-table-column>
                 <el-table-column fixed="right" label="操作" width="150" align="center">
@@ -210,8 +209,9 @@ export default {
       messageTwo: "", //请先发布加班餐
       messageThree: "", //还没有人点餐
       viewDialog: false,
-      alldata:[]
-      }
+      alldata:[],
+      filtersFood:[],
+    }
   },
   created() {
       this.init();
@@ -219,7 +219,9 @@ export default {
   methods: {
       init() {
           $axios.get('/order/init').then(res=>{
-              this.getDinner();
+      
+                  this.getDinner();
+              
           })
       },
     handleClick(tab, event) {
@@ -290,10 +292,32 @@ export default {
     },
     //发布
     releaseFood() {
+        console.log(this.releaseFoods)
+        let foodList = []
       if (this.releaseFoods.length <= 1) {
         this.$message.error("请至少选择两种晚餐");
       } else {
-        $axios.post("/order/setdinner", {dinner: this.releaseFoods}).then(res => {
+          console.log(this.releaseFoods)
+        foodList = JSON.parse(JSON.stringify(this.releaseFoods))
+        console.log(this.releaseFoods)
+        for(let i = 0;i < foodList.length; i++) {
+            if(foodList[i].foodName == '米线肉夹馍') {
+                foodList.splice(i, 1);
+                foodList.push({foodName: '辣米线肥瘦肉夹馍'})
+                foodList.push({foodName: '辣米线纯瘦肉夹馍'})
+                foodList.push({foodName: '不辣米线肥瘦肉夹馍'})
+                foodList.push({foodName: '不辣米线纯瘦肉夹馍'})
+                foodList.push({foodName: '两个肥瘦肉夹馍'})
+                foodList.push({foodName: '两个纯瘦肉夹馍'})
+                foodList.push({foodName: '一肥一瘦肉夹馍'})
+            } else if(foodList[i].foodName == '冒菜') {
+                foodList.splice(i, 1);
+                foodList.push({foodName: '辣冒菜'})
+                foodList.push({foodName: '不辣冒菜'})
+            }
+        }
+        console.log(this.releaseFoods)
+        $axios.post("/order/setdinner", {dinner: foodList}).then(res => {
             if (res.data.status == 2) {
                 this.$message.error(res.data.data);
                 }else{
@@ -309,14 +333,29 @@ export default {
     //发布板获取数据
     getDinner() {
       $axios.get("/order/gettodaydinner").then(res => {
+          let obj = {}
         if (!res.data.status) {
           this.messageOne = res.data.data;
         } else {
           this.released = true;
           this.notRelease = false;
           for (let i = 0; i < res.data.data.length; i++) {
-            this.releaseFoods.push({ foodName: res.data.data[i].dinner });
+              if(res.data.data[i].dinner.indexOf("米线") != -1) {
+                  obj["米线肉夹馍"] = 1
+              } else if(res.data.data[i].dinner.indexOf("肉夹馍") != -1) {
+                  obj["米线肉夹馍"] = 1
+              } else if(res.data.data[i].dinner.indexOf("冒菜") != -1) {
+                  obj["冒菜"] = 1
+              } else {
+                  obj[res.data.data[i].dinner] = 1
+              }
           }
+            for (const i in obj) {
+                if (obj.hasOwnProperty(i)) {
+                    this.releaseFoods.push({foodName: i})
+                    
+                }
+            }
         }
       });
     },
@@ -352,6 +391,17 @@ export default {
         }
       });
     },
+    //获取筛选框里的食物
+    getFiltersFood(){
+        $axios.get("/order/getTodayDinner").then( res =>{
+            for(let i=0;i<res.data.data.length;i++){
+                this.filtersFood.push({
+                    text:res.data.data[i].dinner,
+                    value:res.data.data[i].dinner
+                })
+            }
+        })
+    },
     filterHandler(value, row, column) {
         const property = column['property'];
         return row[property] === value;
@@ -364,6 +414,7 @@ export default {
     }
   },
   mounted() {
+      this.getFiltersFood()
   }
 };
 </script>

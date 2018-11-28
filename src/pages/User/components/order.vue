@@ -4,10 +4,12 @@
              <span class="title">请在下午4点之前选择今天你想吃的晚餐</span>
          </div>
         <el-row type="flex" justify="center">
-            <el-col :span="4" v-for="(o, index) in dinner.length" :key="o" :offset="index > 0 ? 1 : 0">
+            <el-col span="6" v-for="(o, index) in dinner.length" :key="o" :offset="index > 0 ? 1 : 0">
                 <div class="content" @click="chooseDinner(index)">
-                    <el-card :span="6" class="box menu" :body-style="{ padding: '0px' }" >
-                <img :src='dinner[index]' class="image" alt="">
+                    <el-card span="6" class="box menu" :body-style="{ padding: '0px' }" >
+                        <div>
+                            <img :src='dinner[index]' class="image" alt="">
+                        </div>
                 <div style="padding: 14px; text-align:center">
                     <span class='dinner'>{{ dinnerChoose[index] }}</span>
                     <div class="bottom clearfix">
@@ -32,12 +34,14 @@ import rice from "../../../assets/images/food/rice.jpg";
 import cb from "../../../assets/images/food/bing.jpg";
 import cm from "../../../assets/images/food/noodles.jpg";
 import clt from "../../../assets/images/food/latiao.jpg";
+import mx from "../../../assets/images/food/mixian.jpg";
 import jiucDum from "../../../assets/images/food/jiucDum.jpg";
 import liancDum from "../../../assets/images/food/liancDum.jpg";
 import luobDum from "../../../assets/images/food/luobDum.jpg";
 import qincDum from "../../../assets/images/food/qincDum.jpg";
 import xiarDum from "../../../assets/images/food/xiarDum.jpg";
 import baicDum from "../../../assets/images/food/baicDum.jpg";
+import jiamo from "../../../assets/images/food/jiamo.jpg"
 import $axios from '@/plugins/ajax'
 export default {
   data() {
@@ -65,11 +69,11 @@ export default {
                       dinnerArr.push(cb)
                   } else if(this.todayDinner[i].dinner == '炒面') {
                       dinnerArr.push(cm)
-                  } else if(this.todayDinner[i].dinner == '冒菜') {
+                  } else if(this.todayDinner[i].dinner.indexOf('冒菜') != -1) {
                       dinnerArr.push(mc)
                   } else if(this.todayDinner[i].dinner == '炒拉条') {
                       dinnerArr.push(clt)
-                  } else if(this.todayDinner[i].dinner == '米线肉夹馍') {
+                  } else if(this.todayDinner[i].dinner.indexOf('米线') != -1) {
                       dinnerArr.push(mx)
                   } else if(this.todayDinner[i].dinner == '韭菜鸡蛋饺子') {
                       dinnerArr.push(jiucDum)
@@ -83,6 +87,8 @@ export default {
                       dinnerArr.push(xiarDum)
                   } else if(this.todayDinner[i].dinner == '白菜猪肉饺子') {
                       dinnerArr.push(baicDum)
+                  } else if(this.todayDinner[i].dinner.indexOf('肉夹馍') != -1) {
+                      dinnerArr.push(jiamo)
                   }
               
             }
@@ -264,7 +270,7 @@ export default {
     margin-left: 10%;
 }
 .image {
-    height: 180px;
+    height: 100%;
     width: 100%;
     display: block;
 }
