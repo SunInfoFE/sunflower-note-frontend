@@ -387,7 +387,7 @@ export default {
                     collectFoods.push({foodName: key, count: object[key]});
                 }
             }
-            this.collectFoods = getRealFoodsCount(collectFoods);
+            this.collectFoods = this.getRealFoodsCount(collectFoods);
         }
       });
     },
