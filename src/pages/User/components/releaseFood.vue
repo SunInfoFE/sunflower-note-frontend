@@ -387,9 +387,46 @@ export default {
                     collectFoods.push({foodName: key, count: object[key]});
                 }
             }
-            this.collectFoods = collectFoods;
+            this.collectFoods = getRealFoodsCount(collectFoods);
         }
       });
+    },
+    getRealFoodsCount(data){
+        var item = {'肥瘦肉夹馍': 0, '纯瘦肉夹馍': 0, '辣米线': 0, '不辣米线': 0};
+        for (let i = 0; i < data.length; i++) {
+            let element = data[i]; 
+            if (element.foodName === '两个纯瘦肉夹馍') {
+                item['纯瘦肉夹馍'] = item['纯瘦肉夹馍'] + 2 * element.count;
+            } else if (element.foodName === '两个肥瘦肉夹馍') {
+                item['肥瘦肉夹馍'] = item['肥瘦肉夹馍'] + 2 * element.count;
+            } else if (element.foodName === '一肥一瘦肉夹馍') {
+                item['纯瘦肉夹馍'] = item['纯瘦肉夹馍'] + element.count;
+                item['肥瘦肉夹馍'] = item['肥瘦肉夹馍'] + element.count;
+            } else if (element.foodName === '辣米线纯瘦肉夹馍') {
+                item['辣米线'] = item['辣米线'] + element.count;
+                item['纯瘦肉夹馍'] = item['纯瘦肉夹馍'] + element.count;
+            } else if (element.foodName === '辣米线肥瘦肉夹馍') {
+                item['辣米线'] = item['辣米线'] + element.count;
+                item['肥瘦肉夹馍'] = item['肥瘦肉夹馍'] + element.count;
+            } else if (element.foodName === '不辣米线肥瘦肉夹馍') {
+                item['不辣米线'] = item['不辣米线'] + element.count;
+                item['肥瘦肉夹馍'] = item['肥瘦肉夹馍'] + element.count;
+            } else if (element.foodName === '不辣米线纯瘦肉夹馍') {
+                item['不辣米线'] = item['不辣米线'] + element.count;
+                item['纯瘦肉夹馍'] = item['纯瘦肉夹馍'] + element.count;
+            } else {
+                item[element.foodName] = element.count;
+            }
+        }
+        var tData = [];
+        for (const key in item) {
+            if (item.hasOwnProperty(key)) {
+                if(item[key] != 0) {
+                    tData.push({foodName:key, count: item[key]});
+                }
+            }
+        }
+        return tData;
     },
     //获取筛选框里的食物
     getFiltersFood(){
