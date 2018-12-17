@@ -3,7 +3,6 @@ create by YOU
 */
 <template>
   <div>
-    <el-button type="primary" @click="test()">测试</el-button>
     <div class="query-wrapper" style="margin-bottom: 20px">
       <el-date-picker
         v-model="currentWeek"
@@ -114,11 +113,6 @@ create by YOU
       }
     },
     methods: {
-      test() {
-        $axios.post('/order/modifydinner',{oldDinner:'米饭', newDinner:'冒菜'}).then(res=>{
-          console.log(res)
-        })
-      },
       getData() {
         $axios.post('/report/myReport/get').then(({data}) => {
           if (data.status) {
