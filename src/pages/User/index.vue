@@ -38,6 +38,7 @@
             <el-menu-item :index="indexes[10]" v-if="statIntern">实习签到统计</el-menu-item>
             <el-menu-item :index="indexes[11]" v-if="releaseFood">发布加班餐</el-menu-item>
             <el-menu-item :index="indexes[12]">点餐</el-menu-item>
+            <el-menu-item :index="indexes[13]">IP管理</el-menu-item>
           </el-submenu>
         </el-menu>
       </note-menu>
@@ -65,6 +66,7 @@
   import statSigned from './components/statSigned.vue';
   import releaseFood from './components/releaseFood.vue'
   import order from './components/order.vue'
+  import ipManage from './components/ipManage.vue'
   export default {
     components: {
       noteMenu,
@@ -81,7 +83,8 @@
       mySigned,
       statSigned,
       releaseFood,
-      order
+      order,
+      ipManage
     },
     data () {
       return {
@@ -98,7 +101,8 @@
           '/User/my_signed',
           '/User/stat_signed',
           '/User/release_food',
-          '/User/order'
+          '/User/order',
+          '/User/ip_manage'
         ],
         components: [
           'reportCurrentWeek',
@@ -113,7 +117,8 @@
           'mySigned',
           'statSigned',
           'releaseFood',
-          'order'
+          'order',
+          'ipManage'
         ],
         defaultActive: '/User/report-currentWeek',
         currentComponent: 'reportCurrentWeek',
