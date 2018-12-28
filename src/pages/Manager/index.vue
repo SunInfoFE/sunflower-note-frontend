@@ -27,6 +27,10 @@
             <i class="el-icon-edit-outline"></i>
             实习签到
           </el-menu-item>
+          <el-menu-item :index="indexes[5]">
+            <i class="el-icon-edit-outline"></i>
+            ip管理
+          </el-menu-item>
         </el-menu>
       </note-menu>
     </template>
@@ -44,6 +48,7 @@
   import systemSet from './components/systemSet.vue'
   import collectorSet from './components/collectorSet.vue'
   import internSet from './components/internSet.vue'
+  import ipManage from './components/ipManage.vue'
   export default {
     components: {
       noteMenu,
@@ -52,7 +57,8 @@
       systemSet,
       receiverManage,
       collectorSet,
-      internSet
+      internSet,
+      ipManage
     },
     data() {
       return {
@@ -61,14 +67,16 @@
           '/Manager/system-set',
           '/Manager/receiver-manage',
           '/Manager/collector-set',
-          '/Manager/intern-set'
+          '/Manager/intern-set',
+          '/Manager/ip-manage'
         ],
         components: [
           'teamManage',
           'systemSet',
           'receiverManage',
           'collectorSet',
-          'internSet'
+          'internSet',
+          'ipManage'
         ],
         defaultActive: '/Manager/team-manage',
         currentComponent: 'teamManage'

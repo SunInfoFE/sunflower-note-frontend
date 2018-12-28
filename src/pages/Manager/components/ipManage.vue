@@ -1,57 +1,5 @@
 <template>
     <div>
-        <div class="myIp">
-            <p class="message">我拥有的IP</p>
-            <el-table
-                :data="tableData1"
-                :border= 'true'>
-                <el-table-column
-                    type="index"
-                    width="50"
-                    align="center">
-                </el-table-column>
-                <el-table-column
-                    prop="networkSegment"
-                    label="所属网段"
-                    width="180"
-                    align="center">
-                </el-table-column>
-                <el-table-column
-                    prop="ip"
-                    label="IP"
-                    width="230"
-                    align="center">
-                </el-table-column>
-                <el-table-column
-                    prop="remarks"
-                    label="备注"
-                    align="center">
-                </el-table-column>
-                <el-table-column
-                    fixed="right"
-                    label="操作"
-                    width="180"
-                    align="center">
-                    <template slot-scope="scope">
-                        <el-button
-                            @click.native.prevent="returnIp(scope.row)"
-                            type="primary"
-                            size="small">
-                            退还
-                        </el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <el-pagination
-                class="pagination"
-                @size-change="myIpHandleSizeChange"
-                @current-change="myIpHandleCurrentChange"
-                :current-page="myIpCurrentPage"
-                :page-size="myIpSize"
-                layout="total, prev, pager, next, jumper"
-                :total="myIpTotal">
-            </el-pagination>
-        </div>
         <div class="ipTable">
             <el-tabs
                 v-model="activeName"
@@ -146,11 +94,11 @@
                                 align="center">
                                 <template slot-scope="scope">
                                     <el-button 
-                                        @click.native.prevent="applyIp(scope.row)"
-                                        :type="type(scope.row)"
+                                        @click.native.prevent="returnIp(scope.row)"
+                                        type="primary"
                                         :disabled="forbidden(scope.row)"
                                         size="small">
-                                        申请此IP
+                                        退还
                                     </el-button>
                                 </template>
                             </el-table-column>
@@ -217,9 +165,6 @@ import $axios from "@/plugins/ajax";
 export default {
      data() {
         return {
-            myIpCurrentPage: 1,
-            myIpSize: 2,
-            myIpTotal: 0,
             netNum: '192.168.',
             segment212: [],                         // 212网段的ip信息
             segment213: [],                         // 213网段的ip信息
@@ -230,7 +175,6 @@ export default {
                 searchNetworkSegment: '',//网段过滤
             },
             applyIpAddress:'', //要申请的ip地址
-            myIpData: [],
             allIpData: [],
             options1: [{
                 value: '被占用',
@@ -275,20 +219,6 @@ export default {
             console.log(segment, num)
             this.applyIpDialog = true
         },
-        //获取我的IP
-        getMyIpList(){
-            $axios.get("/ipmanage/getmyip").then(res => {
-                for(let i=0;i<res.data.data.length;i++){
-                    this.myIpData.push(
-                        {
-                            networkSegment: this.anaSegment(res.data.data[i].ip),
-                            ip: res.data.data[i].ip,
-                            remarks:res.data.data[i].remarks
-                        }
-                    );
-                }
-            })
-        },
         //表格数据根据“可申请”和“被占用”显示不同的颜色
         tableRowClassName({row, rowIndex}) {
             if(row.used === '被占用'){
@@ -300,17 +230,9 @@ export default {
         // 绑定disabled属性，设置按钮根据“可申请”和“被占用”可用否
         forbidden(row){
             if(row.used === '被占用'){
-                return true;
-            }else if(row.used === '可申请'){
                 return false;
-            }
-        },
-        //绑定button的type属性，设置类型根据“可申请”和“被占用”显示不同的type
-        type(row) { 
-            if(row.used === '被占用'){
-                return 'danger';
-            }else if(row.used === "可申请"){
-                return 'primary';
+            }else if(row.used === '可申请'){
+                return true;
             }
         },
         //根据ip地址获取网段
@@ -339,17 +261,10 @@ export default {
             $axios.post("/ipmanage/applyip",{ip:this.applyIpAddress,remarks:this.editRemarks}).then(res =>{
                 if(res.data.status){
                     this.applyIpDialog = false;
-                    this.myIpData.push({
-                        ip: this.applyIpAddress,
-                        remarks: this.editRemarks,
-                        networkSegment: this.anaSegment(this.applyIpAddress)
-                    });
                     this.allIpData = [];
-                    this.myIpData = [];
                     this.segment212 = [];
                     this.segment213 = []
                     this.getAllIpList();
-                    this.getMyIpList();
                     this.anaIpPool()
                     this.$message.success('申请成功，如闲置请及时退还')
                 }else{
@@ -366,13 +281,11 @@ export default {
             }).then(() =>{
                 $axios.post("/ipmanage/returnip",{ip:row.ip}).then(res => {
                     if(res.data.status){
-                        this.$message.success('退换成功，谢谢！')
+                        this.$message.success('退换成功')
                         this.allIpData = [];
-                        this.myIpData = [];
                         this.segment212 = [];
                         this.segment213 = []
                         this.getAllIpList();
-                        this.getMyIpList();
                         this.anaIpPool();
                     }else{
                         this.$message.error('退换失败，请手动刷新后重试')
@@ -385,12 +298,6 @@ export default {
                 });       
             })
             
-        },
-        myIpHandleSizeChange(val){
-            this.myIpSize = val;
-        },
-        myIpHandleCurrentChange(val){
-            this.myIpCurrentPage =val;
         },
         handleSizeChange(val) {
             this.size = val;
@@ -408,7 +315,6 @@ export default {
     mounted () {
         // this.searchData.searchIp = this.$store.state.data.name
         this.getAllIpList();
-        this.getMyIpList();
         this.anaIpPool();
     },
     computed: {
@@ -444,19 +350,6 @@ export default {
                 }
             })
         },
-        //myIpData 按分页显示数据
-        tableData1() {
-            this.myIpTotal = this.myIpData.length;
-            let from = (this.myIpCurrentPage - 1) * this.myIpSize;
-            let to = this.myIpCurrentPage * this.myIpSize;
-            let tableData = [];
-            for(; from < to; from++){
-                if(this.myIpData[from]){
-                    tableData.push(this.myIpData[from]);
-                }
-            }
-            return tableData;
-        },
         //allIpData表 按分页条件显示数据
         tableData2() {
             this.total = this.tableDataFilter.length;
@@ -487,12 +380,8 @@ export default {
     margin-bottom: 10px;
     color: #888;
 }
-.myIp{
-    width:60%;
-}
 .ipTable{
     width: 60%;
-    margin-top: 50px;
 }
 .head{
     display: flex;
