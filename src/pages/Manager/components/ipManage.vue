@@ -120,7 +120,7 @@
                         <el-tab-pane label="212网段" name="segment212">
                             <div class="overview">
                                 <div v-for="(i, index) in segment212.length" :key="i">
-                                    <div v-if="!Number(segment212[index].used)" class="ipbox" @click="apply(212, i)">
+                                    <div v-if="!Number(segment212[index].used)" class="ipbox">
                                         <span class="address">{{String(segment212[index].ip).split('.')[3]}}</span>
                                     </div>
                                     <div v-else class="ipbox ipbox_used">
@@ -132,7 +132,7 @@
                         <el-tab-pane label="213网段" name="segment213">
                             <div class="overview">
                                 <div v-for="(i, index) in segment213.length" :key="i">
-                                    <div v-if="!Number(segment213[index].used)" class="ipbox" @click="apply(213, i)">
+                                    <div v-if="!Number(segment213[index].used)" class="ipbox">
                                         <span class="address">{{String(segment213[index].ip).split('.')[3]}}</span>
                                     </div>
                                     <div v-else class="ipbox ipbox_used">
@@ -248,27 +248,6 @@ export default {
                     } else if (String(res.data.data[i].ip).split('.')[2] == 213) {
                         this.segment213.push(res.data.data[i])
                     }
-                }
-            })
-        },
-        //申请IP
-        applyIp(row){
-            this.applyIpDialog = true;
-            this.applyIpAddress = row.ip;
-        },
-        //确认申请
-        confirmApplyIp(){
-            $axios.post("/ipmanage/applyip",{ip:this.applyIpAddress,remarks:this.editRemarks}).then(res =>{
-                if(res.data.status){
-                    this.applyIpDialog = false;
-                    this.allIpData = [];
-                    this.segment212 = [];
-                    this.segment213 = []
-                    this.getAllIpList();
-                    this.anaIpPool()
-                    this.$message.success('申请成功，如闲置请及时退还')
-                }else{
-                    this.$message.error('申请失败，请手动刷新后重试');
                 }
             })
         },
