@@ -169,27 +169,27 @@
                 </el-tab-pane>
                 <el-tab-pane label="IP资产池" name="second">
                     <el-tabs v-model="currentSegment">
-                        <el-tab-pane label="212网段" name="segment212">
+                        <el-tab-pane v-for="(o, indexs) in segment.length" :key="o" :label="`${segment[indexs]}网段`" :name="segment[indexs]">
                             <div class="overview">
-                                <div v-for="(i, index) in segment212.length" :key="i">
-                                    <div v-if="!Number(segment212[index].used)" class="ipbox" @click="apply(212, i)">
-                                        <span class="address">{{String(segment212[index].ip).split('.')[3]}}</span>
-                                    </div>
-                                    <div v-else class="ipbox ipbox_used">
-                                        <span class="address">{{String(segment212[index].ip).split('.')[3]}}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </el-tab-pane>
-                        <el-tab-pane label="213网段" name="segment213">
-                            <div class="overview">
-                                <div v-for="(i, index) in segment213.length" :key="i">
-                                    <div v-if="!Number(segment213[index].used)" class="ipbox" @click="apply(213, i)">
-                                        <span class="address">{{String(segment213[index].ip).split('.')[3]}}</span>
-                                    </div>
-                                    <div v-else class="ipbox ipbox_used">
-                                        <span class="address">{{String(segment213[index].ip).split('.')[3]}}</span>
-                                    </div>
+                                <div v-for="(i,index) in ipData[indexs].length" :key="i">
+                                    <el-popover
+                                      placement="top-start"
+                                      width="200"
+                                      trigger="hover">
+                                        <div>
+                                            <p>IP地址：{{ipData[indexs][index].ip}}</p>
+                                            <p v-if="Number(ipData[indexs][index].used)">状态：被使用</p>
+                                            <p v-else>状态：可用</p>
+                                            <p v-if="Number(ipData[indexs][index].used)">使用人：{{ipData[indexs][index].name}}</p>
+                                            <p v-else>使用人：无</p>
+                                        </div>
+                                        <div slot="reference" v-if="!Number(ipData[indexs][index].used)" class="ipbox" @click="apply(segment[indexs], i)">
+                                            <span class="address">{{String(ipData[indexs][index].ip).split('.')[3]}}</span>
+                                        </div>
+                                        <div slot="reference" v-else class="ipbox ipbox_used">
+                                            <span class="address">{{String(ipData[indexs][index].ip).split('.')[3]}}</span>
+                                        </div>
+                                    </el-popover>
                                 </div>
                             </div>
                         </el-tab-pane>
@@ -221,9 +221,7 @@ export default {
             myIpSize: 2,
             myIpTotal: 0,
             netNum: '192.168.',
-            segment212: [],                         // 212网段的ip信息
-            segment213: [],                         // 213网段的ip信息
-            currentSegment: 'segment212',           // 默认展示212网段
+            currentSegment: '',           // 默认展示网段
             searchData:{ 
                 ifUsed: '',// 是否可用
                 searchIp: '',//搜索
@@ -248,31 +246,39 @@ export default {
             activeName: 'first',//默认tab页
             applyIpDialog: false,
             editRemarks: '个人使用',
+            segment: [], // 保存网段的数组
+            ipData: [] // 分段之后的ip数据
         }
       },
        methods: {
         //获取所有IP
         getAllIpList(){
+            let temp = [] // 保存整个网段的ip的临时数组
             $axios.get("/ipmanage/getallip").then(res =>{
-                console.log(res)
+                // 将ipData置空，清空上一次push的数据
+                this.ipData = []
+                // 将IP数据按网段保存在一个二维数组中
                 for(let i =0 ;i<res.data.data.length;i++){
+                    temp.push(res.data.data[i])
+                    if( (i+1) % 254 === 0) {
+                        this.ipData.push(temp)
+                        temp = []
+                    }
                     this.allIpData.push(
                         {   
                             networkSegment: this.anaSegment(res.data.data[i].ip),
                             ip: res.data.data[i].ip,
                             used: res.data.data[i].used == 0 ? '可申请':'被占用',
-                            name: res.data.data[i].name == ''? '无':res.data.data[i].name,
+                            name: res.data.data[i].name == '' ? '无':res.data.data[i].name,
                             remarks: res.data.data[i].remarks == ''? '无':res.data.data[i].remarks
                         }
                     ); 
                 }
-                // this.anaIpPool(res.data.data)
             })
         },
         // 点击资产池IP按钮
         apply(segment, num) {
             this.applyIpAddress = `${this.netNum}${segment}.${num}`
-            console.log(segment, num)
             this.applyIpDialog = true
         },
         //获取我的IP
@@ -287,6 +293,16 @@ export default {
                         }
                     );
                 }
+            })
+        },
+        // 获取网段的种类
+        getSegment() {
+            $axios.get(`/ipmanage/getsegment`).then(res => {
+                this.segment = []
+                for (let i = 0; i < res.data.data.length; i++) {
+                    this.segment.push(res.data.data[i].segment)
+                }
+                this.currentSegment = this.segment[0]
             })
         },
         //表格数据根据“可申请”和“被占用”显示不同的颜色
@@ -317,18 +333,6 @@ export default {
         anaSegment(ip) {
             return  String(ip.split('.')[2]) + '网段';
         },
-        // 分析网段，获得各个网段的ip信息
-        anaIpPool() {
-            $axios.get(`/ipmanage/getallip`).then(res => {
-                for (let i = 0; i < res.data.data.length; i++) {
-                    if (String(res.data.data[i].ip).split('.')[2] == 212) {
-                        this.segment212.push(res.data.data[i])
-                    } else if (String(res.data.data[i].ip).split('.')[2] == 213) {
-                        this.segment213.push(res.data.data[i])
-                    }
-                }
-            })
-        },
         //申请IP
         applyIp(row){
             this.applyIpDialog = true;
@@ -346,11 +350,9 @@ export default {
                     });
                     this.allIpData = [];
                     this.myIpData = [];
-                    this.segment212 = [];
-                    this.segment213 = []
                     this.getAllIpList();
                     this.getMyIpList();
-                    this.anaIpPool()
+                    this.getSegment();
                     this.$message.success('申请成功，如闲置请及时退还')
                 }else{
                     this.$message.error('申请失败，请手动刷新后重试');
@@ -369,11 +371,9 @@ export default {
                         this.$message.success('退换成功，谢谢！')
                         this.allIpData = [];
                         this.myIpData = [];
-                        this.segment212 = [];
-                        this.segment213 = []
                         this.getAllIpList();
                         this.getMyIpList();
-                        this.anaIpPool();
+                        this.getSegment();
                     }else{
                         this.$message.error('退换失败，请手动刷新后重试')
                     }
@@ -409,7 +409,7 @@ export default {
         // this.searchData.searchIp = this.$store.state.data.name
         this.getAllIpList();
         this.getMyIpList();
-        this.anaIpPool();
+        this.getSegment();
     },
     computed: {
         //过滤器
