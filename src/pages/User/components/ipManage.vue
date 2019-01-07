@@ -4,11 +4,13 @@
             <el-tabs
                 v-model="activeName"
                 type="border-card"
-                style="width:100%;height:700px;"
+                style="width:100%;"
                 @tab-click="handleClick">
                 <el-tab-pane label="我拥有的IP" name="first">
                      <el-table
                         :data="myIpData"
+                        style="height:700px;"
+                        max-height="700"
                         :border= 'true'>
                         <el-table-column
                             type="index"
