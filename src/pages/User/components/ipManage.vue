@@ -8,7 +8,7 @@
                 @tab-click="handleClick">
                 <el-tab-pane label="我拥有的IP" name="first">
                      <el-table
-                        :data="myIpData"
+                        :data="myIpTableData"
                         style="height:700px;"
                         max-height="700"
                         :border= 'true'>
@@ -49,6 +49,13 @@
                             </template>
                         </el-table-column>
                     </el-table>
+                    <el-pagination
+                        class="pagination"
+                        @current-change="handleMyIpCurrentPage"
+                        :current-page="myIpCurrentPage"
+                        layout="total, prev, pager, next, jumper"
+                        :total="myIpTotal">
+                    </el-pagination>
                 </el-tab-pane>
                 <el-tab-pane label="IP资产管理" name="second">
                     <div class="head">
@@ -234,7 +241,9 @@ export default {
             applyIpDialog: false,
             editRemarks: '个人使用',
             segment: [], // 保存网段的数组
-            ipData: [] // 分段之后的ip数据
+            ipData: [], // 分段之后的ip数据
+            myIpTotal:0,
+            myIpCurrentPage:1,
         }
       },
        methods: {
@@ -372,6 +381,9 @@ export default {
         handleCurrentChange(val) {
             this.currentPage = val;
         },
+        handleMyIpCurrentPage(val){
+            this.myIpCurrentPage = val;
+        },
         //切换tab页的时候，请求该tab页下的数据
         handleClick(event){
             if(event.name == "first"){
@@ -439,7 +451,20 @@ export default {
                 }
             }
             return data;
+        },
+        //myIPData表 按分页条件显示数据
+        myIpTableData(){
+            this.myIpTotal = this.myIpData.length
+            let from = (this.myIpCurrentPage - 1)* 10;
+            let to = this.myIpCurrentPage *10;
+            let data = []
+            for(;from < to; from++){
+                if(this.myIpData[from])
+                data.push(this.myIpData[from])
+            }
+            return  data
         }
+        
     },
     watch: {
         applyIpDialog: function(){
