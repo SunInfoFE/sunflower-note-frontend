@@ -1,63 +1,54 @@
 <template>
     <div>
-        <div class="myIp">
-            <p class="message">我拥有的IP</p>
-            <el-table
-                :data="tableData1"
-                :border= 'true'>
-                <el-table-column
-                    type="index"
-                    width="50"
-                    align="center">
-                </el-table-column>
-                <el-table-column
-                    prop="networkSegment"
-                    label="所属网段"
-                    width="180"
-                    align="center">
-                </el-table-column>
-                <el-table-column
-                    prop="ip"
-                    label="IP"
-                    width="230"
-                    align="center">
-                </el-table-column>
-                <el-table-column
-                    prop="remarks"
-                    label="备注"
-                    align="center">
-                </el-table-column>
-                <el-table-column
-                    fixed="right"
-                    label="操作"
-                    width="180"
-                    align="center">
-                    <template slot-scope="scope">
-                        <el-button
-                            @click.native.prevent="returnIp(scope.row)"
-                            type="primary"
-                            size="small">
-                            退还
-                        </el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <el-pagination
-                class="pagination"
-                @size-change="myIpHandleSizeChange"
-                @current-change="myIpHandleCurrentChange"
-                :current-page="myIpCurrentPage"
-                :page-size="myIpSize"
-                layout="total, prev, pager, next, jumper"
-                :total="myIpTotal">
-            </el-pagination>
-        </div>
         <div class="ipTable">
             <el-tabs
                 v-model="activeName"
                 type="border-card"
-                @tab-click="handleModeChange">
-                <el-tab-pane label="IP资产管理" name="first">
+                style="width:100%;height:700px;"
+                @tab-click="handleClick">
+                <el-tab-pane label="我拥有的IP" name="first">
+                     <el-table
+                        :data="myIpData"
+                        :border= 'true'>
+                        <el-table-column
+                            type="index"
+                            width="50"
+                            align="center">
+                        </el-table-column>
+                        <el-table-column
+                            prop="networkSegment"
+                            label="所属网段"
+                            width="180"
+                            align="center">
+                        </el-table-column>
+                        <el-table-column
+                            prop="ip"
+                            label="IP"
+                            width="230"
+                            align="center">
+                        </el-table-column>
+                        <el-table-column
+                            prop="remarks"
+                            label="备注"
+                            align="center">
+                        </el-table-column>
+                        <el-table-column
+                            fixed="right"
+                            label="操作"
+                            width="180"
+                            align="center">
+                            <template slot-scope="scope">
+                                <el-button
+                                    @click.native.prevent="returnIp(scope.row)"
+                                    type="primary"
+                                    size="small">
+                                    退还
+                                </el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </el-tab-pane>
+                <el-tab-pane label="IP资产管理" name="second">
                     <div class="head">
                         <div class="filter">
                             <div class="title">
@@ -101,10 +92,10 @@
                     <div class="content">
                         <el-table
                             ref="filterTable"
-                            :data="tableData2"
+                            :data="tableData"
+                            style="width:100%"
                             :border='true'
                             height="700px"
-                            align="center"
                             :row-class-name='tableRowClassName'>
                             <el-table-column
                                 type="index"
@@ -114,13 +105,13 @@
                             <el-table-column
                                 prop="networkSegment"
                                 label="所属网段"
-                                width="120"
+                                width="180"
                                 align="center">
                             </el-table-column>
                             <el-table-column
                                 prop="ip"
                                 label="IP"
-                                width="180"
+                                width="230"
                                 align="center">
                             </el-table-column>
                             <el-table-column
@@ -132,6 +123,7 @@
                             <el-table-column
                                 prop="name"
                                 label="使用人"
+                                width="100"
                                 align="center">
                             </el-table-column>
                             <el-table-column
@@ -167,7 +159,7 @@
                         </el-pagination>
                     </div>
                 </el-tab-pane>
-                <el-tab-pane label="IP资产池" name="second">
+                <el-tab-pane label="IP资产池" name="third">
                     <el-tabs v-model="currentSegment">
                         <el-tab-pane v-for="(o, indexs) in segment.length" :key="o" :label="`${segment[indexs]}网段`" :name="segment[indexs]">
                             <div class="overview">
@@ -217,9 +209,6 @@ import $axios from "@/plugins/ajax";
 export default {
      data() {
         return {
-            myIpCurrentPage: 1,
-            myIpSize: 2,
-            myIpTotal: 0,
             netNum: '192.168.',
             currentSegment: '',           // 默认展示网段
             searchData:{ 
@@ -235,11 +224,7 @@ export default {
             }, {
                 value: '可申请',
             }],
-           options2: [{
-                value: '212网段',
-            }, {
-                value: '213网段',
-            }],
+           options2: [],
             size: 50,
             currentPage: 1,
             total: 0,//数据总数
@@ -255,6 +240,8 @@ export default {
         getAllIpList(){
             let temp = [] // 保存整个网段的ip的临时数组
             $axios.get("/ipmanage/getallip").then(res =>{
+                //清空上一次push的数据
+                this.allIpData = [];
                 // 将ipData置空，清空上一次push的数据
                 this.ipData = []
                 // 将IP数据按网段保存在一个二维数组中
@@ -284,6 +271,7 @@ export default {
         //获取我的IP
         getMyIpList(){
             $axios.get("/ipmanage/getmyip").then(res => {
+                this.myIpData = [];
                 for(let i=0;i<res.data.data.length;i++){
                     this.myIpData.push(
                         {
@@ -299,10 +287,13 @@ export default {
         getSegment() {
             $axios.get(`/ipmanage/getsegment`).then(res => {
                 this.segment = []
+                this.options2 = []
                 for (let i = 0; i < res.data.data.length; i++) {
                     this.segment.push(res.data.data[i].segment)
+                    this.options2.push({value:(this.segment[i]+'网段')})
                 }
                 this.currentSegment = this.segment[0]
+                
             })
         },
         //表格数据根据“可申请”和“被占用”显示不同的颜色
@@ -342,18 +333,9 @@ export default {
         confirmApplyIp(){
             $axios.post("/ipmanage/applyip",{ip:this.applyIpAddress,remarks:this.editRemarks}).then(res =>{
                 if(res.data.status){
-                    this.applyIpDialog = false;
-                    this.myIpData.push({
-                        ip: this.applyIpAddress,
-                        remarks: this.editRemarks,
-                        networkSegment: this.anaSegment(this.applyIpAddress)
-                    });
-                    this.allIpData = [];
-                    this.myIpData = [];
                     this.getAllIpList();
-                    this.getMyIpList();
-                    this.getSegment();
                     this.$message.success('申请成功，如闲置请及时退还')
+                    this.applyIpDialog = false;
                 }else{
                     this.$message.error('申请失败，请手动刷新后重试');
                 }
@@ -369,11 +351,7 @@ export default {
                 $axios.post("/ipmanage/returnip",{ip:row.ip}).then(res => {
                     if(res.data.status){
                         this.$message.success('退换成功，谢谢！')
-                        this.allIpData = [];
-                        this.myIpData = [];
-                        this.getAllIpList();
                         this.getMyIpList();
-                        this.getSegment();
                     }else{
                         this.$message.error('退换失败，请手动刷新后重试')
                     }
@@ -386,21 +364,24 @@ export default {
             })
             
         },
-        myIpHandleSizeChange(val){
-            this.myIpSize = val;
-        },
-        myIpHandleCurrentChange(val){
-            this.myIpCurrentPage =val;
-        },
         handleSizeChange(val) {
             this.size = val;
         },
         handleCurrentChange(val) {
             this.currentPage = val;
         },
-        handleModeChange() {
-            if(this.activeName === 'first') {
-                this.allIpData = [];
+        //切换tab页的时候，请求该tab页下的数据
+        handleClick(event){
+            if(event.name == "first"){
+                this.getMyIpList();
+            }
+            if(event.name == "second"){
+                this.getAllIpList();
+                this.searchData.searchIp = ''
+                this.searchData.searchNetworkSegment = ''
+                this.searchData.ifUsed = ''
+            }
+            if(event.name == "third"){
                 this.getAllIpList();
             }
         }
@@ -444,31 +425,18 @@ export default {
                 }
             })
         },
-        //myIpData 按分页显示数据
-        tableData1() {
-            this.myIpTotal = this.myIpData.length;
-            let from = (this.myIpCurrentPage - 1) * this.myIpSize;
-            let to = this.myIpCurrentPage * this.myIpSize;
-            let tableData = [];
-            for(; from < to; from++){
-                if(this.myIpData[from]){
-                    tableData.push(this.myIpData[from]);
-                }
-            }
-            return tableData;
-        },
         //allIpData表 按分页条件显示数据
-        tableData2() {
+        tableData() {
             this.total = this.tableDataFilter.length;
             let from = (this.currentPage - 1)* this.size;
             let to = this.currentPage * this.size;
-            let tableData = [];
+            let data = [];
             for(; from < to; from++){
                 if(this.tableDataFilter[from]){
-                    tableData.push(this.tableDataFilter[from]);
+                    data.push(this.tableDataFilter[from]);
                 }
             }
-            return tableData;
+            return data;
         }
     },
     watch: {
@@ -482,17 +450,8 @@ export default {
 </script>
  
 <style scoped>
-.message{
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #888;
-}
-.myIp{
-    width:60%;
-}
 .ipTable{
     width: 60%;
-    margin-top: 50px;
 }
 .head{
     display: flex;
