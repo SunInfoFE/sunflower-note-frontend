@@ -116,7 +116,7 @@
                     </div>
                 </el-tab-pane>
                 <el-tab-pane label="IP资产池" name="second">
-                    <el-tabs v-model="currentSegment">
+                    <el-tabs v-if="activeName=='second'" v-model="currentSegment">
                         <el-tab-pane v-for="(o, indexs) in segment.length" :key="o" :label="`${segment[indexs]}网段`" :name="segment[indexs]">
                             <div class="overview">
                                 <div v-for="(i,index) in ipData[indexs].length" :key="i">
@@ -380,13 +380,10 @@ export default {
         getSegment() {
             $axios.get(`/ipmanage/getsegment`).then(res => {
                 this.segment = []
+                this.options2 = []
                 for (let i = 0; i < res.data.data.length; i++) {
                     this.segment.push(res.data.data[i].segment)
-                }
-                // this.currentSegment = segment[0]
-                //console.log(this.segment.length)
-                for(let i=0;i<res.data.data.length;i++){
-                    this.options2.push(res.data.data[i])
+                    this.options2.push({value:(res.data.data[i].segment+"网段")})
                 }
                 this.currentSegment = this.segment[0]
             })
@@ -449,6 +446,7 @@ export default {
                     if(res.data.status){
                         this.$message.success('添加成功')
                         this.getSegmentManage();
+                        this.getSegment()
                         this.addNetworkSegmentDialog = false;
                     }else{
                         this.$message.error('添加失败，请重试')
