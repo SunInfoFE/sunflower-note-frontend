@@ -58,10 +58,10 @@
     <!--查看-->
     <el-dialog
       :visible.sync="lookDialog"
-      width="700px">
+      width="800px">
       <div style="max-height: 600px; overflow-y: scroll">
         <team-look :lookData="lookData" :TeamData="lookTeamData" @move="openMoveUserDialog"
-                   @delete="deleteUser"></team-look>
+                   @delete="deleteUser" @edit="openEditUserDialog"></team-look>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="lookDialog = false">取 消</el-button>
@@ -88,6 +88,17 @@
         <el-button @click="moveUserDialog = false">取 消</el-button>
       </span>
     </el-dialog>
+    <!--编辑用户-->
+    <el-dialog
+      :visible.sync="editUserDialog"
+      width="600px" v-if="editUserDialog">
+      <el-form class="moveForm" :model="moveForm" ref="moveForm" label-width="60px">
+        <user-edit :userData="editUser" @finish="closeEditUserDialog"></user-edit>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="closeEditUserDialog">取 消</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -95,12 +106,14 @@
   import tablePagination from '@/components/tablePagination';
   import $axios from '@/plugins/ajax';
   import TeamManage from './TeamAdd';
+  import UserEdit from './UserEdit';
   import TeamLook from './TeamLook'
   export default {
     components: {
       tablePagination,
       TeamManage,
-      TeamLook
+      TeamLook,
+      UserEdit
     },
     data() {
       return {
@@ -110,6 +123,8 @@
         editData: {},
         lookDialog: false,
         moveUserDialog: false,
+        editUser: {},
+        editUserDialog: false,
         lookData: [],
         lookTeamData: {},
         searchdata: '',
@@ -132,7 +147,14 @@
       eyeHandler(row) {
         this.lookTeamData = row
         $axios.get('/group/groupManage/getGroupMember', {id: row.id}).then((res) => {
-          this.lookData = res.data.data
+          if (res.data.status === true) {
+            this.lookData = res.data.data
+          } else {
+            this.$message({
+                type: 'error',
+                message: res.data.data
+            })
+          }
         })
         this.lookDialog = true
       },
@@ -164,18 +186,29 @@
           emailList: this.moveUsers,
           groupId: this.moveForm.moveTo
         }).then((res) => {
-          if (res.data.status === true) {
+          console.log(res.data.status);
+          if (res.data.status) {
             this.$message({
               type: 'success',
               message: res.data.data
             })
             this.getgroupList()
+          } else {
+            this.$message({
+              type: 'error',
+              message: res.data.data
+            })
           }
-          this.$message({
-            type: 'error',
-            message: res.data.data
-          })
         })
+      },
+      openEditUserDialog(row){
+        this.editUser = row;
+        this.editUserDialog = true
+      },
+      closeEditUserDialog(){
+        this.editUser = {};
+        this.editUserDialog = false;
+        this.getgroupList();
       },
       deleteHandler(row) {
         if (row.memberNum !== 0) {

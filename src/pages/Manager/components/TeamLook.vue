@@ -41,11 +41,18 @@
       >
       </el-table-column>
       <el-table-column
+        prop="ordernum"
+        label="排序"
+        width="60"
+      >
+      </el-table-column>
+      <el-table-column
         label="操作"
         width="100"
       >
         <template slot-scope="scope">
           <el-button type="text" icon="el-icon-location-outline" @click="moveHandler(scope.row)" tilte="移动"></el-button>
+          <el-button type="text" icon="el-icon-edit" @click="editHandler(scope.row)" tilte="修改"></el-button>
           <el-button type="text" icon="el-icon-delete" @click="deleteHandler(scope.row)" tilte="删除"></el-button>
         </template>
       </el-table-column>
@@ -92,6 +99,9 @@
       },
       moveHandler(row) {
         this.$emit('move', row)
+      },
+      editHandler(row) {
+        this.$emit('edit', row)
       }
     }
   }
