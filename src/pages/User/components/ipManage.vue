@@ -478,7 +478,8 @@ export default {
  
 <style scoped>
 .ipTable{
-    width: 60%;
+    width: 100%;
+    max-width: 960px;
 }
 .head{
     display: flex;

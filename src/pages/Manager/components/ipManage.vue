@@ -560,7 +560,8 @@ export default {
     color: #888;
 }
 .ipTable{
-    width: 60%;
+    width: 100%;
+    max-width: 960px;
 }
 .head{
     display: flex;
