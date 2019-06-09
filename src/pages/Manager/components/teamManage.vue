@@ -38,6 +38,7 @@
     <!--添加-->
     <el-dialog
       :visible.sync="addDialog"
+      v-if="addDialog"
       width="700px">
       <team-manage ref="TeamAdd"></team-manage>
       <span slot="footer" class="dialog-footer">
@@ -48,6 +49,7 @@
     <!--编辑-->
     <el-dialog
       :visible.sync="editDialog"
+      v-if="editDialog"
       width="700px">
       <team-manage ref="Teamedit" :editData="editData"></team-manage>
       <span slot="footer" class="dialog-footer">
@@ -58,6 +60,7 @@
     <!--查看-->
     <el-dialog
       :visible.sync="lookDialog"
+      v-if="lookDialog"
       width="800px">
       <div style="max-height: 600px; overflow-y: scroll">
         <team-look :lookData="lookData" :TeamData="lookTeamData" @move="openMoveUserDialog"
@@ -70,6 +73,7 @@
     <!--移动-->
     <el-dialog
       :visible.sync="moveUserDialog"
+      v-if="moveUserDialog"
       width="500px">
       <el-form class="moveForm" :model="moveForm" ref="moveForm" label-width="60px">
         <el-form-item label="小组">
@@ -91,7 +95,8 @@
     <!--编辑用户-->
     <el-dialog
       :visible.sync="editUserDialog"
-      width="600px" v-if="editUserDialog">
+      v-if="editUserDialog"
+      width="600px">
       <el-form class="moveForm" :model="moveForm" ref="moveForm" label-width="60px">
         <user-edit :userData="editUser" @finish="closeEditUserDialog"></user-edit>
       </el-form>

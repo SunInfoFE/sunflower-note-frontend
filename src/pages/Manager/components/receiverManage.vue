@@ -30,6 +30,7 @@ create by YOU
     <!--新增-->
     <el-dialog
       :visible.sync="addDialog"
+      v-if="addDialog"
       width="700px">
       <receiver-add ref="add"></receiver-add>
       <span slot="footer" class="dialog-footer">
@@ -40,6 +41,7 @@ create by YOU
     <!--编辑-->
     <el-dialog
       :visible.sync="editDialog"
+      v-if="editDialog"
       width="700px">
       <receiver-add ref="edit" :editData="editData"></receiver-add>
       <span slot="footer" class="dialog-footer">
