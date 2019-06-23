@@ -6,7 +6,7 @@
                 type="border-card"
                 @tab-click="handleModeChange">
                 <el-tab-pane label="IP资产管理" name="first">
-                    <div class="head">
+                    <div class="head" v-if="activeName == 'first'">
                         <div class="filter">
                             <div class="title">
                                 <p>搜索：</p>
@@ -46,7 +46,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="content">
+                    <div class="content" v-if="activeName == 'first'">
                         <el-table
                             ref="filterTable"
                             :data="tableData2"
@@ -146,10 +146,9 @@
                 <el-tab-pane label="网段管理" name="third" class="networkMeanage">
                     <el-table
                         :data="networkSegmentTable"
-                        style="width: 85%"
                         class="networkTable"
                         max-height="400"
-                        border>
+                        border v-if="activeName == 'third'">
                         <el-table-column
                             fixed
                             prop="networkSegment"
@@ -178,9 +177,9 @@
                             <template slot-scope="scope">
                                 <el-button
                                     @click.native.prevent="deleteRow(scope.$index, networkSegmentTable)"
-                                    type="text"
+                                    type="danger"
                                     size="small">
-                                    移除
+                                    删除
                                 </el-button>
                             </template>
                         </el-table-column>
@@ -372,7 +371,7 @@ export default {
             }).catch(() => {
                 this.$message({
                     type: 'info',
-                    message: '已取消删除'
+                    message: '已取消'
                 });       
             })
             
@@ -424,7 +423,7 @@ export default {
             }).catch(() => {
                 this.$message({
                     type: 'info',
-                    message: '已取消删除'
+                    message: '已取消'
                 });       
             }) 
         },
